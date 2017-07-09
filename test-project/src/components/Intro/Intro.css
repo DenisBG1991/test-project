@@ -1,0 +1,9 @@
+.Intro {
+    float: right;
+    padding: 2% 2% 0 2%;
+    width: 65%;
+}
+
+.Intro > Table > thead > tr > th {
+    text-align: center;
+}

@@ -1,0 +1,47 @@
+{
+  "departments": [
+    {
+      "id": 1,
+      "name": "Google"
+    },
+    {
+      "id": 2,
+      "name": "Facebook"
+    },
+    {
+      "id": 3,
+      "name": "Twitter"
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "firstName": "Александр",
+      "lastName": "Невский",
+      "departmentId": 1
+    },
+    {
+      "id": 2,
+      "firstName": "Сальвадор",
+      "lastName": "Дали",
+      "departmentId": 3
+    },
+    {
+      "id": 3,
+      "firstName": "Михаил",
+      "lastName": "Лермонтов",
+      "departmentId": 2
+    },
+    {
+      "id": 4,
+      "firstName": "Эрвин",
+      "lastName": "Шрёдингер",
+      "departmentId": 1
+    },
+    {
+      "id": 5,
+      "firstName": "Николай",
+      "lastName": "Коперник",
+      "departmentId": 3
+    }
+  ]}

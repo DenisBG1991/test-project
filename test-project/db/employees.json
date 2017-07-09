@@ -1,0 +1,27 @@
+[
+  {
+    "firstName": "Александр",
+    "lastName": "Невский",
+    "departmentId": 1
+  },
+  {
+    "firstName": "Сальвадор",
+    "lastName": "Дали",
+    "departmentId": 3
+  },
+  {
+    "firstName": "Михаил",
+    "lastName": "Лермонтов",
+    "departmentId": 2
+  },
+  {
+    "firstName": "Эрвин",
+    "lastName": "Шрёдингер",
+    "departmentId": 1
+  },
+  {
+    "firstName": "Николай",
+    "lastName": "Коперник",
+    "departmentId": 3
+  }
+]
