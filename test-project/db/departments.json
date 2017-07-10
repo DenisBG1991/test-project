@@ -10,5 +10,33 @@
   {
     "id": 3,
     "name": "Twitter"
+  },
+  {
+    "id": 4,
+    "name": "Yandex"
+  },
+  {
+    "id": 5,
+    "name": "Intel"
+  },
+  {
+    "id": 6,
+    "name": "Yahoo"
+  },
+  {
+    "id": 7,
+    "name": "Amazon"
+  },
+  {
+    "id": 8,
+    "name": "Microsoft"
+  },
+  {
+    "id": 9,
+    "name": "NVIDIA"
+  },
+  {
+    "id": 10,
+    "name": "Oracle"
   }
 ]

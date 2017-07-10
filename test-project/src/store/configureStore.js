@@ -10,9 +10,9 @@ export default function configureStore(initialState) {
         applyMiddleware(thunk));
 
     if (module.hot) {
-        module.hot.accept('../reducers', () => {
+        module.hot['accept']('../reducers', () => {
             const nextRootReducer = require('../reducers');
-            store.replaceReducer(nextRootReducer);
+            store['replaceReducer'](nextRootReducer);
         });
     }
 

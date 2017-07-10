@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { searchDepartment } from '../actions/SearchDepartmentAction';
 import { searchEmployee } from '../actions/SearchEmployeeAction';
+import { deleteEmployee } from '../actions/DeleteEmployeeAction';
 
 
 import Header from '../components/Header/Header';
@@ -14,12 +15,12 @@ import './App.css';
 
 class App extends Component {
     render() {
-        const data = this.props.data;
+        const data = this['props'].data;
         return (
             <div className="App">
                 <Header />
-                <Menu searchDepartment={this.props.searchDepartment} searchEmployee={this.props.searchEmployee} />
-                <Intro employees={data.employees} fetching={data.fetching}/>
+                <Menu searchDepartment={this['props'].searchDepartment} searchEmployee={this['props'].searchEmployee} />
+                <Intro employees={data.employees} fetching={data.fetching} deleteEmployee={this['props'].deleteEmployee}/>
             </div>
         );
     };
@@ -34,7 +35,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps(dispatch) {
     return {
         searchDepartment: bindActionCreators(searchDepartment, dispatch),
-        searchEmployee: bindActionCreators(searchEmployee, dispatch)
+        searchEmployee: bindActionCreators(searchEmployee, dispatch),
+        deleteEmployee: bindActionCreators(deleteEmployee, dispatch)
     };
 }
 

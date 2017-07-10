@@ -7,3 +7,7 @@
 .Intro > Table > thead > tr > th {
     text-align: center;
 }
+
+.btn-delete {
+    float: right;
+}

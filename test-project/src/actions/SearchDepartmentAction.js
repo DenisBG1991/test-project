@@ -13,21 +13,25 @@ export function searchDepartment(department) {
             type: DEPARTMENT_REQUEST
         });
 
-        axios.get('/db')
+        axios['get']('/db/departments')
             .then(response => response.data)
             .then(data => {
-                let idDepartment,
-                    employees = [];
-                data['departments'].forEach(dep => {
+                let idDepartment;
+                data.forEach(dep => {
                     if (dep['name'] === department) idDepartment = dep['id'];
                 });
-                employees = data['employees'].filter(emp => {
-                    return (emp['departmentId'] === idDepartment);
-                });
-                dispatch({
-                    type: DEPARTMENT_SUCCES,
-                    payload: employees
-                });
+                axios['get']('/db/employees')
+                    .then(response => response.data)
+                    .then(data => {
+                        let employees = [];
+                        employees = data.filter(emp => {
+                            return (emp['departmentId'] === idDepartment);
+                        });
+                        dispatch({
+                            type: DEPARTMENT_SUCCES,
+                            payload: employees
+                        });
+                    });
             });
     };
 }

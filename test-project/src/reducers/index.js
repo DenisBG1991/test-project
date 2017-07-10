@@ -5,7 +5,8 @@ import {
 
 import {
     EMPLOYEE_REQUEST,
-    EMPLOYEE_SUCCES
+    EMPLOYEE_SUCCES,
+    EMPLOYEE_DELETE
 } from '../constants/Employee';
 
 const initialState = {
@@ -25,6 +26,9 @@ export default function employee(state = initialState, action) {
             return { ...state, fetching: true };
 
         case EMPLOYEE_SUCCES:
+            return { ...state, employees: action.payload, fetching: false };
+
+        case EMPLOYEE_DELETE:
             return { ...state, employees: action.payload, fetching: false };
 
         default:
