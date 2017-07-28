@@ -1,0 +1,212 @@
+.senat-labels-wrapper {
+    position: relative;
+}
+
+.senat-labels-field {
+    background-color: #FFFFFF;
+    position: relative;
+    font: 14px/18px 'Open Sans', sans-serif;
+    border: 1px solid rgba(110, 115, 122, 0.5);
+    border-radius: 4px;
+    transition: border 0.3s;
+    min-height: 40px;
+    padding: 4px;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.senat-labels-field-focused {
+    border-color: #6e737a;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.senat-labels-field li {
+    padding: 4px;
+}
+
+.senat-labels-field .senat-label,
+.senat-labels-field .senat-labels-query {
+    font-weight: 200;
+    font-size: 12px;
+    line-height: 16px;
+    font-style: normal;
+    letter-spacing: 1px;
+    padding: 4px 8px;
+}
+
+.senat-labels-field .senat-label {
+    background: #6E737A;
+    border-radius: 4px;
+    color: #FFFFFF;
+}
+
+.senat-labels-field .senat-label:hover {
+    opacity: 0.8;
+}
+
+.senat-labels-field .senat-labels-query {
+    background: none;
+    min-width: 10em;
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    width: 100%;
+}
+
+.senat-labels-field .senat-label button {
+    text-align: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.senat-labels-expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.senat-labels-dropdown {
+    position: absolute;
+    z-index: 1;
+    left: 0 !important;
+    top: 100% !important;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #6e737a;
+    border-top: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.senat-labels-dropdown li {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    font-style: normal;
+    padding: 8px 16px;
+}
+
+.senat-labels-dropdown li:hover {
+    background: #f0f1f1;
+    cursor: pointer;
+}
+
+.senat-labels-dropdown li.senat-labels-dropdown-separator {
+    background: #f0f1f1;
+    width: 100%;
+    height: 1px;
+    padding: 0;
+}
+
+.senat-labels-dropdown-separator:hover {
+    background: rgba(110, 115, 122, 0.5);
+}
+
+/*.label-holder.senat-form-control {*/
+/*padding: 9px 10px 1px;*/
+/*max-width: 720px;*/
+/*min-width: 360px;*/
+/*}*/
+
+/*Without JQuery it is impossible to apply style to parent (so, senat-form-control must be applied to inner input).
+But browser dosen't support :has selector and there is no any :parent selector*/
+/*.label-holder.senat-form-control:hover {*/
+/*}*/
+
+/*.title > label {*/
+/*color: #6e737a;*/
+/*font: 9px "Open Sans", sans-serif;*/
+/*text-transform: uppercase;*/
+/*!*margin-bottom: 5px;*!*/
+/*padding-left: 5px;*/
+/*display: inline-block;*/
+/*vertical-align: top;*/
+/*letter-spacing: .1em;*/
+/*}*/
+
+/*.label-new {*/
+/*border-color: transparent;*/
+/*width: 100%;*/
+/*}*/
+
+/*.label-item {*/
+/*font-family: 'Open Sans', sans-serif;*/
+/*font-size: 12px;*/
+/*line-height: 22px;*/
+/*letter-spacing: normal;*/
+
+/*cursor: pointer;*/
+/*padding: 0 8px;*/
+/*border-radius: 4px;*/
+/*background: #6e737a;*/
+/*margin-left: 10px;*/
+/*margin-bottom: 8px;*/
+/*max-height: 22px;*/
+/*color: #fff;*/
+/*max-width: calc(100% - 20px);*/
+/*}*/
+
+/*.label-item:hover {*/
+/*background: #a8abb0;*/
+/*}*/
+
+/*.label-item-text {*/
+/*padding: 0 20px 0 8px;*/
+/*}*/
+
+/*.label-remove {*/
+/*color: #fff;*/
+/*}*/
+
+/*.label-remove-button {*/
+/*position: absolute;*/
+/*top: 0;*/
+/*margin: 0;*/
+/*width: 10px;*/
+/*height: 22px;*/
+/*right: 5px;*/
+/*z-index: 100;*/
+/*}*/
+
+/*.senat-labels-dropdown {*/
+/*position: fixed;*/
+/*left: 0;*/
+/*min-width: 100px;*/
+/*width: 720px;*/
+/*min-height: 100px;*/
+/*max-height: 200px;*/
+/*background: #fff;*/
+/*border-radius: 4px;*/
+/*border: 1px solid #6e737a;*/
+/*padding: 8px 12px;*/
+/*z-index: 8000;*/
+/*overflow-y: auto;*/
+/*}*/
+
+/*.senat-labels-dropdown li {*/
+/*position: relative;*/
+/*list-style: none;*/
+/*display: block;*/
+/*}*/
+
+/*.senat-labels-dropdown .label-dropdown-item {*/
+/*flex-wrap: inherit;*/
+/*}*/
+
+/*.senat-labels-dropdown .label-dropdown-item:hover {*/
+/*color: #fff;*/
+/*background-color: #0275d8;*/
+/*cursor: pointer;*/
+/*flex-wrap: inherit;*/
+/*}*/
+
+/*.senat-labels-dropdown .label-dropdown-item .pattern {*/
+/*font-weight: bold;*/
+/*}*/

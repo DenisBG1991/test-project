@@ -1,0 +1,58 @@
+<senat-person-picker (queryChanged)="findAdUsers($event)"
+                     [suggestions]="(adUsers$ | async)"
+                     (select)="getAdUserDetailed($event)"
+>
+</senat-person-picker>
+<div *ngIf="adUser$ | async">
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Фамилия</label>
+            <div>
+                <span>{{(adUser$ | async).lastName }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Имя</label>
+            <div>
+                <span>{{(adUser$ | async).firstName }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Отчество</label>
+            <div>
+                <span>{{(adUser$ | async).middleName }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Емейл</label>
+            <div>
+                <span>{{(adUser$ | async).email }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="(adUser$ | async).hasPhoto">
+        <div class="col-md-12 mt-3">
+            <img [src]="baseUrl + '/api/account/AdUserPhoto/?adLogin=' + (adUser$ | async).adLogin">
+        </div>
+    </div>
+    <div class="row" *ngIf="(canCreate$ | async) && (hasCreatePermission$ | async)">
+        <div class="col-md-12 form-group">
+            <button class="btn btn-primary" (click)="create()">
+                {{'Создать'}}
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!(canCreate$ | async) && !!(adUser$ | async) && !!(adUser$ | async).userPerson">
+        <div class="col-md-12 form-group">
+            <a routerLink="/admin/person/{{(adUser$ | async).userPerson.person.id }}">
+                {{'Просмотр профиля'}}
+            </a>
+        </div>
+    </div>
+</div>

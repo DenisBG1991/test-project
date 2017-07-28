@@ -1,0 +1,33 @@
+.senat-status-label {
+    display: inline-block;
+    border: 1px;
+    height: 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.senat-status-label.senat-status-label-grey {
+    background: #808080;
+}
+
+.senat-status-label.senat-status-label-green {
+    opacity: 0.76;
+    background-image: linear-gradient(-133deg, #3CBA92 0%, #40B98A 20%, #48B67C 54%, #4AB679 63%, #4BB678 65%, #53B36A 100%);
+}
+
+.senat-status-label.senat-status-label-pink {
+    opacity: 0.43;
+    background-image: linear-gradient(-141deg, #3023AE 100%, #C96DD8 100%);
+}
+
+.senat-status-label.senat-status-label-orange{
+    opacity: 0.76;
+    background-image: linear-gradient(-137deg, #FBDA61 0%, #F76B1C 100%);
+}
+
+.senat-status-label.senat-status-label-opaque {
+    background-color: rgba(255, 255, 255, 0.43);
+}

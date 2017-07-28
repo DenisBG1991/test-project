@@ -1,0 +1,29 @@
+<div *ngFor="let item of items | agendaOrder; let last = last; let index = index;"
+     [ngClass]="last ? '' : 'mb-3'"
+     (dragenter)="onDragEnter($event, item)"
+     (dragover)="onDragOver($event, item)"
+     (drop)="onDrop($event, item)">
+    <senat-agenda-item (dragstart)="onDragStart($event, item)"
+                       (dragend)="onDragEnd($event, item)"
+                       [isTargetDragDrop]="item === trgItem"
+                       [agendaItem]="item"
+                       [meeting]="meeting"
+                       [changeStateAllowed]="canEdit$ | async"
+                       [removeAllowed]="canEdit$ | async"
+                       (removed)="remove($event)"
+                       (stateChanged)="move(item, $event)">
+    </senat-agenda-item>
+</div>
+<div *ngIf="(items$ | async).length === 0" class="card card-block text-center">
+    <span class="text-muted">Заполните повестку</span>
+</div>
+
+<div class="m-3 text-center" *ngIf="canEdit$ | async">
+    <senat-button [type]="buttonType.White" (click)="issueSelector.show()">
+        {{'добавить вопрос в повестку'}}
+    </senat-button>
+</div>
+<senat-agenda-item-selector #issueSelector [suggestionIssues]="suggestions$ | async"
+                            (patternChanged)="findIssues($event)"
+                            (confirmed)="selectIssues($event)">
+</senat-agenda-item-selector>

@@ -1,0 +1,49 @@
+<div *ngIf="agendaItem$ | async">
+    <div class="mt-4">
+        <h6 class="text-muted">{{'пояснительная часть' | uppercase}}</h6>
+        <div class="card card-block">
+            <span class="pre-wrap">{{(agendaItem$ | async).description}}</span>
+            <span *ngIf="!(agendaItem$ | async).description"
+                  class="text-muted text-center">пояснительная часть отсутствует</span>
+        </div>
+    </div>
+    <div class="mt-4">
+        <h6 class="text-muted">{{'Презентация' | uppercase}}</h6>
+        <div *ngFor="let presentation of presentations$ | async; let last = last;" class="card card-block"
+             [ngClass]="last ? '' : 'mb-3'">
+            <senat-material-version [version]="presentation.currentVersion"></senat-material-version>
+        </div>
+        <div *ngIf="(presentations$ | async).length === 0" class="card card-block text-center">
+            <span class="text-muted">{{'презентации отсутствуют'}}</span>
+        </div>
+    </div>
+    <div class="mt-4">
+        <h6 class="text-muted">{{'проекты решений' | uppercase}}</h6>
+        <senat-agenda-item-projects [agendaItem]="agendaItem"></senat-agenda-item-projects>
+    </div>
+    <div class="mt-4">
+        <h6 class="text-muted">{{'Все материалы' | uppercase}}</h6>
+        <div class="card card-block">
+            <senat-material-browser [issue]="agendaItem.issue"></senat-material-browser>
+        </div>
+    </div>
+</div>
+<div *ngIf="!(agendaItem$ | async)">
+    <div class="text-center py-3">
+        <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+    </div>
+</div>
+<div class="mt-4" *ngIf="(meeting$ | async)?.type === 'Presentia'">
+        <senat-agenda-item-participants [readOnly]="!(canEdit$ | async)" 
+                                        [participants]="participants$ | async"
+                                        [attendeesLayout]="attendeesLayout$ | async"
+                                        [suggestions]="suggestions$ | async"
+                                        [meetingParticipants]="meetingParticipants$ | async"
+                                        [persons]="persons$ | async"
+                                        (checkIn)="checkIn($event)"
+                                        (checkOut)="checkOut($event)"
+                                        (queryChanged)="findPeople($event)"
+                                        (addParticipant)="addParticipant($event)"
+                                        (removeParticipant)="removeParticipant($event)"
+        ></senat-agenda-item-participants>
+</div>

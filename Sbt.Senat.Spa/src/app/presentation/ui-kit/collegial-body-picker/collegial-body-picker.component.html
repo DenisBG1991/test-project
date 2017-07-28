@@ -1,0 +1,20 @@
+<div class="senat-cb-picker" [ngClass]="{'senat-cb-picker-disabled': disabled}">
+    <div #input (click)="toggleSuggestions()">
+        <input #inputcomp type="text"
+               [placeholder]="placeholder"
+               [disabled]="disabled"
+               [ngClass]="{'expanded':  expanded}"
+               value="{{selectedItem?.name || ((!!defaultValue && !selectedItem)?defaultValue:'')}}"
+               onclick="this.select();" (keyup)="onKeyUp(inputcomp.value, $event);"/>
+        <button [ngClass]="{'fa': true, 'icon-align-center': true, 'fa-chevron-down': !expanded, 'fa-chevron-up': expanded}"
+                   aria-hidden="true"></button>
+    </div>
+    <ul #dropdown *ngIf="expanded" hidden="true">
+        <li *ngIf="!!defaultValue" (click)="select(null)" [ngClass]="{'selected': selectedItem===null}">
+            {{ defaultValue }}
+        </li>
+        <li *ngFor="let item of items" (click)="select(item)"
+            [ngClass]="{'selected': (item.id === selectedItem?.id)}">{{ item.name }}
+        </li>
+    </ul>
+</div>

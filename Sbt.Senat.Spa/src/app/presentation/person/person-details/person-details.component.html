@@ -1,0 +1,27 @@
+<div *ngIf="(person$ | async)" class="container">
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Фамилия</label>
+            <div>
+                <span>{{(person$ | async).lastName | multilingual}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Имя</label>
+            <div>
+                <span>{{(person$ | async).firstName | multilingual}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            <label class="text-muted">Отчество</label>
+            <div>
+                <span>{{(person$ | async).middleName | multilingual}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+

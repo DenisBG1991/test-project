@@ -1,0 +1,143 @@
+﻿{
+    "app": {
+        "title": "Senat"
+    },
+    "dialogs": {
+        "common": {
+            "buttons": {
+                "ok": "ОК",
+                "yes": "Yes",
+                "no": "No",
+                "cancel": "Cancel"
+            }
+        }
+    },
+    "login": {
+        "username": "Login",
+        "password": "Password",
+        "rememberMe": "remember me",
+        "signIn": "Sign In",
+        "validation": {
+            "username": {
+                "required": "Login is required",
+                "minlength": "Login is too short"
+            },
+            "password": {
+                "required": "Password is required"
+            }
+        }
+    },
+    "main": {
+        "dashboard": {
+            "title": "Dashboard"
+        }
+    },
+    "meeting": {
+        "agenda": {
+            "workflow": {
+                "ToModification": "to modification",
+                "ToConsideration": "to consideration",
+                "ToVoting": "to voting",
+                "ToFormalization": "to formalization",
+                "ToResolved": "to resolved",
+                "ToRemoved": "to removed"
+            },
+            "participants": {
+                "group": {
+                    "CollegialBodyMember": "Collegial body members",
+                    "Speaker": "Speakers",
+                    "InvitedOnMeeting": "Invited on meeting",
+                    "InvitedOnIssue": "Invited on issue"
+                }
+            },
+            "project": {
+                "decision": {
+                    "Accepted": "Accepted",
+                    "Declined": "Declined"
+                },
+                "actions": {
+                    "startVoting": "Start voting",
+                    "closeVoting": "Close voting",
+                    "accept": "Accept",
+                    "decline": "Decline"
+                }
+            },
+            "status": {
+                "WaitingForConsideration": "waiting for consideration",
+                "OnConsideration": "consideration",
+                "OnModification": "modification",
+                "OnVoting": "voting",
+                "OnFormalization": "formalization",
+                "Resolved": "resolved",
+                "Removed": "removed"
+            }
+        },
+        "meetingType": {
+            "Presentia": "Presentia",
+            "Absentia": "Absentia"
+        },
+        "meetingStatus": {
+            "Draft": "Draft",
+            "Opened": "Opened",
+            "Closed": "Closed"
+        },
+        "workflow": {
+            "ToOpened": "Open",
+            "ToClosed": "Close"
+        },
+        "roleOnMeeting": {
+            "RegularMember": "regular member",
+            "Secretary": "secretary",
+            "Head": "head"
+        },
+        "edit": {
+            "num": "Num",
+            "place": "Place",
+            "address": "Address",
+            "save": "Save",
+            "attendanceType": "Attendance Type",
+            "head": "Head",
+            "secretary": "Secretary",
+            "collegialBody": "CB"
+        },
+        "view": {
+            "place": "Place"
+        },
+        "delete": {
+            "confirm": {
+                "message": "Do you want to delete meeting?",
+                "header": "Delete meeting"
+            }
+        },
+        "formMeetingProtocol" : "Form protocol",
+        "downLoadMeetingProtocol": "Download protocol"
+    },
+    "issue": {
+        "issueStatus": {
+            "Draft": "Draft",
+            "Preparing": "Preparing",
+            "Ready": "Ready",
+            "Planned": "Planned",
+            "InProgress": "InProgress",
+            "OnModification": "OnModification",
+            "Closed": "Closed"
+        },
+        "workflow": {
+            "ToReady": "ToReady",
+            "ToPlanned": "ToPlanned",
+            "ToInProgress": "ToInProgress",
+            "ToModification": "ToModification",
+            "ToClosed": "ToClosed"
+        },
+        "issueMaterialType": {
+            "Presentation": "Presentation",
+            "Other": "Other",
+            "DecisionProject": "DecisionProject"
+        },
+        "validation": {
+            "title": {
+                "required": "Please, fill title field"
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<button class="btn material-button" [ngClass]="buttonPressed ? '' : btnClass"
+        [style.width]="size + 'em'"
+        [style.height]="size + 'em'"
+        (click)="buttonPress.emit()">
+    <i *ngIf="type === 'add' && size > 2" class="fa fa-plus align-middle" aria-hidden="true"></i>
+    <small *ngIf="type === 'add' && size <= 2">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </small>
+    <i *ngIf="type === 'remove' && size > 2" class="fa fa-times align-middle" aria-hidden="true"></i>
+    <small *ngIf="type === 'remove' && size <= 2">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </small>
+</button>

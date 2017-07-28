@@ -1,0 +1,17 @@
+.location-title {
+    text-align: center;
+    color: #00d473;
+    display: flex;
+}
+
+.button-back {
+    padding: 0 10px 0 10px;
+}
+
+.button-back i {
+    color: #00d473;
+}
+
+.location-full-path {
+    flex-grow: 1;
+}

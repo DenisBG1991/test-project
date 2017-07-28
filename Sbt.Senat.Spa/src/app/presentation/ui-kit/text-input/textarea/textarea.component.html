@@ -1,0 +1,6 @@
+<senat-label *ngIf="label" [for]="id">
+    {{label}}
+</senat-label>
+<textarea class="senat-text-area" [ngClass]="'senat-text-area-' + style" [id]="id" [disabled]="disabled"
+          [(ngModel)]="value" [placeholder]="placeholder" [attr.rows]="rows" [readonly]="readonly"
+          (blur)="onBlur()"></textarea>

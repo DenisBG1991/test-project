@@ -1,0 +1,20 @@
+<div *ngFor="let project of projects$ | async; let last = last" [ngClass]="last ? '' : 'mb-3'">
+    <senat-agenda-item-project [canChangeState]="canEdit$ | async"
+                               [project]="project"
+                               [showVersions]="projectExpanded && projectExpanded.id === project.currentVersion.self.id"
+                               [showVotesOf]="votingExpanded"
+                               [versions]="versions$ | async"
+                               [votes]="votes$ | async"
+                               [currentPerson]="currentPerson$ | async"
+                               [participants]="participants$ | async"
+                               [canApprove]="canApprove$(project.decision) | async"
+                               (toggleVersions)="toggleVersions(project.currentVersion.self)"
+                               (toggleVotes)="toggleVotes($event)"
+                               (createVote)="createVote($event)"
+                               (createVoting)="createVoting(project.currentVersion.self)"
+                               (closeVoting)="closeVoting(project.voting)"
+                               (createDecision)="createDecision(project.currentVersion.self, $event)"
+                               (selectApprover)="sendDecisionToApproval(project.decision, $event)"
+                               (approveDecision)="approveDecision(project.decision)">
+    </senat-agenda-item-project>
+</div>

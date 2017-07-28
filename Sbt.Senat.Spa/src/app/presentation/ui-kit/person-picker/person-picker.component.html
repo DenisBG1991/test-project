@@ -1,0 +1,46 @@
+<div class="senat-person-picker">
+  <div class="p-3">
+    <senat-text-input-with-icon name="search"
+                                [label]="'поиск по ФИО'"
+                                [placeholder]="'Поиск'" [(ngModel)]="query"
+                                (ngModelChange)="queryChanged.emit($event)">
+        <i [ngClass]="searchInProgress ? 'fa fa-refresh fa-spin' : 'fa fa-search'" aria-hidden="true"></i>
+    </senat-text-input-with-icon>
+  </div>
+  <hr class="m-0"/>
+  <ng-container *ngIf="multiple && selected.length > 0">
+    <ul class="p-2 m-0 senat-person-picker-selected">
+      <ng-container *ngFor="let person of selected">
+        <li>
+          <span class="align-self-center">{{person.lastName}} {{person.firstName | truncate}} {{person.middleName | truncate}}</span>
+          <button (click)="remove($event, person)">
+            <i class="fa fa-times"></i>
+          </button>
+        </li>
+      </ng-container>
+    </ul>
+    <hr class="m-0"/>
+  </ng-container>
+  <ul class="senat-person-picker-suggestions container m-0">
+    <ng-container *ngFor="let person of suggestions">
+      <li class="row py-2 align-items-center text-truncate" [ngClass]="{'senat-person-picker-item-selected': (!this.multiple && selected?.length===1 && person.id === selected[0].id)}" (click)="add(person)">
+        <div class="col col-auto pr-3">
+          <senat-person-avatar [size]="60" [person]="person"
+                               [placeholder]="avatarPlaceholder"></senat-person-avatar>
+        </div>
+        <div class="col pl-0 text-truncate">
+          <senat-highlight-text [text]="person.lastName + ' ' + person.firstName + ' ' + person.middleName"
+                                [highlight]="query"></senat-highlight-text>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+  <ng-container *ngIf="confirmation">
+    <hr class="m-0"/>
+    <div class="p-3 text-center">
+      <senat-button [type]="'green'" (click)="confirmSelection()">
+          {{'подтвердить выбор'}}
+      </senat-button>
+    </div>
+  </ng-container>
+</div>

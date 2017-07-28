@@ -1,0 +1,112 @@
+<div class="location-title">
+    <button *ngIf="pathSegments.length > 1" class="btn btn-secondary border-0 rounded-0 button-back"
+            (click)="changeLocation(pathSegments[pathSegments.length-1].location)"><i class="fa fa-chevron-left"
+                                                                                      aria-hidden="true"></i>
+    </button>
+        <div class="location-full-path">
+    <span *ngFor="let pathSegment of pathSegments;">
+            {{pathSegment.name}}
+        <span>/</span>
+    </span>
+        </div>
+</div>
+<hr/>
+<div *ngFor="let folder of folders$ | async; let last = last;">
+    <div class="my-3">
+        <i class="fa fa-folder-o text-success align-middle" aria-hidden="true"></i>
+        <button class="btn btn-link px-0" (click)="changeLocation(folder.location)">{{folder.name}}</button>
+    </div>
+    <hr *ngIf="!last || (materials$ | async).length > 0" class="my-0"/>
+</div>
+<div *ngFor="let material of materials$ | async; let last = last;"
+     class="rounded-0" [ngClass]="last ? '' : 'border-bottom-0'">
+    <div class="my-3">
+        <div class="row align-items-center">
+            <div class="col">
+                <senat-material-version [version]="material.currentVersion"></senat-material-version>
+            </div>
+            <div class="col col-auto">
+                <div *ngIf="canEdit$ | async" class="btn-group btn-group-sm">
+                    <button class="btn btn-secondary">
+                        {{'issue.issueMaterialType.' + material.self.type | translate}}
+                    </button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" (click)="setMaterialType(material.self, 'Presentation')">
+                            {{'issue.issueMaterialType.Presentation' | translate}}
+                        </a>
+                        <a class="dropdown-item" (click)="setMaterialType(material.self, 'DecisionProject')">
+                            {{'issue.issueMaterialType.DecisionProject' | translate}}
+                        </a>
+                        <a class="dropdown-item" (click)="setMaterialType(material.self, 'Other')">
+                            {{'issue.issueMaterialType.Other' | translate}}
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-secondary border-0 rounded-0">
+                    <i class="fa fa-code-fork" aria-hidden="true" (click)="toggleVersions(material.self)"></i>
+                </button>
+                <button *ngIf="canEdit$ | async" class="btn btn-sm btn-secondary border-0 rounded-0">
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteMaterial(material.self)"></i>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="materialExpanded && materialExpanded.id === material.self.id">
+            <div class="card card-block ml-2 border-top-0 border-bottom-0 border-right-0 rounded-0">
+                <div *ngFor="let version of versions$ | async" class="row">
+                    <div class="col">
+                        <senat-material-version [version]="version"
+                                                [isCurrent]="version.self.num === material.currentVersion.self.num">
+                        </senat-material-version>
+                    </div>
+                </div>
+                <div *ngFor="let versionUploading of versionsUploading | filterVersionUploads: material.self"
+                     class="row">
+                    <div class="col my-3">
+                        <div class="row">
+                            <div class="col">
+                                <i class="fa fa-file-o text-danger" aria-hidden="true"></i>
+                                <span>{{versionUploading.upload.file.name}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div style="height: 3px; background: lightgrey;" class="clearfix">
+                                    <div class="float-left h-100 bg-success"
+                                         [style.width]="versionUploading.upload.progress + '%'"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-center" *ngIf="canEdit$ | async">
+                    <senat-file-select (selectFiles)="addVersion(material.self, $event)"></senat-file-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr *ngIf="!last" class="my-0"/>
+</div>
+<div *ngFor="let materialUploading of materialsUploading | filterMaterialUploads: location" class="row">
+    <div class="col my-3">
+        <div class="row">
+            <div class="col">
+                <i class="fa fa-file-o text-danger" aria-hidden="true"></i>
+                <span>{{materialUploading.upload.file.name}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div style="height: 3px; background: lightgrey;" class="clearfix">
+                    <div class="float-left h-100 bg-success"
+                         [style.width]="materialUploading.upload.progress + '%'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="canEdit$ | async">
+    <senat-drop-zone (selectFiles)="addMaterials($event)"></senat-drop-zone>
+</div>

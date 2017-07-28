@@ -1,0 +1,15 @@
+.checked {
+    border: 2px solid #5cb85c;
+}
+
+.not-checked {
+    border: 2px solid transparent;
+}
+
+.selector  {    
+    padding: 2px;
+    background-color: #FFFFFF;
+}
+.enabled {
+    cursor: pointer;
+}

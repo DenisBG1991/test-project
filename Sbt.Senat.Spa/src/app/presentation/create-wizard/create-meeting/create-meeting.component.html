@@ -1,0 +1,53 @@
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row justify-content-end align-items-center">
+            <div class="col col-auto p-5">
+                <button class="back-button" (click)="back()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    <span class="ml-2">{{'назад'}}</span>
+                </button>
+            </div>
+            <div class="col text-center">
+                <h1 class="header">{{'Создание нового заседания'}}</h1>
+            </div>
+            <div class="col col-auto p-5">
+                <button class="close-button" (click)="close()">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="create-form">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <button class="nav-link btn btn-link rounded-0" [ngClass]="presentia ? 'active': ''"
+                            (click)="presentia = true">{{'Очное заседание'}}
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link btn btn-link rounded-0" [ngClass]="presentia ? '' : 'active'"
+                            (click)="presentia = false">{{'Заочное заседание'}}
+                    </button>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <senat-meeting-presentia-form *ngIf="presentia" [formGroup]="presentiaFormGroup"
+                                              [collegialBodies]="collegialBodies$ | async"></senat-meeting-presentia-form>
+                <senat-meeting-absentia-form *ngIf="!presentia" [formGroup]="absentiaFormGroup"
+                                             [collegialBodies]="collegialBodies$ | async"></senat-meeting-absentia-form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center my-5">
+                <senat-button [type]="buttonType.Green"
+                              [disabled]="showLoadingIndicator$ | async"
+                              (click)="submit()">
+                    {{'сохранить'}}
+                    <i *ngIf="showLoadingIndicator$ | async" class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                </senat-button>
+            </div>
+        </div>
+    </div>
+</div>

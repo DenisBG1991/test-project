@@ -1,0 +1,30 @@
+<div *ngIf="loading$ | async" class="p-3 text-center">
+    <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+</div>
+<div *ngIf="!(loading$ | async)">
+    <div *ngIf="(meetingDetails$ | async)?.type === 'Presentia'">
+        <h6 class="my-4 text-muted">{{'Приглашённые на заседание' | uppercase}}</h6>
+        <div class="card card-block">
+            <senat-person-picker-multiple
+                [disabled]="!(canEdit$ | async)"
+                [suggestions]="suggestions$ | async"
+                [ngModel]="invitedPersons$ | async"
+                (selected)="addInvitedPerson($event)"
+                (removed)="removeInvitedPerson($event)"
+                (queryChanged)="findPeople($event)">                
+            </senat-person-picker-multiple>
+        </div>
+    </div>
+    <h6 class="my-4 text-muted">{{'Участники комитета' | uppercase}}</h6>
+    <div class="card card-block px-2">
+        <div class="row" style="padding-left: 30px;">
+            <div class="col col-auto"
+                 *ngFor="let participant of collegialBodyMembers$ | async">
+                <div style="width: 90px;">
+                    <senat-meeting-participant-alternated
+                        [participant]="participant"></senat-meeting-participant-alternated>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

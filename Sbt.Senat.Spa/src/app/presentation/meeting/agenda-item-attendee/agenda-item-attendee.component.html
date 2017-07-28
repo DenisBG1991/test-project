@@ -1,0 +1,43 @@
+<ng-container *ngIf="participant && participant.self">
+    <div class="text-center agenda-item-attendee">
+        <div style="position: relative;">
+            <div [ngClass]="(isAlternateBig?'small':'')">
+                <senat-selector [checked]="participant.self.presents" [disabled]="disabled">
+                    <senat-person-avatar [size]="isAlternateBig?40:76"
+                                         [person]="participant.person"
+                                         (click)="toggleSelect()"
+                                         [tooltip]="disabled?'':'Нажмите, чтобы отметить присутствие'">
+                    </senat-person-avatar>
+
+                </senat-selector>
+            </div>
+            <div *ngIf="!!firstAlternatePerson" [ngClass]="(!isAlternateBig?'small':'')">
+                <senat-selector [checked]="isFirstAlternateSelected" [disabled]="disabled">
+                    <senat-person-avatar
+                        [person]="firstAlternatePerson" [size]="!isAlternateBig?40:76"
+                        (click)="toggleAlternateSelect()"
+                        [tooltip]="disabled?'':'Нажмите, чтобы отметить присутствие заместителя'">
+                    </senat-person-avatar>
+                </senat-selector>
+            </div>
+
+            <div class="remove-selected-person">
+                <senat-close-button *ngIf="showRemoveBtn && !disabled" (click)="remove.emit()"></senat-close-button>
+            </div>
+
+        </div>
+        <div class="text-center mt-2">
+    <span class="text-muted"
+          title="'{{participant.person.lastName}} {{participant.person.firstName }} {{participant.person.middleName }}'">
+        {{participant.person.lastName}} {{participant.person.firstName | truncate: 1: '.'}}{{participant.person.middleName | truncate: 1 : '.'}}
+    </span>
+        </div>
+        <div *ngIf="!!firstAlternatePerson" class="text-center">
+            <small class="text-muted"
+                   title="'{{firstAlternatePerson.lastName}} {{firstAlternatePerson.firstName }} {{firstAlternatePerson.middleName }}'">
+                {{firstAlternatePerson.lastName}} {{firstAlternatePerson.firstName | truncate: 1:
+                '.'}}{{firstAlternatePerson.middleName | truncate: 1 : '.'}}
+            </small>
+        </div>
+    </div>
+</ng-container>

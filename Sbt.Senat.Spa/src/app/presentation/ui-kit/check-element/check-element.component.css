@@ -1,0 +1,75 @@
+.check-element {
+    border-radius: 50%;
+    border-style: solid;
+    border-color: red;
+    width: 20px;
+    height: 20px;
+}
+
+/* Copy-pasted from the Internet((( I haven`t known SVG animation yet*/
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #00d473;
+    fill: none;
+
+}
+
+.checkmark-circle-static {
+    fill: #00d473;
+}
+
+.checkmark-circle-animation {
+    animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    /*margin: 10% auto;*/
+    box-shadow: inset 0px 0px 0px #00d473;
+
+}
+
+.checkmark-animation {
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-width: 5px;
+}
+
+.checkmark-check-animation {
+    animation: stroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #00d473;
+    }
+}

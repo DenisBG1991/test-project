@@ -1,0 +1,51 @@
+<div class="senat-calendar">
+  <div #input>
+    <senat-text-input-with-icon [readonly]="readonly" [disabled]="disabled"
+                                [ngModel]="daySelected?.format(format)"
+                                (click)="expanded = !expanded"
+                                (blur)="onBlur()">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+    </senat-text-input-with-icon>
+  </div>
+  <div #dropdown *ngIf="expanded && !disabled" class="senat-calendar-dropdown" [ngStyle]="calculateCoordinationStyle()">
+    <div class="row align-items-center">
+      <div class="col col-auto pr-0">
+        <button class="p-2" (click)="prevMonth()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col px-1 text-center">
+        <select [(ngModel)]="monthNameSelected" class="p-1">
+          <option *ngFor="let month of monthNames">{{month}}</option>
+        </select>
+        <select [(ngModel)]="yearSelected" class="p-1">
+          <option *ngFor="let year of yearsAvailable">{{year}}</option>
+        </select>
+      </div>
+      <div class="col col-auto pl-0">
+        <button class="p-2" (click)="nextMonth()">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th *ngFor="let day of weekdayNames">
+          {{day}}
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let week of weeksDisplayed;">
+        <ng-container *ngFor="let day of daysDisplayed; let i = index;">
+          <td *ngIf="i >= week * 7 && i < (week + 1)* 7" (click)="daySelected = day"
+              [ngClass]="getCellClasses(day)">
+            {{day.date()}}
+          </td>
+        </ng-container>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="row align-items-center">
+    <div class="col col-auto pr-1">
+        <senat-person-avatar class="align-middle" [person]="vote.owner" [size]="32"></senat-person-avatar>
+    </div>
+    <div class="col pl-1">
+        <div class="row">
+            <div class="col">
+                <span class="text-muted">{{vote.owner.lastName}} {{vote.owner.firstName | truncate: 1 : '.'}} {{vote.owner.middleName | truncate: 1 : '.'}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <small class="text-muted">
+                    {{vote.self.createdAt | date: 'dd.MM.yyyy'}} {{vote.self.createdAt | date: 'shortTime'}}
+                    <i *ngIf="vote.createdBy.id !== vote.owner.id" class="fa fa-keyboard-o" aria-hidden="true"></i>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+<blockquote *ngIf="vote.self.specialOpinion" class="blockquote" style="margin-left: 14px;">
+    <small class="text-muted">{{vote.self.specialOpinion}}</small>
+</blockquote>

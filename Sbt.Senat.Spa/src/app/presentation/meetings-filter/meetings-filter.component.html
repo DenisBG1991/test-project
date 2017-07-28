@@ -1,0 +1,39 @@
+<div class="container pt-5">
+    <div class="row pt-3">
+        <div class="col form-group">
+            <senat-collegial-body-picker [(ngModel)]="filter.collegialBody" [items]="collegialBodies$ | async"
+                                         [placeholder]="'не выбран'" (ngModelChange)="onFilterChange($event)"
+                                         [defaultValue]="'Все'">
+            </senat-collegial-body-picker>
+
+        </div>
+        <div class="col form-group">
+            <input [disabled]="loading$ | async" type="text" class="form-control" [(ngModel)]="filter.num"
+                   [placeholder]="'номер'"
+                   (ngModelChange)="onFilterChange($event)"/>
+        </div>
+        <div class="col col-auto form-group">
+            <senat-calendar [disabled]="loading$ | async"
+                            [placeholder]="'с'" [(ngModel)]="filter.from"
+                            (ngModelChange)="onFilterChange($event)">
+            </senat-calendar>
+        </div>
+        <div class="col col-auto form-group">
+            <senat-calendar [disabled]="loading$ | async"
+                            [placeholder]="'по'" [(ngModel)]="filter.to"
+                            (ngModelChange)="onFilterChange($event)">
+            </senat-calendar>
+        </div>
+        <div class="col col-auto form-group">
+            <button *ngIf="!(loading$ | async)" class="btn btn-success btn-circle" (click)="refresh()">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <button *ngIf="(loading$ | async)" class="btn btn-success btn-circle">
+                <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-secondary btn-circle ml-1" (click)="clearFilters()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>

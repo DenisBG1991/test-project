@@ -1,0 +1,18 @@
+
+
+.senat-card-content {
+    position: relative;
+    background-color: #ffffff;
+}
+
+.senat-close-button {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    cursor: pointer;
+}
+
+.senat-card-inner-content {
+    overflow-y: auto;
+}
+

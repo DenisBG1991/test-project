@@ -1,0 +1,49 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col col-md-6 form-group">
+            <senat-label>
+                <span class="text-muted">{{'комитет'}}</span><span class="text-danger">*</span>
+            </senat-label>
+            <div>
+                <senat-collegial-body-picker formControlName="collegialBody" [items]="collegialBodies" [placeholder]="'не выбран'">
+                </senat-collegial-body-picker>
+            </div>
+        </div>
+        <div class="col col-md-6 form-group">
+            <senat-text-input type="text" name="num" formControlName="num" [label]="'номер'"
+                              [isRequired]="true"></senat-text-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6 form-group">
+            <senat-label>
+                старт приёма голосов
+            </senat-label>
+            <senat-date-time-picker name="startDate" formControlName="startDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+        <div class="col col-md-6 form-group">
+            <senat-label>
+                окончание приёма голосов
+            </senat-label>
+            <senat-date-time-picker name="endDate" formControlName="endDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6 form-group">
+            <senat-label>
+                приём вопросов до
+            </senat-label>
+            <senat-date-time-picker name="agendaDueDate" formControlName="agendaDueDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+        <div class="col col-md-6 form-group">
+            <senat-label>
+                приём материалов до
+            </senat-label>
+            <senat-date-time-picker name="materialsDueDate" formControlName="materialsDueDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+    </div>
+</form>

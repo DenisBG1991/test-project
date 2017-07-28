@@ -1,0 +1,106 @@
+<!--GRID LAYOUT-->
+
+<!--<form [formGroup]="formGroup">-->
+<!--<div class="meeting-grid">-->
+<!--<div class="collegial-body-select">-->
+<!--<label>-->
+<!--<span class="text-muted">{{'комитет'}}</span><span class="text-danger">*</span>-->
+<!--</label>-->
+<!--<senat-collegial-body-picker formControlName="collegialBody" [items]="collegialBodies" [placeholder]="'не выбран'">-->
+<!--</senat-collegial-body-picker>-->
+<!--</div>-->
+<!--<div class="meeting-date">-->
+<!--<senat-date-time-picker name="date" formControlName="date" [senatValidation]="formGroup"-->
+<!--[label]="'дата и время проведения'">-->
+<!--</senat-date-time-picker>-->
+<!--</div>-->
+<!--<div class="deadline-issues">-->
+
+<!--<senat-date-time-picker name="agendaDueDate" formControlName="agendaDueDate"-->
+<!--[senatValidation]="formGroup"-->
+<!--[label]="'приём вопросов до'"></senat-date-time-picker>-->
+<!--</div>-->
+<!--<div class="deadline-materials">-->
+<!--<senat-date-time-picker name="materialsDueDate" formControlName="materialsDueDate"-->
+<!--[senatValidation]="formGroup"-->
+<!--[label]="'приём материалов до'"></senat-date-time-picker>-->
+<!--</div>-->
+<!--<div class="meeting-number">-->
+<!--<senat-text-input type="text" required name="num" formControlName="num" [label]="'номер'"-->
+<!--[isRequired]="true"></senat-text-input>-->
+<!--</div>-->
+<!--<div class="address">-->
+<!--<senat-multilingual-text-input name="address" formControlName="address"-->
+<!--[senatValidation]="formGroup"-->
+<!--[label]="'адрес проведения'"></senat-multilingual-text-input>-->
+<!--</div>-->
+<!--<div class="place">-->
+<!--<senat-multilingual-text-input name="place" formControlName="place" [senatValidation]="formGroup"-->
+<!--showTime="true" hourFormat="24"-->
+<!--[label]="'место проведения'"></senat-multilingual-text-input>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+
+
+<!--Bootstrap4 Layout-->
+
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col col-md-7 form-group">
+            <senat-label>
+                <span class="text-muted">{{'комитет'}}</span><span class="text-danger">*</span>
+            </senat-label>
+            <div>
+                <senat-collegial-body-picker formControlName="collegialBody" [items]="collegialBodies"
+                                             [placeholder]="'не выбран'">
+                </senat-collegial-body-picker>
+            </div>
+        </div>
+        <div class="col col-md-5 form-group">
+            <senat-text-input type="text" required name="num" formControlName="num" [label]="'номер'"
+                              [isRequired]="true"></senat-text-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-7 form-group">
+            <senat-label>
+                дата и время проведения
+            </senat-label>
+            <senat-date-time-picker name="date" formControlName="date"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+        <div class="col col-md-5 form-group">
+            <senat-label>
+                приём вопросов до
+            </senat-label>
+            <senat-date-time-picker name="agendaDueDate" formControlName="agendaDueDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-7 form-group">
+            <senat-label>
+                адрес проведения
+            </senat-label>
+            <senat-multilingual-text-input name="address" formControlName="address"
+                                           [senatValidation]="formGroup"></senat-multilingual-text-input>
+        </div>
+        <div class="col col-md-5 form-group">
+            <senat-label>
+                приём материалов до
+            </senat-label>
+            <senat-date-time-picker name="materialsDueDate" formControlName="materialsDueDate"
+                                    [senatValidation]="formGroup"></senat-date-time-picker>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-7 form-group">
+            <senat-label>
+                место проведения
+            </senat-label>
+            <senat-multilingual-text-input name="place" formControlName="place" [senatValidation]="formGroup"
+                                           showTime="true" hourFormat="24"></senat-multilingual-text-input>
+        </div>
+    </div>
+</form>

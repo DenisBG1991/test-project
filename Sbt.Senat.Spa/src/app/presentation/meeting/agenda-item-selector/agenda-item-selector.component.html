@@ -1,0 +1,38 @@
+<senat-popup #popup>
+    <senat-popup-form>
+        <header>
+            <div class="text-center">Добавить вопросы</div>
+            <senat-text-input-with-icon [label]="'Поиск вопросов'" [(ngModel)]="query"
+                                        (ngModelChange)="patternChanged.emit($event)"
+                                        [placeholder]="'поиск по заголовку вопроса'">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </senat-text-input-with-icon>
+        </header>
+        <content>
+            <div class="senat-content-section">
+                <div *ngFor="let issue of suggestionIssues" class="senat-agenda-item">
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [ngModel]="isSelected(issue)"
+                               (ngModelChange)="clickIssue(issue)">
+                        <span class="custom-control-indicator"></span>
+                    </label>
+                    <div class="card card-block senat-agenda-item-card" (click)="clickIssue(issue)">
+                        <div class="senat-issue-create-date">
+                            <h2>{{issue.createDate | date: 'dd'}}</h2>
+                            <div class="senat-month">
+                                <span class="text-muted">{{issue.createDate  | date: 'MMMM'}}</span>
+                            </div>
+                        </div>
+                        <div class="senat-issue-title">
+                            {{issue.title}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </content>
+        <footer class="senat-footer">
+            <senat-button [type]="buttonType.BlackOutline" (click)="cancel()">Закрыть</senat-button>
+            <senat-button [type]="buttonType.Green" (click)="confirm()">Сохранить</senat-button>
+        </footer>
+    </senat-popup-form>
+</senat-popup>

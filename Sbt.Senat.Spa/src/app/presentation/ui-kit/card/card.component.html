@@ -1,0 +1,7 @@
+<label *ngIf="title">{{title}}</label>
+<div class="card senat-card-content">
+    <senat-close-button *ngIf="isClosable" class="senat-close-button" (click)="closeCard()" [type]="closeButtonType.Black"></senat-close-button>
+    <div class="senat-card-inner-content" [style.height]="cardHeight ? cardHeight + 'px' : 'auto'">
+        <ng-content></ng-content>
+    </div>
+</div>

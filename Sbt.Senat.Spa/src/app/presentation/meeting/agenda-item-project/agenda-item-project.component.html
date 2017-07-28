@@ -1,0 +1,205 @@
+<div class="card card-block">
+    <div class="row align-items-center">
+        <div class="col">
+            <senat-material-version [version]="project.currentVersion"></senat-material-version>
+        </div>
+        <div class="col-auto senat-approve-popup-container">
+            <senat-decision *ngIf="project.decision" [decision]="project.decision"></senat-decision>
+            <button *ngIf="project.currentVersion.self.num > 1" class="btn btn-secondary border-0 rounded-0">
+                <i class="fa fa-code-fork" aria-hidden="true" (click)="toggleVersions.emit()"></i>
+            </button>
+            <div *ngIf="canChangeState" class="btn-group rounded-0">
+                <button type="button" class="btn btn-secondary border-0 rounded-0 dropdown-toggle no-chevron"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a *ngIf="!project.voting && votingManagementAllowed" class="dropdown-item"
+                       (click)="createVoting.emit()">
+                        {{'Начать голосование'}}
+                    </a>
+                    <a *ngIf="project.voting && !project.voting.closed && votingManagementAllowed" class="dropdown-item"
+                       (click)="closeVoting.emit()">
+                        {{'Завершить голосование'}}
+                    </a>
+                    <a *ngIf="!project.voting?.vetoApplied && project.decision?.accepted && !(project.decision?.approval)"
+                       class="dropdown-item" (click)="approverPopup.show()">
+                        {{'Отправить на утверждение'}}</a>
+
+                    <div *ngIf="!project.voting?.closed" class="dropdown-divider"></div>
+                    <a *ngIf="!project.voting?.vetoApplied && !project.decision"
+                       class="dropdown-item" (click)="createDecision.emit(true)">{{'Принять'}}</a>
+                    <a *ngIf="!project.voting?.vetoApplied && !project.decision"
+                       class="dropdown-item" (click)="createDecision.emit(false)">{{'Отклонить'}}</a>
+                </div>
+
+            </div>
+            <senat-popup #approverPopup>
+                <senat-popup-form>
+                    <header>
+                        Отправить на утверждение
+                    </header>
+                    <content>
+                        <div class="text-center">
+                            <senat-person-picker-single #personPicker [label]="'утерждающий'"
+                                                        (queryChanged)="approverQueryChanged($event)"
+                                                        [suggestions]="participantPersons"></senat-person-picker-single>
+
+                        </div>
+                    </content>
+                    <footer>
+                        <div class="row">
+                            <div class="col col-auto">
+                                <senat-button [type]="buttonType.BlackOutline" (click)="approverPopup.hide()">
+                                    Отмена
+                                </senat-button>
+                            </div>
+                            <div class="col col-auto">
+                                <senat-button [type]="buttonType.Green"
+                                              (click)="selectApproverPerson(personPicker.person)"
+                                              [disabled]="!personPicker.person">
+                                    Отправить
+                                </senat-button>
+                            </div>
+                        </div>
+                    </footer>
+                </senat-popup-form>
+            </senat-popup>
+        </div>
+    </div>
+    <div *ngIf="project.voting">
+        <senat-voting-bar [voting]="project.voting"></senat-voting-bar>
+        <div class="text-right">
+            <button [disabled]="project.voting.closed || !voteAllowed"
+                    class="btn btn-sm btn-secondary border-0 rounded-0 text-success"
+                    (click)="toggleVote('For')">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-link border-0 rounded-0" (click)="toggleVotes.emit(project.voting)">
+                {{project.voting.votesFor}}
+            </button>
+            <button [disabled]="project.voting.closed || !voteAllowed"
+                    class="btn btn-sm btn-secondary border-0 rounded-0 text-warning ml-3"
+                    (click)="toggleVote('Abstain')">
+                <i class="fa fa-hand-rock-o" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-link border-0 rounded-0" (click)="toggleVotes.emit(project.voting)">
+                {{project.voting.votesAbstain}}
+            </button>
+            <button [disabled]="project.voting.closed || !voteAllowed"
+                    class="btn btn-sm btn-secondary border-0 rounded-0 text-danger ml-3"
+                    (click)="toggleVote('Against')">
+                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-link border-0 rounded-0" (click)="toggleVotes.emit(project.voting)">
+                {{project.voting.votesAgainst}}
+            </button>
+            <button *ngIf="vetoAllowed" [disabled]="project.voting.closed"
+                    class="btn btn-sm btn-secondary border-0 rounded-0 text-danger ml-4"
+                    (click)="toggleVote('Veto')">
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div *ngIf="newVote">
+            <textarea class="form-control my-2" rows="5" autosize
+                      [(ngModel)]="newVote.specialOpinion"
+                      [placeholder]="'Особое мнение'"></textarea>
+            <!--<senat-button [type]="buttonType.Green" (click)="votingForm.show()">Проголосовать</senat-button>-->
+            <div class="text-right">
+                <div *ngIf="isSecretary" class="btn-group btn-group-sm rounded-0">
+                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span *ngIf="newVote.owner">
+                            {{newVote.owner.lastName}}
+                            {{newVote.owner.firstName | truncate : 1 : '.'}}
+                            {{newVote.owner.middleName | truncate : '1' : '.'}}
+                        </span>
+                        <span *ngIf="!newVote.owner">
+                            {{'не выбран'}}
+                        </span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a *ngFor="let person of voteOwnerSuggestions"
+                           class="dropdown-item" (click)="selectVoteOwner(person)">
+                            {{person.lastName}}
+                            {{person.firstName | truncate : 1 : '.'}}
+                            {{person.middleName | truncate : '1' : '.'}}
+                        </a>
+                    </div>
+                </div>
+                <button *ngIf="newVote.type === 'For'" class="btn btn-sm btn-success"
+                        [disabled]="isSecretary && !newVote.owner"
+                        (click)="createVote.emit(newVote)">
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span>{{'проголосовать'}}</span>
+                </button>
+                <button *ngIf="newVote.type === 'Abstain'" class="btn btn-sm btn-warning"
+                        [disabled]="isSecretary && !newVote.owner"
+                        (click)="createVote.emit(newVote)">
+                    <i class="fa fa-hand-rock-o"></i>
+                    <span>{{'проголосовать'}}</span>
+                </button>
+                <button *ngIf="newVote.type === 'Against'" class="btn btn-sm btn-danger"
+                        [disabled]="isSecretary && !newVote.owner"
+                        (click)="createVote.emit(newVote)">
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span>{{'проголосовать'}}</span>
+                </button>
+                <button *ngIf="newVote.type === 'Veto'" class="btn btn-sm btn-danger"
+                        [disabled]="isSecretary && !newVote.owner"
+                        (click)="createVote.emit(newVote)">
+                    <i class="fa fa-minus-circle"></i>
+                    <span>{{'проголосовать'}}</span>
+                </button>
+                <button class="btn btn-sm btn-secondary" (click)="discardVote()">{{'отмена'}}</button>
+            </div>
+        </div>
+        <div *ngIf="showVotesOf && showVotesOf.id === project.voting?.id" class="mt-3">
+            <senat-votes [votes]="votes"></senat-votes>
+        </div>
+    </div>
+    <div *ngIf="showVersions">
+        <hr/>
+        <div *ngFor="let version of versions">
+            <div *ngIf="version.self.num !== project.currentVersion.self.num">
+                <div class="row my-2 align-items-center">
+                    <div class="col">
+                        <senat-material-version [version]="version"></senat-material-version>
+                    </div>
+                    <div *ngIf="version.voting" class="col col-auto">
+                        <senat-voting-info [voting]="version.voting"
+                                           (pressed)="toggleVotes.emit(version.voting)"></senat-voting-info>
+                    </div>
+                </div>
+                <div *ngIf="showVotesOf && showVotesOf.id === version.voting?.id" class="row mb-5">
+                    <div class="col">
+                        <senat-votes [votes]="votes"></senat-votes>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!!(project.decision?.approval)">
+        <div [ngSwitch]="!!(project.decision?.approval.approved)">
+            <div *ngIf="project.decision.approval.approvingPerson as approvalPerson">
+                <span *ngSwitchCase="true" class="badge badge-pill badge-success align-middle">                
+                    {{'Утвержден'}} {{approvalPerson.lastName}} {{approvalPerson.firstName | truncate: 1: '.'}}{{approvalPerson.middleName | truncate: 1 : '.'}} 
+                    {{project.decision?.approval.approvedAt | date: 'dd.MM.yyyy'}} {{project.decision?.approval.approvedAt | date: 'shortTime'}}
+                    
+                </span>
+            </div>
+            <div *ngSwitchCase="false">
+                <div [ngSwitch]="canApprove">
+                    <senat-button *ngSwitchCase="true" class="create-button" [type]="'green-light'"
+                                  (click)="approveDecision.emit()">
+                        {{'Утвердить'}}
+                    </senat-button>
+                    <span *ngSwitchCase="false"
+                          class="badge badge-pill badge-warning align-middle">{{'На утверждении'}}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--<senat-voting-form #votingForm ></senat-voting-form>-->

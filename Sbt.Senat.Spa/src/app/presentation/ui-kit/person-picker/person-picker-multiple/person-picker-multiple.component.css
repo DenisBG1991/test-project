@@ -1,0 +1,39 @@
+.wrapper {
+    display: inline-flex;
+    width: 100%;
+}
+
+.content-wrapper {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.person-picker {
+    width: 90px;
+    height: 80px;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 21px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.selected-person {
+    position: relative;
+    width: 90px;
+    margin-left: 10px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.remove-selected-person {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

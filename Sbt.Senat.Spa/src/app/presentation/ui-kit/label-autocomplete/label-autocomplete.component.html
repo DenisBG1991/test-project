@@ -1,0 +1,47 @@
+<div class="senat-labels-wrapper">
+    <ul #input class="row senat-labels-field" (click)="newLabel.focus()"
+        [ngClass]="{'senat-labels-field-focused': focused,'senat-labels-expanded': expanded}">
+        <ng-container *ngFor="let label of selected">
+            <li class="col col-auto">
+                <div class="senat-label">
+                    <div class="row">
+                        <div class="col col-auto pr-1 text-truncate">
+                            <span class="text-truncate">{{label.name}}</span>
+                        </div>
+                        <div class="col col-auto pl-1">
+                            <button class="senat-label-remove" (click)="remove(label)">
+                                <i class="fa fa-close" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ng-container>
+        <li class="col">
+            <input #newLabel class="senat-labels-query" [(ngModel)]="query" (keyup)="onKeyUp($event)"
+                   (keydown)="onKeyDown($event)"
+                   (focus)="onFocus()" (blur)="onBlur()">
+        </li>
+    </ul>
+    <ng-container *ngIf="expanded">
+        <ul #dropdown class="senat-labels-dropdown text-truncate">
+            <li *ngIf="canCreateNewLabel" (click)="addNew()">
+                <div class="row">
+                    <div class="col text-truncate">
+                        <senat-highlight-text class="text-truncate" [text]="query"
+                                              [highlight]="query"></senat-highlight-text>
+                    </div>
+                    <div class="col col-auto">
+                        <span>({{'новый тег'}})</span>
+                    </div>
+                </div>
+            </li>
+            <li class="senat-labels-dropdown-separator"></li>
+            <ng-container *ngFor="let label of suggestions">
+                <li class="text-truncate" (click)="add(label)">
+                    <senat-highlight-text [text]="label.name" [highlight]="query"></senat-highlight-text>
+                </li>
+            </ng-container>
+        </ul>
+    </ng-container>
+</div>

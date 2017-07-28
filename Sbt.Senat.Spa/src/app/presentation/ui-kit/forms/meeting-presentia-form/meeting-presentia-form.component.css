@@ -1,0 +1,92 @@
+/*IE11 section*/
+
+.meeting-grid {
+    display: grid;
+    -ms-grid-columns: 1fr 20px 1fr 20px 1fr;
+    -ms-grid-rows: 66px 66px 114px 66px 66px 96px;
+}
+
+.collegial-body-select {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+}
+
+.meeting-date {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+}
+
+.address {
+    -ms-grid-column: 3;
+    -ms-grid-row: 2;
+    -ms-grid-column-span: 3;
+    -ms-grid-row-span: 2;
+}
+
+.meeting-number {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+}
+
+.deadline-issues {
+    -ms-grid-column: 1;
+    -ms-grid-row: 4
+}
+
+.deadline-materials {
+    -ms-grid-row: 5;
+    -ms-grid-column: 1;
+}
+
+.place{
+    -ms-grid-row: 4;
+    -ms-grid-column: 3;
+    -ms-grid-row-span: 3;
+    -ms-grid-column-span: 3;
+}
+
+/*Good browsers section*/
+@supports(display: grid) {
+
+    .meeting-grid {
+        display: grid;
+        
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: "CB          number  ."
+                             "date        address address"
+                             ".           address address"
+                             "deadlineIss place   place" 
+                             "deadlineMat place   place"
+                             ".           place   place";
+        grid-column-gap: 20px;
+    }
+    
+    .collegial-body-select {
+        grid-area: CB;
+    }
+
+    .meeting-date {
+        grid-area: date;
+    }
+
+    .address {
+        grid-area: address;
+    }
+
+    .meeting-number {
+        grid-area: number;
+    }
+
+    .deadline-issues {
+        grid-area: deadlineIss;
+    }
+
+    .deadline-materials {
+        grid-area: deadlineMat;
+    }
+
+    .place {
+        grid-area: place;
+    }
+}
+

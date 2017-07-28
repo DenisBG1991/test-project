@@ -1,0 +1,88 @@
+<!--<div class="card card-block">-->
+    <!--<div *ngIf="issue$ | async">-->
+        <!--<div class="row align-items-end">-->
+            <!--<div class="col-8">-->
+                <!--<h4 class="mb-0">{{(issue$ | async).title | multilingual}}</h4>-->
+            <!--</div>-->
+            <!--<div class="col-4 text-right" [ngSwitch]="editMode$| async">-->
+                <!--<div *ngSwitchCase="false">-->
+                    <!--<button class="btn btn-secondary" *ngIf="hasPermission$(pe.EditIssue) | async" (click)="edit()"><i-->
+                        <!--class="fa fa-pencil" aria-hidden="true"></i></button>-->
+                    <!--<button class="btn btn-secondary" *ngIf="hasPermission$(pe.DeleteIssue) | async" (click)="delete()">-->
+                        <!--<i class="fa fa-trash text-danger" aria-hidden="true"></i></button>-->
+                    <!--<button class="btn btn-secondary" *ngIf="hasPermission$(pe.EditIssue) | async"-->
+                            <!--(click)="showHideShare()"><i class="fa fa-share-alt" aria-hidden="true"></i></button>-->
+
+                    <!--<div *ngIf="showShare">-->
+                        <!--<div class="p-2">-->
+                            <!--<senat-person-select-show-->
+                                <!--[ngModel]="sharePersons$ | async"-->
+                                <!--[suggestions]="sharePersonsSuggestions$ | async"-->
+                                <!--[showRemoveBtn]="true"-->
+                                <!--[multiple]="true"-->
+                                <!--(onPersonRemoved)="removeSharePerson($event)"-->
+                                <!--(onPersonSelected)="addSharePerson($event)"-->
+                                <!--(queryChanged)="findPeople($event)">-->
+                            <!--</senat-person-select-show>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div *ngSwitchCase="true">-->
+                    <!--<button class="btn btn-secondary" *ngIf="hasPermission$(pe.EditIssue) | async" (click)="save()">-->
+                        <!--<i-->
+                            <!--class="fa fa-check text-success" aria-hidden="true"></i></button>-->
+                    <!--<button class="btn btn-secondary" (click)="discard()"><i class="fa fa-times"-->
+                                                                             <!--aria-hidden="true"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<hr class="mt-1"/>-->
+        <!--<div [ngSwitch]="editMode$ | async" class="row">-->
+            <!--<div *ngSwitchCase="false" class="col">-->
+                <!--&lt;!&ndash;<senat-issue-details></senat-issue-details>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div *ngSwitchCase="true" class="col">-->
+                <!--&lt;!&ndash;<senat-issue-details-form #detailsForm></senat-issue-details-form>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="mt-4">
+    <h6 class="text-muted">{{'Пояснительная часть'}}</h6>
+    <div class="card card-block">
+        <p *ngIf="!!(issue$ | async)?.description" class="pre-wrap m-0">{{(issue$ | async).description | multilingual}}</p>
+        <p *ngIf="!(issue$ | async)?.description" class="text-center m-0">{{'Пояснительная часть отсутствует'}}</p>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h6 class="text-muted">{{'Презентация' | uppercase}}</h6>
+    <div *ngFor="let presentation of presentations$ | async; let last = last;" class="card card-block"
+         [ngClass]="last ? '' : 'mb-3'">
+        <senat-material-version [version]="presentation.currentVersion"></senat-material-version>
+    </div>
+    <div *ngIf="(presentations$ | async).length === 0" class="card card-block text-center">
+        <span class="text-muted">{{'презентации отсутствуют'}}</span>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h6 class="text-muted">{{'Проекты решений' | uppercase}}</h6>
+    <div *ngFor="let project of decisionProjects$ | async; let last = last;" class="card card-block"
+         [ngClass]="last ? '' : 'mb-3'">
+        <senat-material-version [version]="project.currentVersion"></senat-material-version>
+    </div>
+    <div *ngIf="(decisionProjects$ | async).length === 0" class="card card-block text-center">
+        <span class="text-muted">{{'проекты решений отсутствуют'}}</span>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h6 class="text-muted">{{'Все материалы' | uppercase}}</h6>
+    <div class="card card-block">
+        <senat-material-browser [issue]="issue"></senat-material-browser>
+    </div>
+</div>

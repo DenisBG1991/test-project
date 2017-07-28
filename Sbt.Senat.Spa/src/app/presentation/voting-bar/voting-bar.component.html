@@ -1,0 +1,6 @@
+<div *ngIf="!voting.vetoApplied" style="height: 3px;" class="w-100 clearfix">
+    <div class="h-100 bg-success float-left" [style.width]="percentageFor + '%'"></div>
+    <div class="h-100 bg-warning float-left" [style.width]="percentageAbstain + '%'"></div>
+    <div class="h-100 bg-danger float-left" [style.width]="percentageAgainst + '%'"></div>
+</div>
+<div *ngIf="voting.vetoApplied" class="w-100" style="height: 3px; background: grey;"></div>

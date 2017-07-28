@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row justify-content-end align-items-center">
+            <div class="col col-auto p-5">
+                <button class="back-button" (click)="back()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    <span class="ml-2">{{'назад'}}</span>
+                </button>
+            </div>
+            <div class="col text-center">
+                <h1 class="header">{{'Создание нового вопроса'}}</h1>
+            </div>
+            <div class="col col-auto p-5">
+                <button class="close-button" (click)="close()">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <senat-issue-form [formGroup]="formGroup"
+                          [collegialBodies]="collegialBodies$ | async"
+                          [suggestedPersons]="suggestedPersons$ | async"
+                          [suggestedLabels]="(suggestedLabels$ | async).self"
+                          [canCreateNewLabel]="(suggestedLabels$ | async).canCreateNew"
+                          (personQueryChanged)="findPeople($event)"
+                          (labelQueryChanged)="findLabels($event)"
+                          (createNewLabel)="createLabel($event)"></senat-issue-form>
+        <div class="row">
+            <div class="col text-center my-5">
+                <senat-button [type]="buttonType.Green"
+                              [disabled]="showLoadingIndicator$ | async"
+                              (click)="submit()">
+                    {{'сохранить'}}
+                    <i *ngIf="showLoadingIndicator$ | async" class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                </senat-button>
+            </div>
+        </div>
+    </div>
+</div>

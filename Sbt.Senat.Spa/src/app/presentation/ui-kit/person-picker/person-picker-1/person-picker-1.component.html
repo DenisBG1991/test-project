@@ -1,0 +1,18 @@
+<div class="senat-person-picker">
+    <button #input #toggleButton class="rounded-circle senat-person-picker-toggle-btn"
+            [ngClass]="expanded ? 'pressed' : ''"
+            [class.disabled]="disabled"
+            (click)="changeDropdownState()"
+            [disabled]="disabled">
+        <span #verticalLine></span>
+        <span #horizontalLine></span>
+    </button>
+    <div #dropdown *ngIf="expanded && !disabled" class="senat-person-picker-dropdown"
+         [ngStyle]="calculateCoordinationStyle()">
+        <senat-person-picker [confirmation]="confirmation" [multiple]="multiple" [avatarPlaceholder]="avatarPlaceholder"
+                             [searchInProgress]="searchInProgress"
+                             [selected]="selected" [suggestions]="suggestions"
+                             (select)="onSelect($event)"
+                             (queryChanged)="queryChanged.emit($event)"></senat-person-picker>
+    </div>
+</div>

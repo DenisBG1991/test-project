@@ -1,0 +1,6 @@
+<ul>
+    <li *ngFor="let ur of (userRoles$ | async)">
+        {{ ur.holding?.name }} -  {{ ur.company?.name }} - {{ ur.collegialBody?.name }} - {{ ur.role.name }}
+        <button *ngIf="canEdit$ | async" (click)="deleteUserRole(ur)">{{ 'Удалить' }}</button>
+    </li>
+</ul>

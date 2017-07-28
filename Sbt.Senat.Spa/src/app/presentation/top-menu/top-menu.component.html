@@ -1,0 +1,46 @@
+<div class="senat-top-menu">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col col-auto">
+                <a routerLink="/" class="senat-logo">
+                    <img src="assets/sberbank-logo.svg" width="32">
+                </a>
+            </div>
+            <div class="col">
+                <h1>{{currentRoute$ | async}}</h1>
+            </div>
+            <div class="col col-auto">
+                <ul>
+                    <li class="senat-current-user">
+                        <a class="dropdown-toggle no-chevron" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <senat-person-avatar [person]="currentUser$ | async" size="32"></senat-person-avatar>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                            <a *ngIf="(showAdmin$ | async)" class="dropdown-item" routerLink="/admin/person/newad">Администрирование</a>
+                            <a class="dropdown-item" (click)="logout()">Выход</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="col">
+                <nav>
+                    <ul>
+                        <li>
+                            <a routerLink="/meetings" routerLinkActive="active">заседания</a>
+                        </li>
+                        <li>
+                            <a routerLink="/issues" routerLinkActive="active">вопросы</a>
+                        </li>
+                    </ul>
+                </nav>
+                <button *ngIf="(canCreateIssue$ | async) || (canCreateMeeting$ | async)" routerLink="/create">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

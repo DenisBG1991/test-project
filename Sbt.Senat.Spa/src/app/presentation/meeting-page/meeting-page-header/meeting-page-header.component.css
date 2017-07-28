@@ -1,0 +1,106 @@
+.meeting-header {
+    display: grid;
+    align-items: center;
+    justify-items: start;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-rows: auto auto;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    justify-content: space-between;
+}
+.senat-state-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3DBB90;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.senat-state-button:hover {
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #3DBB90;
+}
+.senat-state-button i {
+    padding: 11px 9px 11px 9px ;
+}
+
+.senat-state-button span {
+    padding: 11px 11px 11px 0;
+    letter-spacing: 0.5px;
+}
+
+
+
+.date-month {
+    font-weight: bold;
+}
+.status-type {
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+    width: auto;
+    height: 24px; /*fix for IE*/    
+}
+
+.status-type > div {
+    color: #FFFFFF;
+    padding: 0 10px;
+
+}
+.status-type > div:first-child {
+    margin-right: 2px
+}
+
+.status-color-Draft .status-color:not(.meeting-num) > div {
+    background-color: rgb(169, 204, 234);
+}
+
+.status-color-Opened .status-color:not(.meeting-num) > div {
+    background-color: rgb(168, 217, 181);
+}
+
+.status-color-Closed .status-color:not(.meeting-num) > div {
+    background-color: rgb(209, 214, 221);
+}
+.status-type-num {
+    grid-row: 1;
+    grid-column: 1 / span 2;
+    display: flex;
+    
+}
+.dropdown {
+    grid-row: 1;
+    grid-column: 4;
+    align-self: center;
+    justify-self: end;
+    -ms-grid-column-align: end;
+}
+.status-buttons {
+    grid-row: 1;
+    grid-column: 3;
+    align-self: center;
+    justify-self: end;
+    -ms-grid-column-align: end;
+    display: flex;
+}
+
+.address {
+    grid-row: 2;
+    grid-column: 2 / span 3;
+    align-self: flex-start;
+}
+.meeting-num {
+    margin-right: 10px;
+}
+.date-time {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: flex-start;
+    margin-right: 10px; /*fix for IE*/
+}

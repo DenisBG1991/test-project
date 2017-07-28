@@ -1,0 +1,41 @@
+.senat-remove-agenda-item-button {
+    position: absolute; 
+    top: -1em; 
+    right: -1em;
+}
+.senat-circle {
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.55em;
+    text-align: center;
+    border-radius: 50% !important;
+}
+
+.senat-agenda-item-card {
+    cursor: pointer;
+}
+
+.senat-agenda-item-card:hover {
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.41);
+}
+
+.senat-active-issue {
+    background-image: linear-gradient(-100deg, #40BD6C 0%, #3CBA92 100%);
+    color: #FFFFFF;
+}
+
+.senat-agenda-item-card h6 {
+    color: black;
+    color: initial;
+}
+
+.senat-agenda-item-workflow-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.senat-to-remove-status-agenda-item-button {
+    position: absolute;
+    top: 6px;
+    right: 45px;
+}

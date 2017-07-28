@@ -1,0 +1,10 @@
+<senat-label *ngIf="label" [for]="id">
+    {{label}}
+</senat-label>
+<div class="senat-text-input-wrapper">
+    <input class="senat-text-input" [ngClass]="'senat-text-input-' + style" [id]="id" [type]="type" [disabled]="disabled"
+           [(ngModel)]="value" [placeholder]="placeholder" [readonly]="readonly" (blur)="onBlur()"/>
+    <span class="senat-text-input-icon">
+        <ng-content></ng-content>
+    </span>
+</div>

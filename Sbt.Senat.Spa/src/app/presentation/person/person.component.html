@@ -1,0 +1,41 @@
+<div class="card card-block">
+    <div *ngIf="person$ | async">
+        <div class="row align-items-end">
+            <div class="col-8">
+                <h4 class="mb-0">{{(person$ | async).title | multilingual}}</h4>
+            </div>
+            <div class="col-4 text-right" [ngSwitch]="editMode$| async">
+                <div *ngSwitchCase="false">
+                    <button class="btn btn-secondary" *ngIf="hasPermission$(pe.EditPerson) | async" (click)="edit()"><i
+                        class="fa fa-pencil" aria-hidden="true"></i></button>
+                </div>
+
+                <div *ngSwitchCase="true">
+                    <button class="btn btn-secondary" *ngIf="hasPermission$(pe.EditPerson) | async" (click)="save()">
+                        <i
+                            class="fa fa-check text-success" aria-hidden="true"></i></button>
+                    <button class="btn btn-secondary" (click)="discard()"><i class="fa fa-times"
+                                                                             aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-1"/>
+        <div [ngSwitch]="editMode$ | async" class="row">
+            <div *ngSwitchCase="false" class="col">
+                <senat-person-details [person]="person"></senat-person-details>
+                <senat-ad-user *ngIf="hasPermission$(pe.EditPerson) | async" [person]="person"></senat-ad-user>
+                <senat-create-user-role *ngIf="(user$ | async) && (hasPermission$(pe.EditUserRole) | async)"
+                                        [userId]="(user$ | async).id"></senat-create-user-role>
+                <senat-user-role-list *ngIf="(user$ | async)" [userId]="(user$ | async).id"
+                                      [permissionLevels]="[ple.CollegialBody, ple.Company,ple.Holding, ple.Root]"></senat-user-role-list>
+            </div>
+            <div *ngSwitchCase="true" class="col">
+                <senat-person-details-form [formGroup]="formGroup"></senat-person-details-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

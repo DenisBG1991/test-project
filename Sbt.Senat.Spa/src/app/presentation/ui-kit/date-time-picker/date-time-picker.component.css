@@ -1,0 +1,9 @@
+/*.date,*/
+/*.time {*/
+    /*display: inline-block;*/
+/*}*/
+
+/*.date + .time,*/
+/*.time + .date {*/
+    /*margin-left: 18px;*/
+/*}*/

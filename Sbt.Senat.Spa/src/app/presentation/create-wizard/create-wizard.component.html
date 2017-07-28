@@ -1,0 +1,46 @@
+<div class="wrapper senat-create-wizard">
+    <div class="container-fluid">
+        <div class="row justify-content-end">
+            <div class="col col-auto p-5">
+                <button class="close-button" (click)="close()">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row header">
+            <div class="col text-center">
+                <h3 class="description">{{'Создание нового проекта'}}</h3>
+                <h1 class="title">{{'Выберите тип'}}</h1>
+            </div>
+        </div>
+        <div class="types-wrapper">
+            <div class="row align-items-center justify-content-center">
+                <div class="col col-6 type-card text-center">
+                    <h2 class="type-card-header">{{'Вопрос'}}</h2>
+                    <div class="type-icon-wrapper issue-icon">
+
+                    </div>
+                    <div class="type-card-footer">
+                        <senat-button class="create-button" [type]="'green-light'" (click)="createIssue()">
+                            {{'Создать вопрос'}}
+                        </senat-button>
+                    </div>
+                </div>
+                <div class="col col-6 type-card text-center">
+                    <h2 class="type-card-header">{{'Заседание'}}</h2>
+                    <div class="type-icon-wrapper meeting-icon">
+
+                    </div>
+                    <div class="type-card-footer">
+                        <senat-button class="create-button" [type]="'green-light'" (click)="createMeeting()">
+                            {{'Создать заседание'}}
+                        </senat-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

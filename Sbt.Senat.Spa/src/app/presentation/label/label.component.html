@@ -1,0 +1,7 @@
+﻿<p-autoComplete [(ngModel)]="model" [suggestions]="suggestions" (completeMethod)="search($event)" [multiple]="true" [field]="'name'" (onSelect)="onSelect($event)">
+    <ng-template let-item>
+        <hr [hidden]="item.id" />
+        <span [hidden]="item.id">Новый тег: </span>
+        <span>{{item.name}}</span>
+    </ng-template>
+</p-autoComplete>

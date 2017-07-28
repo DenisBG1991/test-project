@@ -1,0 +1,73 @@
+.senat-time-input {
+    position: relative;
+}
+
+.time-dropdown {
+    position: fixed;
+    width: 280px;
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 20px 20px 10px;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.3);
+    z-index: 1000;
+}
+
+.time-dropdown > .col {
+    padding-left: 20px;
+    padding-bottom: 25px;
+    padding-top: 0;
+    padding-right: 0;
+}
+
+.time-dropdown .time-input-click {
+    position: relative;
+}
+
+.time-dropdown input {
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: 40px;
+    height: 40px;
+    width: 110px;
+    border-radius: 4px;
+    border: 1px solid rgba(110, 115, 122, 0.5);
+    text-align: center;
+}
+
+.time-dropdown .btn-timer {
+    transition: border-color 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 35px;
+    font-size: 24px;
+    line-height: 35px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid transparent;
+    z-index: 1;
+    /*prevent double-click selection*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.time-dropdown .btn-timer.btn-timer-minus {
+    left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.time-dropdown .btn-timer.btn-timer-plus {
+    right: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.time-dropdown .btn-timer:hover {
+    border-color: #474747;
+}

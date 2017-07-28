@@ -1,0 +1,53 @@
+.senat-text-input-wrapper {
+    position: relative;
+}
+
+.senat-text-input {
+    font: 14px/18px 'Open Sans', sans-serif;
+    border: 1px solid rgba(110, 115, 122, 0.5);
+    border-radius: 4px;
+    transition: border 0.3s;
+    min-height: 40px;
+    padding: 10px;
+    width: 100%;
+    padding-left: 40px;
+    color: #474747;
+}
+
+.senat-text-input:focus {
+    border-color: #6e737a;
+}
+
+.senat-text-input:focus ~ .senat-text-input-icon {
+    opacity: 1;
+    transform: scale(1.3);
+}
+
+.senat-text-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    font-size: 18px;
+    line-height: 18px;
+    transition: opacity 0.3s, transform 0.3s;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+.senat-text-input-black {
+    border: 1px solid rgba(110, 115, 122, 0.5);
+}
+
+.senat-text-input-black:focus {
+    border-color: #6e737a;
+}
+
+.senat-text-input-green-light {
+    border: 1px solid rgba(0, 212, 115, 0.5);
+}
+
+.senat-text-input-green-light:focus {
+    border-color: #00D473;
+}

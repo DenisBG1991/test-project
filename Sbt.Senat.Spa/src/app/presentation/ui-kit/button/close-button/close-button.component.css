@@ -1,0 +1,53 @@
+.senat-close-button {
+    transition: background-color 0.3s;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+}
+
+.senat-close-button span {
+    transition: background-color 0.3s;
+    width: 2px;
+    height: 11px;
+    position: absolute;
+    top: 4px;
+    left: 9px;
+}
+
+.senat-close-button span:first-child {
+    transform: rotate(45deg);
+}
+
+.senat-close-button span:last-child {
+    transform: rotate(-45deg);
+}
+
+/* Orange button*/
+.senat-close-button-orange {
+    background-color: #ffffff;
+}
+
+.senat-close-button-orange span {
+    background-color: #ff5137;
+}
+
+.senat-close-button-orange:hover {
+    background-color: #ff5137;
+}
+
+.senat-close-button-orange:hover span {
+    background-color: #ffffff;
+}
+
+/* Black button*/
+.senat-close-button-black {
+    background-color: #ffffff;
+}
+
+.senat-close-button-black span {
+    background-color: black;
+}
+
+.senat-close-button-black:hover {
+    background-color: #ececec;
+}

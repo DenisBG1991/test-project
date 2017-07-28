@@ -1,0 +1,68 @@
+.senat-person-picker {
+    position: relative;
+    width: 60px;
+}
+
+.senat-person-picker-toggle-btn {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    border: 0;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 38px;
+    line-height: 52px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    transition: background 0.3s, color 0.3s;
+    background: #fff;
+    color: #474747;
+}
+
+.senat-person-picker-toggle-btn:hover,
+.senat-person-picker-toggle-btn.pressed {
+    background: #ececec;
+}
+
+.senat-person-picker-toggle-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.senat-person-picker-toggle-btn.disabled:hover {
+    background: #fff;
+}
+
+.senat-person-picker-toggle-btn > span {
+    background: #474747;
+    border-radius: 2px;
+    position: absolute;
+    transition: transform 0.3s;
+}
+
+.senat-person-picker-toggle-btn > span:first-child {
+    width: 4px;
+    height: 34px;
+    left: 28px;
+    top: 13px;
+}
+
+.senat-person-picker-toggle-btn > span:last-child {
+    width: 34px;
+    height: 4px;
+    left: 13px;
+    top: 28px;
+}
+
+.senat-person-picker-toggle-btn.pressed > span {
+    transform: rotate(45deg);
+}
+
+.senat-person-picker-dropdown {
+    width: 400px;
+    position: fixed;
+    z-index: 3;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.3);
+}
+

@@ -1,0 +1,89 @@
+.wrapper {
+    display: inline-block;
+    padding-right: 60px;
+}
+
+.content-wrapper {
+    position: relative;
+}
+
+.person-picker {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 120px;
+    top: 10px;
+}
+
+.selected-person {
+    position: relative;
+    width: 80px;
+    margin: 0 auto;
+}
+
+.remove-selected-person {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+/*GRID*/
+/*IE impelmentation*/
+/*.grid-layout-trick {*/
+    /*display: grid;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+   /*-ms-grid-columns: auto 10px auto;*/
+    /*-ms-grid-rows: auto 10px auto 10px auto;*/
+/*}*/
+
+/*.grid-layout-trick > label {*/
+    /*grid-row: 1;*/
+    /*grid-column: 1;*/
+/*}*/
+
+/*.person-in-grid {*/
+    /*grid-row: 3;*/
+    /*grid-column: 1;*/
+/*}*/
+
+/*.person-full-name {*/
+    /*grid-row: 5;*/
+    /*grid-column: 1;*/
+/*}*/
+
+/*.person-picker-in-da-grid {*/
+    /*grid-row: 3;*/
+    /*grid-column: 3;*/
+/*}*/
+
+/*@supports(display: grid) {*/
+    /*.grid-layout-trick {*/
+        /*display: grid;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        /*grid-row-gap: 2px;*/
+        /*grid-column-gap: 20px;*/
+    /*}*/
+
+    /*.grid-layout-trick > label {*/
+        /*grid-row: 1;*/
+        /*grid-column: 1;*/
+    /*}*/
+
+    /*.person-in-grid {*/
+        /*grid-row: 2;*/
+        /*grid-column: 1;*/
+    /*}*/
+
+    /*.person-full-name {*/
+        /*grid-row: 3;*/
+        /*grid-column: 1;*/
+    /*}*/
+
+    /*.person-picker-in-da-grid {*/
+        /*grid-row: 2;*/
+        /*grid-column: 2;*/
+    /*}*/
+/*}*/

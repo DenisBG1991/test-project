@@ -1,0 +1,63 @@
+<form [formGroup]="formGroup">
+    <div class="row align-items-center">
+        <div class="col col-8 my-1">
+            <senat-label>
+                Комитет<span class="text-danger">*</span>
+            </senat-label>
+            <div>
+                <senat-collegial-body-picker formControlName="collegialBody" [items]="collegialBodies"
+                                             [placeholder]="'не выбран'">
+                </senat-collegial-body-picker>
+            </div>
+        </div>
+        <div class="col text-center col-4 my-1">
+            <senat-person-picker-single formControlName="author"
+                                        [senatValidation]="formGroup" [suggestions]="suggestedPersons"
+                                        (queryChanged)="personQueryChanged.emit($event)"
+                                        [label]="'Инициатор'"></senat-person-picker-single>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-8 my-1">
+            <senat-label>
+                Заголовок<span class="text-danger">*</span>
+            </senat-label>
+            <div>
+                <senat-multilingual-text-input formControlName="title"
+                                               [senatValidation]="formGroup"
+                                               [multiline]="false"></senat-multilingual-text-input>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-8 my-1">
+            <senat-label>
+                Пояснительная часть
+            </senat-label>
+            <div>
+                <senat-multilingual-text-input formControlName="description"
+                                               [senatValidation]="formGroup"></senat-multilingual-text-input>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-8 my-1">
+            <div>
+                <senat-label>
+                    Тэги
+                </senat-label>
+                <senat-label-autocomplete formControlName="labels" [senatValidation]="formGroup"
+                                          [suggestions]="suggestedLabels"
+                                          [canCreateNewLabel]="canCreateNewLabel"
+                                          (createLabel)="createNewLabel.emit($event)"
+                                          (queryChanged)="labelQueryChanged.emit($event)"></senat-label-autocomplete>
+            </div>
+        </div>
+        <div class="col col-8 my-1">
+            <div>
+                <senat-time-picker [label]="'Планируемая длительность'" formControlName="estimate"
+                                   [senatValidation]="formGroup"></senat-time-picker>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,46 @@
+<div class="card card-block">
+    <form *ngIf="formGroup" [formGroup]="formGroup">
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <senat-label>
+                    <span class="text-muted">Фамилия</span><span class="text-danger">*</span>
+                </senat-label>
+                <div>
+                    <senat-multilingual-text-input name="lastName" formControlName="lastName"
+                                                   [senatValidation]="formGroup"></senat-multilingual-text-input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <senat-label>
+                    <span class="text-muted">Имя</span><span class="text-danger">*</span>
+                </senat-label>
+                <div>
+                    <senat-multilingual-text-input name="firstName" formControlName="firstName"
+                                                   [senatValidation]="formGroup"></senat-multilingual-text-input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <senat-label>
+                    <span class="text-muted">Отчество</span><span class="text-danger">*</span>
+                </senat-label>
+                <div>
+                    <senat-multilingual-text-input name="middleName" formControlName="middleName"
+                                                   [senatValidation]="formGroup"></senat-multilingual-text-input>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <button class="btn btn-primary" (click)="submit()">
+                    {{'Создать'}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

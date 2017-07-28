@@ -1,0 +1,124 @@
+.meeting-in-list {
+    cursor: pointer;
+    display: grid;
+    margin: 10px;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    grid-gap: 5px;
+    padding: 20px;
+}
+
+.meeting-in-list:hover {
+    color: #FFFFFF;
+}
+
+
+.date {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.time {
+    text-transform: uppercase;
+}
+
+.status-type {
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+
+}
+
+.status-type > div {
+    color: #FFFFFF;
+    padding: 0 10px;
+
+}
+.status-type > div:first-child {
+    margin-right: 2px
+}
+
+
+.status-color-Draft .status-color:not(.g-holding) > div {
+    background-color: rgb(169, 204, 234);
+}
+
+.status-color-Opened .status-color:not(.g-holding) > div {
+    background-color: rgb(168, 217, 181);
+}
+
+.status-color-Closed .status-color:not(.g-holding) > div {
+    background-color: rgb(209, 214, 221);
+}
+
+.g-date-time {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.g-status-type {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.g-holding {
+    color: rgb(180, 180, 180);
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    justify-self: end;
+    -ms-grid-column-align: end;
+}
+.g-holding > div{
+    background-color: rgb(237, 237, 237);    
+    border-radius: 4px;
+    padding: 0 10px;
+    width: auto;
+}
+
+.g-collegial-body {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    font-weight: bold;
+    
+}
+
+.g-meeting-num {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: end;
+    justify-self: start;
+    
+}
+
+.status-color-Draft:hover .status-color > div{
+    background-color: rgb(135, 171, 203);
+    color: #FFFFFF;
+}
+
+.status-color-Opened:hover .status-color > div {
+    background-color: rgb(93, 175, 115);
+    color: #FFFFFF;
+}
+
+.status-color-Closed:hover .status-color > div {
+    background-color: rgb(156, 166, 179);
+    color: #FFFFFF;
+}
+
+
+.meeting-in-list.status-color-Draft:hover {
+    background-color: rgb(151, 189, 222);
+}
+
+.meeting-in-list.status-color-Opened:hover  {
+    background-color: rgb(114, 193, 135);
+}
+
+.meeting-in-list.status-color-Closed:hover  {
+    background-color: rgb(175, 185, 197);
+}
+
+

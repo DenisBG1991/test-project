@@ -1,0 +1,38 @@
+<div class="wrapper">
+    <div class="row justify-content-center">
+        <div class="col col-auto">
+            <senat-label>
+                {{label}}
+            </senat-label>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-auto content-wrapper">
+            <ng-container *ngFor="let person of persons">
+
+                <ng-container [ngTemplateOutlet]="personTemplate || defaultPerson"
+                              [ngOutletContext]="{ $implicit: person }"></ng-container>
+
+            </ng-container>
+            <senat-person-not-selected *ngIf="persons?.length===0"></senat-person-not-selected>
+            <div class="person-picker" *ngIf="!disabled">
+                <senat-person-picker-1 [avatarPlaceholder]="avatarPlaceholder" [suggestions]="suggestions"
+                                       [multiple]="false" [confirmation]="false"
+                                       (queryChanged)="queryChanged.emit($event)" (selectItems)="select($event)"
+                                       [selected]="value"></senat-person-picker-1>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #defaultPerson let-person>
+    <div class="selected-person">
+        <senat-person-avatar [person]="person" [size]="76"
+                             [placeholder]="avatarPlaceholder"></senat-person-avatar>
+        <div class="text-center">
+            <span class="text-muted">{{person.lastName}} {{person.firstName | truncate: 1: '.'}}{{person.middleName | truncate: 1 : '.'}}</span>
+        </div>
+        <div class="remove-selected-person">
+            <senat-close-button *ngIf="!!person && !disabled" (click)="remove(person)"></senat-close-button>
+        </div>
+    </div>
+</ng-template>

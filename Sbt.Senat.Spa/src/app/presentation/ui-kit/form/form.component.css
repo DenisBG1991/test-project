@@ -1,0 +1,49 @@
+
+
+.senat-form-content {
+    position: relative;
+    background-color: #ffffff;
+}
+
+.senat-close-button {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    cursor: pointer;
+}
+
+.senat-form-inner-content {
+    overflow-y: auto;
+}
+
+.footer {
+    text-align: right;
+}
+
+.title {
+    color: #fff;
+    text-align: left;
+}
+
+.title, .footer {
+    padding: 10px;
+}
+
+.section-divider {
+    color: #474747;
+    width: calc(100% - 10px);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.title.blue {
+    background-color: #5081c1;
+}
+
+.title.green {
+    background-color: #18ce98;
+}
+
+.title.default {
+    color: #474747;
+}

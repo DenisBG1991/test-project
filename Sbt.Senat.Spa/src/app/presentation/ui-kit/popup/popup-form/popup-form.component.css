@@ -1,0 +1,26 @@
+.senat-form {
+    background: #FFFFFF;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch
+}
+
+.senat-form-header,
+.senat-form-content,
+.senat-form-footer {
+    padding: 20px;
+}
+
+.senat-form-header,
+.senat-form-footer {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.senat-form-content {
+    overflow-y: auto;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    flex-shrink: 1;
+}

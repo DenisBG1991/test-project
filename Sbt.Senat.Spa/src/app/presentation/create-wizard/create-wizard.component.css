@@ -1,0 +1,117 @@
+.wrapper {
+    min-height: 100%;
+    background: #FFFFFF;
+}
+
+.close-button {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border-width: 0;
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+    cursor: pointer;
+}
+
+.close-button span {
+    transition: background-color 0.3s;
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    top: 15px;
+    left: 6px;
+    background-color: #ff5137;
+}
+
+.close-button span:first-child {
+    transform: rotate(45deg);
+}
+
+.close-button span:last-child {
+    transform: rotate(-45deg);
+}
+
+.close-button:hover {
+    background-color: #ff5137;
+}
+
+.close-button:hover span{
+    background-color: #FFFFFF;
+}
+
+.header {
+    margin-bottom: 46px;
+}
+
+.description {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    color: #BFBFBF;
+    letter-spacing: 0;
+}
+
+.title {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    color: #3B3B3B;
+    letter-spacing: 0;
+    margin-top: 4px;
+}
+
+.type-card {
+    border: 1px solid transparent;
+    max-width: 400px;
+}
+
+.type-card:hover {
+    background: #FFFFFF;
+    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.10), 0 24px 24px 0 rgba(0, 0, 0, 0.03);
+}
+
+.type-card-header {
+    margin-top: 28px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    color: #BFBFBF;
+    letter-spacing: 0;
+}
+
+.type-icon-wrapper {
+    height: 280px;
+    text-align: center;
+}
+
+.issue-icon {
+    background-image: url('/assets/issue-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.type-card:hover .issue-icon {
+    background-image: url('/assets/issue-icon-hover.svg');
+}
+
+.meeting-icon {
+    background-image: url('/assets/meeting-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.type-card:hover .meeting-icon {
+    background-image: url('/assets/meeting-icon-hover.svg');
+}
+
+.type-card-footer {
+    margin-bottom: 65px;
+}
+
+.create-button {
+    width: 250px;
+}

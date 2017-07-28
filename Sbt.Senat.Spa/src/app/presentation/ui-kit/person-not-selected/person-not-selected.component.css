@@ -1,0 +1,9 @@
+.senat-person-not-selected {
+  border: 1px dashed #b7b9bd;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  box-sizing: border-box;
+  display: inline-block;
+  background: #fafbfb;
+}

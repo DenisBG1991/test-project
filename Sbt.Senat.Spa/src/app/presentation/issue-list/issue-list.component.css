@@ -1,0 +1,122 @@
+.issue-in-list {
+    cursor: pointer;
+    display: grid;
+    margin: 10px;
+    grid-template-columns: 1fr 300px 150px;
+    grid-template-rows: auto auto auto;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    grid-gap: 5px;
+    padding: 20px;
+
+}
+
+.issue-in-list:hover {
+    color: #FFFFFF;
+}
+
+.issue-in-list:hover a {
+    color: #FFFFFF;
+}
+
+.date {
+    margin-left: 5px;
+}
+
+
+.g-title {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.g-collegial-body {
+    grid-column: 1;
+    grid-row: 2;
+    font-weight: bold;
+}
+
+.g-status {
+    grid-column: 3;
+    grid-row: 1;
+
+    justify-self: end;
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+    color: #FFFFFF;
+    padding: 0 10px;
+    -ms-grid-column-align: end;
+    align-self: center;
+}
+
+.g-date {
+    grid-column: 1;
+    grid-row: 3;
+
+}
+
+.g-holding {
+    grid-column: 3;
+    grid-row: 3;
+    
+    padding: 0 10px;
+    color: rgb(180, 180, 180);
+    
+    justify-self: end;
+    align-self: end;
+    -ms-grid-column-align: end;
+    background-color: rgb(237, 237, 237);
+    border-radius: 4px;
+    width: auto;
+}
+
+.g-author {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    display: grid;
+    grid-template: auto/auto auto;
+    justify-content: left;
+    justify-self: left;
+    align-self: center;
+    align-content: center;
+}
+
+.g-author-avatar {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: 20px;
+}
+.g-author-name {
+    grid-column: 2;
+    grid-row: 1;
+}
+.g-author-name div {
+    padding-left: 5px;
+}
+
+.status-color-Preparing .status-color:not(.g-holding) {
+    background-color: rgb(169, 204, 234) !important;
+}
+
+.issue-in-list .status-color:not(.g-holding) {
+    background-color: rgb(168, 217, 181);
+}
+
+.status-color-Preparing:hover .status-color {
+    background-color: rgb(135, 171, 203) !important;
+    color: #FFFFFF;
+}
+
+.issue-in-list:hover .status-color {
+    background-color: rgb(93, 175, 115);
+    color: #FFFFFF;
+}
+
+.issue-in-list.status-color-Preparing:hover {
+    background-color: rgb(151, 189, 222) !important;;
+}
+
+.issue-in-list:hover {
+    background-color: rgb(114, 193, 135);
+}
+

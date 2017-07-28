@@ -1,0 +1,79 @@
+<div class="container pt-5">
+    <div class="row">
+        <div class="col col-auto">
+            <senat-dropdown [title]="'Комитет'" [isFilterActive]="!!_selectedCollegialBodyId">
+                <div class="m-md-1 form-group">
+                    <div>
+                        <a class="dropdown-item"
+                           (click)="selectCollegialBody()"
+                           [style.color]="_selectedCollegialBodyId ?  null : '#00d473'">Все</a>
+                        <div class="dropdown-divider"></div>
+                        <a *ngFor="let body of collegialBodies$ | async" class="dropdown-item"
+                           [style.color]="body.id === _selectedCollegialBodyId ? '#00d473': null"
+                           (click)="selectCollegialBody(body)">{{body.name}}</a>
+                    </div>
+                </div>
+            </senat-dropdown>
+        </div>
+        <div class="col col-auto">
+            <senat-dropdown [title]="'Название'" [isFilterActive]="!!filter.title">
+                <div class="m-md-1 form-group">
+                    <input [disabled]="loading$ | async" type="text" class="form-control" [(ngModel)]="filter.title"
+                           (ngModelChange)="onFilterChange($event)"/>
+                </div>
+            </senat-dropdown>
+        </div>
+        <div class="col col-auto">
+            <senat-dropdown [title]="'Дата заседания'" [isFilterActive]="!!filter.from || !!filter.to">
+                <div class="row m-md-1 form-group" style="width: 36em">
+                    <div class="col-md-6 col-md-auto form-group">
+                        <senat-calendar [disabled]="loading$ | async"
+                                        [placeholder]="'от'" [(ngModel)]="filter.from"
+                                        (ngModelChange)="onFilterChange($event)">
+                        </senat-calendar>
+                    </div>
+                    <div class="col-md-6 col-md-auto form-group pl-4">
+                        <senat-calendar [disabled]="loading$ | async"
+                                        [placeholder]="'до'" [(ngModel)]="filter.to"
+                                        (ngModelChange)="onFilterChange($event)">
+                        </senat-calendar>
+                    </div>
+                </div>
+            </senat-dropdown>
+        </div>
+        <div class="col col-auto">
+            <senat-dropdown [title]="'Докладчик'" [isFilterActive]="!!filter.speaker">
+                <div class="m-md-1 form-group">
+                    <input type="text" class="form-control" [(ngModel)]="filter.speaker"
+                           (ngModelChange)="onFilterChange($event)"/>
+                </div>
+            </senat-dropdown>
+        </div>
+        <div class="col col-auto">
+            <senat-dropdown [title]="'Тэги'" [menuAlign]="alignEnum.Right"
+                            [isFilterActive]="!!filter.labels && filter.labels?.length > 0">
+                <div class="m-md-1 form-group">
+                    <div>
+                        <senat-labels [(ngModel)]="filter.labels" (ngModelChange)="onFilterChange($event)"
+                                      [doNotSaveNew]="true"></senat-labels>
+                    </div>
+                </div>
+            </senat-dropdown>
+        </div>
+
+        <div class="col-md align-self-end">
+            <div class="row">
+                <div class="col-md-12 form-group text-right">
+                    <button *ngIf="!(loading$ | async)" class="btn btn-primary" (click)="reload()">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <button *ngIf="(loading$ | async)" class="btn btn-primary">
+                        <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary ml-1" (click)="clearFilters()"><i class="fa fa-times"
+                                                                                       aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

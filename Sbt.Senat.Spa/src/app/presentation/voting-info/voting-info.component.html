@@ -1,0 +1,11 @@
+<div class="btn-group btn-group-sm" role="group">
+    <button type="button" class="btn btn-secondary text-success" (click)="pressed.emit()">
+        {{voting.votesFor}}
+    </button>
+    <button type="button" class="btn btn-secondary text-warning" (click)="pressed.emit()">
+        {{voting.votesAbstain}}
+    </button>
+    <button type="button" class="btn btn-secondary text-danger" (click)="pressed.emit()">
+        {{voting.votesAgainst}}
+    </button>
+</div>

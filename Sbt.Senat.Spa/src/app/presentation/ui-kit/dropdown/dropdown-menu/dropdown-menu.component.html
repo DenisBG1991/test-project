@@ -1,0 +1,9 @@
+<div class="senat-dropdown-wrapper">
+    <button #toggleButton class="senat-dropdown-toggle btn btn-secondary" [ngClass]="{'senat-dropdown-toggle-pressed': expanded}"
+            (click)="toggle()">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <ul *ngIf="expanded" #menu class="senat-dropdown-menu" [ngClass]="'senat-dropdown-' + getDropdownOrientation()">
+        <ng-content></ng-content>
+    </ul>
+</div>

@@ -1,0 +1,5 @@
+<label class="custom-file">
+    <input type="file" id="file" class="custom-file-input" [multiple]="multiple"
+           (change)="selectFiles.emit($event.target.files)">
+    <button class="custom-file-control btn btn-secondary w-100">{{placeholder || 'добавить версию'}}</button>
+</label>

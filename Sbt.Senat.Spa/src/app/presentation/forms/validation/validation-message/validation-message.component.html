@@ -1,0 +1,5 @@
+<div class="form-control-feedback" *ngIf="formGroup && formControlName && showControlErrors()">
+    <ul>
+        <li *ngFor="let message of getControlErrorMessages()">{{message}}</li>
+    </ul>
+</div>

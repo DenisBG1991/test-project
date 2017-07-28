@@ -1,0 +1,30 @@
+﻿<senat-label *ngIf="label">{{label}}</senat-label>
+<div class="row align-items-start translation" *ngFor="let translation of model.translations; let last = last;">
+    <div class="col">
+        <senat-text-input *ngIf="!multiline" [(ngModel)]="translation.value" [placeholder]="placeholder"
+                          (blur)="onBlur()" (keyup)="onKeyUp($event)"></senat-text-input>
+        <senat-textarea *ngIf="multiline" [(ngModel)]="translation.value" autosize [placeholder]="placeholder"
+                        (blur)="onBlur()" (keyup)="onKeyUp($event)"></senat-textarea>
+        <div class="text-right">
+            <button *ngIf="last && canAddTranslation()" class="btn btn-link add-translation" (click)="addTranslation()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="ml-2">{{'добавить перевод'}}</span>
+            </button>
+        </div>
+    </div>
+    <div class="col col-auto">
+        <div class="dropdown btn-group">
+            <button class="btn btn-secondary dropdown-toggle border-0 px-2" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span>{{translation.locale | translate}}</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right text-center">
+                <a *ngFor="let locale of getOptions(translation)" class="dropdown-item"
+                   (click)="translation.locale = locale">{{locale}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col col-auto py-2" *ngIf="canRemoveTranslation()">
+        <senat-close-button (click)="removeTranslation(translation)"></senat-close-button>
+    </div>
+</div>

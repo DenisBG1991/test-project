@@ -1,0 +1,43 @@
+<div *ngFor="let group of groups">
+    <h6 class="my-4 text-muted">{{'meeting.agenda.participants.group.' + group.role | translate | uppercase}}</h6>
+    <div class="card card-block px-2" >
+        <div class="row" style="padding-left: 20px" *ngIf="!group.editable || readOnly">
+            <div class="col col-auto"
+                 *ngFor="let participant of ((participants | agendaItemParticipantFilter: [group.role]) | groupAlternates: group.role: meetingParticipants: persons)">
+                <senat-agenda-item-attendee [disabled]="readOnly"
+                                            [participant]="participant"
+                                            [attendeePreviousPresentsState]="provideAppropriatePreviousPresentsState(participant.person)"
+                                            [showRemoveBtn]="group.editable && !readOnly"
+                                            (checkIn)="onCheckIn($event)"
+                                            (checkOut)="onCheckOut($event)"
+                                            (remove)="removeParticipant.emit({participant: participant.self, role: group.role})">
+                </senat-agenda-item-attendee>
+            </div>
+        </div>
+        <div *ngIf="group.editable && !readOnly" class="row">
+            <div class="col col-auto">
+                <senat-person-picker-multiple
+                    [disabled]="readOnly"
+                    [suggestions]="suggestions"
+                    [ngModel]="participants | agendaItemParticipantFilter: [group.role] | toPersons"
+                    (selected)="addParticipant.emit({person: $event, role: group.role})"
+                    (queryChanged)="queryChanged.emit($event)">
+
+                    <ng-template #defaultPerson let-person>
+                        <div style="margin-left: 10px; margin-right: 20px;">
+                            <senat-agenda-item-attendee [participant]="findParticipant(person)"
+                                                        [attendeePreviousPresentsState]="provideAppropriatePreviousPresentsState(person)"
+                                                        [showRemoveBtn]="group.editable && !readOnly"
+                                                        (checkIn)="onCheckIn($event)"
+                                                        (checkOut)="onCheckOut($event)"
+                                                        (remove)="removeParticipant.emit({participant: findParticipant(person).self, role: group.role})">
+                            </senat-agenda-item-attendee>
+                        </div>
+                    </ng-template>
+
+                </senat-person-picker-multiple>
+
+            </div>
+        </div>
+    </div>
+</div>

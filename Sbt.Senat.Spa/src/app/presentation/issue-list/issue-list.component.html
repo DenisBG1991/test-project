@@ -1,0 +1,29 @@
+﻿<div *ngFor="let item of issues$ | async" class="issue-in-list" [ngClass]="'status-color-' + item.status"
+     (click)="navigateToIssue(item.id)">
+    <div class="g-title text-truncate">
+        {{item.title}}
+    </div>
+    <div class="g-collegial-body">
+        {{item.collegialBody.name}}
+    </div>
+    <div class="g-status status-color">
+        {{ 'issue.issueStatus.' + item?.status | translate }}
+    </div>
+    <div class="g-date">
+        <senat-label>{{'Дата создания:'}}</senat-label>
+        <span class="date">{{item.createDate | moment: 'D MMMM'}}</span>
+    </div>
+    <div class="g-author">
+        <div class="g-author-avatar">
+            <senat-person-avatar [size]="60" [person]="item.author">
+            </senat-person-avatar>
+        </div>
+        <div class="g-author-name">
+            <senat-label>{{'инициатор'}}</senat-label>
+            <div>
+                <span>{{item.author.lastName}} {{item.author.firstName | truncate: 1 : '.'}}{{item.author.middleName | truncate: 1 : '.'}}</span>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,9 @@
+.senat-approve-popup-container {
+    position: relative;
+}
+.senat-approve-popup {
+    position: absolute;
+    margin-left: -200px;
+    width: 300px;
+    z-index: 100;
+}

@@ -1,0 +1,12 @@
+<div [attr.id]="uniqueId" class="dropdown btn-group w-100">
+    <label *ngIf="title" class="text-muted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [style.color]="isFilterActive? '#00d473' : null ">{{title}}</label>
+    <button
+        class="btn btn-secondary btn-sm border-0"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-chevron-down mb-0" aria-hidden="true" [attr.class]="buttonClass"></i>
+        <!-- <span class="sr-only">Toggle Dropdown</span>-->
+    </button>
+    <div  class="dropdown-menu pr-2 pl-2" (click)="onClickInternal($event)" [style.right]="menuAlignRight" [style.left]="menuAlignLeft" [style.width]="menuWidth" >
+        <ng-content></ng-content>
+    </div>
+</div>

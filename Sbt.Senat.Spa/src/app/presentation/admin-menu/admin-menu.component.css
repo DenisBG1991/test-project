@@ -1,0 +1,60 @@
+.top-menu .navbar {
+    background-color: #50c171;
+}
+
+.admin-menu-band {
+    color: #ffffff;
+}
+
+.container {
+    width: 20%;
+    margin: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.left-bar {
+    height: 100vh;
+    background-color: #d5d5d5;
+}
+
+.orgUnits {
+    padding-left: 0;
+    margin-top: 5%;
+    font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.orgUnit {
+    padding-left: 5%;
+}
+
+.orgUnitWithChild {
+    padding-left: 0;
+}
+
+.orgUnitWithChild > a::before {
+    padding-right: 2%;
+    content: '\1433';
+}
+
+.orgUnitWithChild.showAllList > a:focus::before  {
+    padding-right: 2%;
+    content: '\142F';
+}
+
+.orgUnitWithChild > a:focus::before  {
+    padding-right: 2%;
+    content: '\1433';
+}
+
+.openList  + .companyUnis {
+    display: block;
+}
+
+.companyUnis {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: #3B3B3B;
+}

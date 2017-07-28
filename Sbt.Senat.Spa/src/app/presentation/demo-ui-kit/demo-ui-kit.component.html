@@ -1,0 +1,256 @@
+<div class="container">
+    <h1 class="text-center mt-5">
+        popup
+    </h1>
+    <hr>
+    <div>
+        <div class="grid-test">
+            <div class="item-1"></div>
+            <div class="item-2"></div>
+            <div class="item-3"></div>
+            <div class="item-4"></div>
+            <div class="item-5"></div>
+            <div class="item-6"></div>
+            <div class="item-7"></div>
+            <div class="item-8"></div>
+            <div class="item-9"></div>
+            <div class="item-10"></div>
+            <div class="item-11"></div>
+            
+        </div>
+        
+        <div class="row">
+            <div class="col-md text-center">
+                <senat-button (click)="popup1.show()">Click me</senat-button>
+                <senat-popup #popup1>
+                    <senat-popup-form>
+                        <header>
+                            Отправить на утверждение
+                        </header>
+                        <content>
+                            <div class="text-center">
+                                <senat-person-picker-single [label]="'утерждающий'"
+                                                            [suggestions]="persons"></senat-person-picker-single>
+                            </div>
+                        </content>
+                        <footer>
+                            <div class="row">
+                                <div class="col col-auto">
+                                    <senat-button [type]="buttonType.BlackOutline" (click)="popup1.hide()">
+                                        Отмена
+                                    </senat-button>
+                                </div>
+                                <div class="col col-auto">
+                                    <senat-button [type]="buttonType.Green" (click)="popup1.hide()">
+                                        Отправить
+                                    </senat-button>
+                                </div>
+                            </div>
+                        </footer>
+                    </senat-popup-form>
+                </senat-popup>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        buttons
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.GreenOutline">
+                    {{'GreenOutline'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.Green">
+                    {{'Green'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.GreenLight">
+                    {{'GreenLight'}}
+                </senat-button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.BlackOutline">
+                    {{'BlackOutline'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.White">
+                    {{'White'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.Grey">
+                    {{'Grey'}}
+                </senat-button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.PurpleMediumOutline">
+                    {{'PurpleMediumOutline'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.Red">
+                    {{'Red'}}
+                </senat-button>
+            </div>
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.Orange">
+                    {{'Orange'}}
+                </senat-button>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md text-center my-3">
+                <senat-button [type]="buttonType.Blue">
+                    {{'Blue'}}
+                </senat-button>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        text inputs
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md my-3">
+                <h5>text-input</h5>
+                <senat-text-input [id]="'text-1'" [label]="'label'" [placeholder]="'placeholder'"></senat-text-input>
+            </div>
+            <div class="col-md my-3">
+                <h5>text-input-with-icon</h5>
+                <senat-text-input-with-icon [id]="'text-2'" [label]="'label'">
+                    <i class="fa fa-clock" aria-hidden="true"></i>
+                </senat-text-input-with-icon>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md my-3">
+                <h5>textarea</h5>
+                <senat-textarea [id]="'text-3'" [label]="'Пояснительная часть'"
+                                [placeholder]="'Введите пояснительную часть'"
+                                [rows]="7"></senat-textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md my-3">
+                <h5>text-input-multilingual</h5>
+                <senat-multilingual-text-input [label]="'пояснительная часть'"
+                                               [placeholder]="'Введите пояснительную часть'"></senat-multilingual-text-input>
+            </div>
+            <div class="col-md my-3">
+                <h5>text-input-multilingual</h5>
+                <senat-multilingual-text-input [label]="'пояснительная часть'" [multiline]="true"
+                                               [placeholder]="'Введите пояснительную часть'"></senat-multilingual-text-input>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        date & time
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md my-3">
+                <h5>time-picker</h5>
+                <senat-time-picker></senat-time-picker>
+            </div>
+            <div class="col-md my-3">
+                <h5>date-picker</h5>
+                <senat-date-picker (ngModelChange)="log($event)" [format]="'DD.MM.YYYY'"></senat-date-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>date-time-picker</h5>
+                <senat-date-time-picker></senat-date-time-picker>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        labels
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>label-autocomplete</h5>
+                <senat-label-autocomplete [suggestions]="suggestionLabels"
+                                          [selected]="currentLabels"
+                                          [canCreateNewLabel]="true"></senat-label-autocomplete>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        collegial bodies
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>collegial-body-picker</h5>
+                <senat-collegial-body-picker [items]="displayCollegialBodies" [defaultValue]="'Все'"
+                                             (queryChanged)="filterCollegialBodies($event)"></senat-collegial-body-picker>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-5">
+        person pickers
+    </h1>
+    <hr/>
+    <div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>person-picker, single choice</h5>
+                <senat-person-picker [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                     [multiple]="false"></senat-person-picker>
+            </div>
+            <div class="col-md-6 my-3">
+                <h5>person-picker, multiple choice</h5>
+                <senat-person-picker [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                     [multiple]="true"></senat-person-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>person-picker, multiple choice with confirmation</h5>
+                <senat-person-picker [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                     [multiple]="true" [confirmation]="true"></senat-person-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>person-picker, single choice</h5>
+                <senat-person-picker-1 [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                       [multiple]="false"></senat-person-picker-1>
+            </div>
+            <div class="col-md-6 my-3">
+                <h5>person-picker, multiple choice</h5>
+                <senat-person-picker-1 [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                       [multiple]="true"></senat-person-picker-1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>person-picker, multiple choice with confirmation</h5>
+                <senat-person-picker-1 [avatarPlaceholder]="'assets/avatar-placeholder.png'" [suggestions]="persons"
+                                       [multiple]="true" [confirmation]="true"></senat-person-picker-1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 my-3">
+                <h5>person-picker-single</h5>
+                <senat-person-picker-single [label]="'инициатор'" [suggestions]="persons"></senat-person-picker-single>
+            </div>
+        </div>
+    </div>
+</div>

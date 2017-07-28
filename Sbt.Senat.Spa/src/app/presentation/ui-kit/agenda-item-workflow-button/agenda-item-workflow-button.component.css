@@ -1,0 +1,62 @@
+.senat-workflow-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    color: #808080;
+    
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.senat-workflow-button i {
+    padding: 11px 9px 11px 9px ;
+}
+
+.senat-workflow-button span {
+    padding: 11px 11px 11px 0;
+    letter-spacing: 0.5px;
+}
+
+.senat-workflow-button:hover {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.senat-workflow-button.senat-agenda-item-toremoved {
+    padding-left: 11px;
+    font-size: 9px;
+    color: #FF4646;
+}
+
+.senat-workflow-button.senat-agenda-item-toremoved span {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.senat-workflow-button.senat-agenda-item-tovoting,
+.senat-workflow-button.senat-agenda-item-toformalization,
+.senat-workflow-button.senat-agenda-item-toconsideration {
+    color: #3DBB90;
+}
+
+.senat-workflow-button.senat-agenda-item-tovoting:hover,
+.senat-workflow-button.senat-agenda-item-toformalization:hover,
+.senat-workflow-button.senat-agenda-item-toconsideration:hover {
+    color: #ffffff;
+    background-color: #3DBB90;
+}
+
+.senat-workflow-button.senat-agenda-item-toformalization.senat-workflow-button-green,
+.senat-workflow-button.senat-agenda-item-toconsideration.senat-workflow-button-green {
+    color: #ffffff;
+}
+
+.senat-workflow-button.senat-agenda-item-toformalization.senat-workflow-button-green:hover,
+.senat-workflow-button.senat-agenda-item-toconsideration.senat-workflow-button-green:hover {
+    color: #3DBB90;
+    background-color: #ffffff;
+}

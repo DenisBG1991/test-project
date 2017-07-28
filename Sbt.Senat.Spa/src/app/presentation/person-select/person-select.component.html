@@ -1,0 +1,35 @@
+<div class="dropdown">
+    <senat-material-button #dropdownBtn [type]="'add'" [size]="3"
+                           class="dropdown-toggle no-chevron" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false" (buttonPress)="expanded = !expanded">
+    </senat-material-button>
+    <div class="dropdown-menu" style="min-width: 20em;">
+        <div class="p-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="поиск..." [(ngModel)]="query"
+                       (ngModelChange)="queryChanged.emit(query)">
+                <div class="input-group-addon">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="text-center p-3" style="max-height: 30em; overflow-y: auto;">
+            <div *ngFor="let person of suggestions" class="row align-items-center">
+                <a class="col py-2 text-left dropdown-item"
+                   (click)="selectPerson.emit(person)">
+                    <i [style.visibility]="isSelected(person) ? 'visible' : 'hidden'"
+                       class="fa fa-check text-success align-middle" aria-hidden="true"></i>
+                    <senat-person-avatar class="align-middle" [person]="person" [size]="40">
+                    </senat-person-avatar>
+                    <span
+                        class="ml-2 text-truncate align-middle text-muted">
+                        <senat-highlight-text
+                            [text]="person.lastName + ' ' + person.firstName + ' ' + person.middleName"
+                            [highlight]="query"></senat-highlight-text>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

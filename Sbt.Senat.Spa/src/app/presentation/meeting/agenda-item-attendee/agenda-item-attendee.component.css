@@ -1,0 +1,18 @@
+.agenda-item-attendee {
+    width: 84px;
+    box-sizing: content-box;
+}
+.small {
+    position: absolute; 
+    bottom: 0; 
+    left: 50px;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    box-sizing: content-box;
+}
+.remove-selected-person {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

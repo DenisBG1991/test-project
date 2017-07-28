@@ -1,0 +1,20 @@
+<div>
+    <select [(ngModel)]="userRole.permissionLevel" (change)="refresh()">
+        <option *ngFor="let cb of (permissionLevels$ | async)" [value]="cb.value">{{cb.name}}</option>
+    </select>    
+    <select [(ngModel)]="userRole.holdingId" *ngIf="userRole.permissionLevel >= pl.Holding" (change)="refresh()">
+        <option *ngFor="let cb of (holdings$ | async)" [value]="cb.id">{{cb.name}}</option>
+    </select>
+    <select [(ngModel)]="userRole.companyId" *ngIf="userRole.permissionLevel >= pl.Company" (change)="refresh()">
+        <option *ngFor="let cb of (companies$ | async)" [value]="cb.id">{{cb.name}}</option>
+    </select>
+    
+    <select [(ngModel)]="userRole.collegialBodyId" *ngIf="userRole.permissionLevel === pl.CollegialBody.toString()">
+        <option *ngFor="let cb of (collegialBodies$ | async)" [value]="cb.id">{{cb.name}}</option>
+    </select>
+    <select [(ngModel)]="userRole.roleId">
+        <option *ngFor="let role of (roles$ | async)" [value]="role.id">{{role.name}}</option>
+    </select>
+    <button (click)="save($event)">{{ 'Создать'}}</button>
+    
+</div>

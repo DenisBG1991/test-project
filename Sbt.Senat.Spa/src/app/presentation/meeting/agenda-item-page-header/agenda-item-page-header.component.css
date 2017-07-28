@@ -1,0 +1,73 @@
+.to-meeting {
+    border: none;
+    background: transparent;
+    color: #5081c1;
+    font-weight: 600;
+    font-size: 14px;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.66px;
+    cursor: pointer;
+}
+
+
+.agenda-item-header {
+    display: grid;
+    align-items: center;
+    justify-items: start;
+    grid-template-columns: auto minmax(290px, 1fr) auto;
+    grid-template-rows: auto auto;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 10px 20px;
+}
+
+.date-month {
+    font-weight: bold;
+}
+
+.g-order {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+}
+.g-order h6 {
+    margin: 0;
+}
+.g-status {
+    grid-column: 3;
+    grid-row: 2;
+    padding: 0 10px;
+    align-self: center;
+    justify-self: end;    
+    -ms-grid-column-align: end;
+}
+.g-title {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    margin-left: 10px;
+}
+.g-remove-status-button {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: flex-end;
+    justify-self: end;
+    -ms-grid-column-align: end;
+}
+
+.g-status-buttons {
+    grid-row: 3;
+    grid-column: 1 / span 3;
+    display: flex;
+    justify-self: end;
+    -ms-grid-column-align: end;
+}
+
+.circle {
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.55em;
+    text-align: center;
+    border-radius: 50% !important;
+}

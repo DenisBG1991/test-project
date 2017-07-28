@@ -1,0 +1,116 @@
+.senat-top-menu {
+    background-image: linear-gradient(55deg, #45BE67 0%, #23B78C 100%);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+    color: #FFFFFF;
+    position: relative;
+}
+
+.senat-top-menu .row:first-child .col:first-child {
+    position: absolute;
+    left: -47px;
+}
+
+.senat-top-menu .row:first-child .col:last-child {
+    position: absolute;
+    right: -112px;
+}
+
+.senat-top-menu h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: 43px;
+    margin: 18px 0;
+    padding: 0 8px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul li {
+    display: inline-block;
+}
+
+ul li + li {
+    margin-left: 27px;
+}
+
+nav a {
+    display: block;
+    padding: 10px 8px;
+    border-bottom: 2px transparent;
+    color: #FFFFFF;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: capitalize;
+    opacity: 0.7;
+}
+
+nav a:hover, nav a:active {
+    text-decoration: none;
+}
+
+nav a:hover {
+    opacity: 1;
+}
+
+nav a.active {
+    border-bottom: 2px solid #fff;
+    opacity: 1;
+}
+
+button {
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    border-width: 0;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+    position: absolute;
+    bottom: -30px;
+    right: 15px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+button:hover {
+    background: #ECECEC;
+}
+
+button span:first-child {
+    position: absolute;
+    top: 15px;
+    left: 29px;
+    width: 2px;
+    height: 30px;
+    background: #474747;
+}
+
+button span:last-child {
+    position: absolute;
+    top: 29px;
+    left: 15px;
+    width: 30px;
+    height: 2px;
+    background: #474747;
+}
+
+.senat-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.senat-current-user {
+    margin-left: 50px;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}

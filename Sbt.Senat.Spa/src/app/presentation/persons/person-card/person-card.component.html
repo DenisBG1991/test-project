@@ -1,0 +1,10 @@
+<div style="position: relative; width: 76px; margin: auto;">
+    <senat-person-avatar [size]="76" [person]="person"></senat-person-avatar>
+    <senat-material-button [type]="'remove'" [size]="2" *ngIf="showRemoveBtn"
+                           (buttonPress)="removePersonClick($event)"
+                           style="position: absolute; left: 3.6em; top: 0;">
+    </senat-material-button>
+</div>
+<div class="text-center mt-2">
+    <span>{{person.lastName}} {{person.firstName | truncate: 1: '.'}}{{person.middleName | truncate: 1 : '.'}}</span>
+</div>

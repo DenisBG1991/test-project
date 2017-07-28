@@ -1,0 +1,176 @@
+.senat-button {
+  min-width: 200px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  font: 700 10px/18px 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: .1em;
+  text-align: center;
+}
+.senat-button:disabled {
+    cursor: default;
+    opacity: 0.8;
+}
+/* Needs for correct representation content despite of transition trick */
+.senat-button > span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Green*/
+.senat-button-green {
+  transition: background 0.3s, color 0.3s;
+  background: #67CB5C;
+  border: 1px solid #67CB5C;
+  color: #fff;
+}
+
+.senat-button-green:hover:enabled {
+    background: #fff;
+    color: #67CB5C;
+}
+ /* Green-outline*/
+.senat-button-green-outline {
+    transition: background 0.3s, color 0.3s;
+    background: #fff;
+    border: 1px solid #67CB5C;
+    color: #67CB5C;
+}
+
+.senat-button-green-outline:hover:enabled {
+    background: #67CB5C;
+    color: #fff;
+}
+
+/* Blue (with gradient)*/
+.senat-button-blue {
+    color: #fff;
+    position: relative;
+    background-image: linear-gradient(-90deg, #3bc6da 0%, #5081c2 100%);
+    border-width: 0;
+}
+/* Transition with gradient doesn't work with animation correctly. There are several ways to achieve this result.
+   This way using ::before pseudo-element with changable opacity of element*/
+.senat-button-blue::before {
+    background-image: linear-gradient(-90deg, #5081c2 0%, #3bc6da 100%);
+    position: absolute;
+    opacity: 0;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition-property: opacity;
+    transition-duration: 1s;
+    color: inherit;
+    border-radius: inherit;
+}
+
+.senat-button-blue:hover::before {
+    opacity: 1;
+}
+
+
+/* Red*/
+.senat-button-red {
+    transition: background 0.3s, color 0.3s;
+    background: #ff5137;
+    border: 1px solid #ff5137;
+    color: #fff;
+}
+
+.senat-button-red:hover:enabled {
+    background: #fff;
+    color: #ff5137;
+}
+/* White*/
+.senat-button-white {
+    transition: background 0.3s, color 0.3s;
+    background: #fff;
+    border: 1px solid #fff;
+    color: #474747; 
+}
+
+.senat-button-white:hover:enabled {
+    background: #ececec;
+    border: 1px solid #ececec;
+}
+
+/* Orange*/
+.senat-button-orange {
+    color: #fff;
+    position: relative;
+    background-image: linear-gradient(-90deg, #dab53b 0%, #ff841f 100%);
+    border-width: 0;
+}
+/* Transition with gradient doesn't work with animation correctly. There are several ways to achieve this result.
+   This way using ::before pseudo-element with changable opacity of element*/
+.senat-button-orange::before {
+    background-image: linear-gradient(-90deg, #ff841f 0%, #dab53b 100%);
+    position: absolute;
+    opacity: 0;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition-property: opacity;
+    transition-duration: 1s;
+    color: inherit;
+    border-radius: inherit;
+}
+
+.senat-button-orange:hover:enabled::before {
+    opacity: 1;
+}
+
+/* Green-Light*/
+.senat-button-green-light {
+    transition: background 0.3s, color 0.3s;
+    background: #00d473;
+    border: 1px solid #00d473;
+    color: #fff;
+}
+
+.senat-button-green-light:hover:enabled {
+    background: #fff;
+    color: #00d473;
+}
+
+/* Grey*/
+.senat-button-grey {
+    background: #ececec;
+    border: 1px solid #ececec;
+    color: #474747;
+}
+
+/* Black-outline*/
+.senat-button-black-outline {
+    transition: background 0.3s, color 0.3s;
+    background: #fff;
+    border: 1px solid #474747;
+    color: #474747;
+}
+
+.senat-button-black-outline:hover:enabled {
+    background: #474747;
+    color: #fff;
+}
+
+/* Purple-medium-outline*/
+ .senat-button-purple-medium-outline {
+     transition: background 0.3s, color 0.3s;
+     background: #fff;
+     border: 1px solid #fff;
+     color: #8d87da;
+ }
+
+.senat-button-purple-medium-outline:hover:enabled {
+    border: 1px solid #8d87da;
+    background: #8d87da;
+    color: #fff;
+}
+
+

@@ -1,0 +1,14 @@
+<div class="card senat-form-content">
+    <senat-close-button class="senat-close-button" (click)="closeForm()" [type]="closeButtonType.Black"></senat-close-button>
+    <div class="title" [ngClass]="titleColor">{{title}}</div>
+    <hr class="section-divider">
+    <div class="senat-form-inner-content" [style.height]="requiredFieldFormHeight + 'px'">
+        <ng-content></ng-content>
+    </div>
+    <hr class="section-divider">
+    <div class="footer">
+        <senat-button [type]="footerButtonColor" (click)="handleFooterClick()" [disabled]="footerButtonDisabled">
+            {{footerButtonTitle}}
+        </senat-button>
+    </div>
+</div>

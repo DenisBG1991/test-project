@@ -1,0 +1,65 @@
+<div class="wrapper">
+    <div class="row justify-content-center">
+        <div class="col col-auto">
+            <senat-label>
+                {{label}}
+            </senat-label>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-auto content-wrapper">
+            <ng-container *ngIf="person">
+                <div class="text-center selected-person">
+                    <senat-person-avatar [person]="person" [size]="80"
+                                          [placeholder]="avatarPlaceholder"></senat-person-avatar>
+                    <div class="remove-selected-person">
+                        <senat-close-button *ngIf="!!person" (click)="person = null"></senat-close-button>
+                    </div>
+                </div>
+            </ng-container>
+            <senat-person-not-selected *ngIf="!person"></senat-person-not-selected>
+
+            <div class="person-picker">
+                <senat-person-picker-1 [avatarPlaceholder]="avatarPlaceholder" [suggestions]="suggestions"
+                                       [multiple]="false" [confirmation]="false"
+                                       (queryChanged)="queryChanged.emit($event)" (selectItems)="select($event)"
+                                       [disabled]="!!person" [selected]="value"></senat-person-picker-1>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" *ngIf="person">
+        <div class="col col-auto">
+            <div class="text-center mt-2">
+                <span class="text-muted">{{person.lastName}} {{person.firstName | truncate: 1: '.'}}{{person.middleName | truncate: 1 : '.'}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--GRID LAYOUT-->
+<!--<div class="grid-layout-trick">-->
+    <!--<senat-label>-->
+        <!--{{label}}-->
+    <!--</senat-label>-->
+    <!--<div class="person-in-grid">-->
+        <!--<ng-container *ngIf="person">-->
+            <!--<div class="text-center selected-person">-->
+                <!--<senat-person-avatar1 [url]="person.pictureUrl" [size]="80"-->
+                                      <!--[placeholder]="avatarPlaceholder"></senat-person-avatar1>-->
+                <!--<div class="remove-selected-person">-->
+                    <!--<senat-close-button *ngIf="!!person" (click)="person = null"></senat-close-button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</ng-container>-->
+        <!--<senat-person-not-selected *ngIf="!person"></senat-person-not-selected>-->
+    <!--</div>-->
+    <!--<div class="person-picker-in-da-grid">-->
+        <!--<senat-person-picker-1 [avatarPlaceholder]="avatarPlaceholder" [suggestions]="suggestions"-->
+                               <!--[multiple]="false" [confirmation]="false"-->
+                               <!--(queryChanged)="queryChanged.emit($event)" (selectItems)="select($event)"-->
+                               <!--[disabled]="!!person" [selected]="value"></senat-person-picker-1>-->
+    <!--</div>-->
+    <!--<div class="person-full-name" *ngIf="person">-->
+    <!--<span class="text-muted">{{person.lastName}} {{person.firstName | truncate: 1: '.'}}{{person.middleName | truncate: 1 : '.'}}</span>-->
+    <!--</div>-->
+<!--</div>-->

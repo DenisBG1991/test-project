@@ -1,0 +1,143 @@
+﻿{
+    "app": {
+        "title": "Сенат"
+    },
+    "dialogs": {
+        "common": {
+            "buttons": {
+                "ok": "ОК",
+                "yes": "Да",
+                "no": "Нет",
+                "cancel": "Отмена"
+            }
+        }
+    },
+    "login": {
+        "username": "Логин",
+        "password": "Пароль",
+        "rememberMe": "запомнить меня",
+        "signIn": "войти",
+        "validation": {
+            "username": {
+                "required": "Необходимо ввести логин",
+                "minlength": "Логин должен быть длиннее 3-х символов"
+            },
+            "password": {
+                "required": "Необходимо ввести пароль"
+            }
+        }
+    },
+    "main": {
+        "dashboard": {
+            "title": "Дэшборд"
+        }
+    },
+    "meeting": {
+        "agenda": {
+            "workflow": {
+                "ToModification": "на доработку",
+                "ToConsideration": "на рассмотрение",
+                "ToVoting": "на голосование",
+                "ToFormalization": "на оформление",
+                "ToResolved": "закрыть",
+                "ToRemoved": "снять вопрос с рассмотрения"
+            },
+            "participants": {
+                "group": {
+                    "CollegialBodyMember": "Участники комитета",
+                    "Speaker": "Докладчики",
+                    "InvitedOnMeeting": "Приглашённые на заседание",
+                    "InvitedOnIssue": "Приглашённые на вопрос"
+                }
+            },
+            "project": {
+                "decision": {
+                    "Accepted": "Принят",
+                    "Declined": "Отклонён"
+                },
+                "actions": {
+                    "startVoting": "Начать голосование",
+                    "closeVoting": "Завершить голосование",
+                    "accept": "Принять",
+                    "decline": "Отклонить"
+                }
+            },
+            "status": {
+                "WaitingForConsideration": "подготовлен",
+                "OnConsideration": "на рассмотрении",
+                "OnModification": "отправлен на доработку",
+                "OnVoting": "на голосовании",
+                "OnFormalization": "на оформлении",
+                "Resolved": "закрыт",
+                "Removed": "снят"
+            }            
+        },
+        "meetingType": {
+            "Presentia": "Очное",
+            "Absentia": "Заочное"
+        },
+        "meetingStatus": {
+            "Draft": "В подготовке",
+            "Opened": "Открыто",
+            "Closed": "Закрыто"
+        },
+        "workflow": {
+            "ToOpened": "Открыть",
+            "ToClosed": "Закрыть"
+        },
+        "roleOnMeeting": {
+            "RegularMember": "постоянный участник",
+            "Secretary": "секретарь",
+            "Head": "председатель"
+        },
+        "edit": {
+            "num": "Номер",
+            "place": "Место",
+            "address": "Адрес",
+            "save": "Сохранить",
+            "attendanceType": "Тип",
+            "head": "Председатель",
+            "secretary": "Секретарь",
+            "collegialBody": "КО"
+        },
+        "view": {
+            "place": "Место"
+        },
+        "delete": {
+            "confirm": {
+                "message": "Вы дейстивтельно хотите удалить заседание?",
+                "header": "Удаление заседания"
+            }
+        },
+        "formMeetingProtocol" : "Сформировать протокол",
+        "downLoadMeetingProtocol": "Скачать протокол"
+    },
+    "issue": {
+        "issueStatus": {
+            "Draft": "Черновик",
+            "Preparing": "В подготовке",
+            "Ready": "Подготовлен",
+            "Planned": "Запланирован",
+            "InProgress": "Рассматривается",
+            "OnModification": "Дорабатывается",
+            "Closed": "Рассмотрен"
+        },
+        "workflow": {
+            "ToReady": "Завершить подготовку",
+            "ToPlanned": "На планирование",
+            "ToInProgress": "На рассмотрение",
+            "ToModification": "На доработку",
+            "ToClosed": "На закрытие"
+        },
+        "issueMaterialType": {
+            "Presentation": "Презентация",
+            "Other": "Другое",
+            "DecisionProject": "Проект решения"
+        },
+        "validation": {
+            "title": {
+                "required": "Пожалуйста, заполните заголовок вопроса"
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+<div class="card card-block senat-agenda-item-card"
+     [class.senat-active-issue]="agendaItem.status === agendaItemStatus.OnVoting"
+     [style.border]="isTargetDragDrop? '1px dashed green' : ''"
+     style="position: relative;"
+     draggable="true"
+     (click)="navigateToAgendaItem(agendaItem)">
+    <div class="row align-items-center">
+        <div class="col col-auto">
+            <h6 class="card senat-circle rounded-circle m-0">{{agendaItem.order}}</h6>
+        </div>
+        <div class="col text-truncate">
+            <div class="row">
+                <div class="col text-truncate">
+                    <senat-status-label [color]="calculateColorLabelStatus()">
+                        {{'meeting.agenda.status.' + agendaItem.status | translate}}
+                    </senat-status-label>
+                    <span>{{agendaItem.title}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="changeStateAllowed" class="col col-auto senat-agenda-item-workflow-buttons">
+            <senat-agenda-item-workflow-button class="mx-2"
+                                               *ngFor="let action of getActionsWithoutToRewoved(agendaItem.status)"
+                                               (click)="move(action, $event)"
+                                               [workflowAction]="action"
+                                               [isGreenBackbround]="agendaItem.status === agendaItemStatus.OnVoting">
+            </senat-agenda-item-workflow-button>
+        </div>
+    </div>
+    <senat-close-button-medium class="senat-remove-agenda-item-button" *ngIf="removeAllowed"
+                               (click)="clickRemoveButton($event)">
+    </senat-close-button-medium>
+    <senat-agenda-item-workflow-button *ngIf="isSupportToRemoved(agendaItem.status)"
+                                       class="senat-to-remove-status-agenda-item-button"
+                                       (click)="move(agendaItemWorkflowAction.ToRemoved, $event)"
+                                       [workflowAction]="agendaItemWorkflowAction.ToRemoved">
+    </senat-agenda-item-workflow-button>
+</div>

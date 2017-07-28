@@ -1,0 +1,39 @@
+<div *ngFor="let meeting of meetings$ | async" class="meeting-in-list" [ngClass]="'status-color-' + meeting.state"
+     (click)="navigateToMeeting(meeting.id)">
+    <div class="g-date-time">
+        <span class="date">{{meeting.date || meeting.startDate | moment: 'D MMMM'}}</span><span class="time"> {{meeting.date || meeting.startDate | date: 'shortTime'}}</span>
+    </div>
+    <div class="g-status-type">
+        <div class="status-type status-color">
+            <div>
+                <div *ngIf="meeting.type === 'Presentia'">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    Очное
+                </div>
+                <div *ngIf="meeting.type === 'Absentia'">
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    Заочное
+                </div>
+            </div>
+            <div>
+                {{'meeting.meetingStatus.' + meeting.state | translate}}
+            </div>
+        </div>
+    </div>
+    <div class="g-collegial-body">{{meeting.collegialBody.name}}</div>
+    <div class="g-meeting-num">
+        <span>{{'№ ' + meeting.num}}</span>
+    </div>
+    <div class="g-holding status-color">
+        <div>
+            ЦА
+        </div>
+    </div>
+</div>
+<div *ngIf="(canFetchMore | async)" class="row mt-4">
+    <div class="col text-center">
+        <button class="btn btn-secondary" (click)="fetchMore();">
+            {{'ещё'}}
+        </button>
+    </div>
+</div>

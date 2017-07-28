@@ -1,0 +1,17 @@
+<div class="card drop-zone m-3" [ngClass]="highlighted ? 'highlighted' : ''"
+     (drop)="onDrop($event)" (dragenter)="onDragEnter($event)" (dragover)="onDragOver($event)"
+     (dragleave)="onDragLeave($event)">
+    <div class="card-block">
+        <div class="row">
+            <div class="col m-2 text-center">
+                Перетащите сюда файлы с компьютера или воспользуйтесь
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <senat-file-select [multiple]="true" [placeholder]="'обычной загрузкой'"
+                                   (selectFiles)="selectFiles.emit($event)"></senat-file-select>
+            </div>
+        </div>
+    </div>
+</div>

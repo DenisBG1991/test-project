@@ -1,0 +1,11 @@
+.senat-navigate-back {
+    border: none;
+    background: transparent;
+    color: #5081c1;
+    font-weight: 600;
+    font-size: 14px;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.66px;
+    cursor: pointer;
+}

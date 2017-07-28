@@ -1,0 +1,25 @@
+<div class="senat-expandable">
+    <div class="row">
+        <div *ngIf="title" class="col mt-5">
+            <h5 *ngIf="elemCount > 0" class="mb-0 text-muted"> <a  data-toggle="collapse" [attr.data-target]="'#'+uniqueId" (click)="onFoldClick()">{{title}}</a></h5>
+            <h5 *ngIf="elemCount === 0" class="mb-0 text-muted">{{title}}</h5>
+        </div>
+        <div class="addition-area col-md-auto mt-7 text-right">
+            <ng-content select="[addition-area]"></ng-content>
+        </div>
+        <div class="col-md-auto mb-0 text-right align-self-end">
+           <button class="btn btn-secondary btn-sm border-0" *ngIf="isExpanded === true && elemCount > 0" data-toggle="collapse" [attr.data-target]="'#'+uniqueId" (click)="onFoldClick()">
+                <!--<span class="fa fa-angle-double-down" aria-hidden="true"></span>-->
+                <i class="fa fa-chevron-down mb-0" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-secondary btn-sm border-0" *ngIf="isExpanded === false && elemCount > 0" data-toggle="collapse" [attr.data-target]="'#'+uniqueId" (click)="onFoldClick()">
+               <!-- <span class="fa fa-angle-double-right" aria-hidden="true"></span>-->
+                <i class="fa fa-chevron-right mb-0" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <hr *ngIf="title" class="mt-1" />
+    <div class="expand-area" [attr.id]="uniqueId" [attr.class]= "elemCount > 0 ? 'collapse': 'cl'+uniqueId">
+        <ng-content select="[expand-area]"></ng-content>
+    </div>
+</div>

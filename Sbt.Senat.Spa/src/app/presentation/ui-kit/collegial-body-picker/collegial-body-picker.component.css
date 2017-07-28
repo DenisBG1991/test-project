@@ -1,0 +1,93 @@
+.senat-cb-picker {
+    position: relative;
+    cursor: pointer;
+}
+
+.senat-cb-picker-disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.senat-cb-picker div {
+    position: relative;
+}
+
+.senat-cb-picker input {
+    border: 1px solid rgba(110, 115, 122, 0.5);
+    cursor: inherit;
+    border-radius: 4px;
+    padding: 10px 13px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #474747;
+    background: #FFFFFF;
+    letter-spacing: 0.6px;
+    line-height: 17px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.senat-cb-picker input.expanded {
+    border-color: #6E737A;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.senat-cb-picker button {
+    cursor: inherit;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    background: transparent;
+    border: 0;
+    outline: none;
+    top: 11px;
+    right: 12px;
+    padding: 0;
+}
+
+.senat-cb-picker ul {
+    position: fixed;
+    margin: 0;
+    left: 0;
+    top: 43px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 5px 0 rgba(26, 26, 26, 0.30);
+    padding: 0;
+    border: 1px solid #6E737A;
+    border-top-width: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.senat-cb-picker li {
+    cursor: pointer;
+    list-style-type: none;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #474747;
+    letter-spacing: 0.6px;
+    line-height: 16px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    display: block;
+    background: rgba(109, 115, 121, 0.00);
+    width: 100%;
+    text-align: left;
+}
+
+.senat-cb-picker li:hover {
+    background: #67CB5C !important;
+    color: #ffffff !important;
+}
+
+.senat-cb-picker li.selected {
+    background: rgba(71, 71, 71, 0.10);
+    color: #000000;
+}
+

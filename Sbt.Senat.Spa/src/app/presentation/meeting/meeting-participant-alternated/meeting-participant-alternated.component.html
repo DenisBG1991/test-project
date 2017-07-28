@@ -1,0 +1,23 @@
+<div class="text-center">
+    <div style="width: 76px; margin-left: auto; margin-right: auto; position: relative;">
+        <senat-person-avatar [person]="participant.person" [size]="76"></senat-person-avatar>
+        <senat-person-avatar style="position: absolute; bottom: 0; left: 50px;"
+                             *ngIf="participant.alternates.length > 0" [person]="participant.alternates[0]" [size]="40">
+        </senat-person-avatar>
+    </div>
+</div>
+<div class="text-center mt-2">
+    <span>
+        {{participant.person.lastName}} {{participant.person.firstName | truncate: 1: '.'}}{{participant.person.middleName | truncate: 1 : '.'}}
+    </span>
+</div>
+<div *ngFor="let role of participant.self.roles | meetingParticipantRoles: ['Head', 'Secretary']" class="text-center">
+    <small class="text-muted">{{'meeting.roleOnMeeting.' + role | translate }}</small>
+</div>
+<div *ngIf="participant.alternates.length > 0" class="text-center">
+    <small class="text-muted">
+        {{participant.alternates[0].lastName}} {{participant.alternates[0].firstName | truncate: 1:
+        '.'}}{{participant.alternates[0].middleName | truncate: 1 : '.'}}
+    </small>
+</div>
+

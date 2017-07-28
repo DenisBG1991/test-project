@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-4 my-3">
+        <h6 class="text-muted mb-3">{{'проголосовали за' | uppercase}}</h6>
+        <div class="row" *ngFor="let vote of votesFor" class="my-2">
+            <div class="col">
+                <senat-vote [vote]="vote"></senat-vote>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 my-3">
+        <h6 class="text-muted mb-3">{{'воздержались' | uppercase}}</h6>
+        <div class="row" *ngFor="let vote of votesAbstain" class="my-2">
+            <div class="col">
+                <senat-vote [vote]="vote"></senat-vote>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 my-3">
+        <h6 class="text-muted mb-3">{{'проголосовали против' | uppercase}}</h6>
+        <div class="row" *ngFor="let vote of votesAgainst" class="my-2">
+            <div class="col">
+                <senat-vote [vote]="vote"></senat-vote>
+            </div>
+        </div>
+    </div>
+</div>

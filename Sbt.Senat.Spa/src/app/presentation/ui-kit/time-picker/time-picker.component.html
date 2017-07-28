@@ -1,0 +1,41 @@
+<div class="senat-time-input">
+    <div #input>
+        <senat-text-input-with-icon [readonly]="readonly" [disabled]="disabled"
+                                    [label]="label"
+                                    [ngModel]="timeSelected"
+                                    (click)="changeDropdownState()"
+                                    (blur)="onBlur()">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+        </senat-text-input-with-icon>
+    </div>
+    <ng-container  *ngIf="expanded">
+        <div #dropdown class="row time-dropdown px-0" [ngStyle]="calculateCoordinationStyle()">
+            <div class="col col-auto">
+                <div>
+                    <senat-label>
+                        Часы
+                    </senat-label>
+                </div>
+                <div class="time-input-click">
+                    <input #hours readonly="true" [ngModel]="_value? _value.getHours(): 12" data-min="0" data-max="23"
+                           data-step="1">
+                    <div class="btn-timer btn-timer-minus" (click)="decrementInputValue(hours)">-</div>
+                    <div class="btn-timer btn-timer-plus" (click)="incrementInputValue(hours)">+</div>
+                </div>
+            </div>
+            <div class="col col-auto">
+                <div>
+                    <senat-label>
+                        Минуты
+                    </senat-label>
+                </div>
+                <div class="time-input-click">
+                    <input #minutes readonly="true" [ngModel]="_value? _value.getMinutes(): 0" data-min="0"
+                           data-max="50" data-step="10">
+                    <div class="btn-timer btn-timer-minus" (click)="decrementInputValue(minutes)">-</div>
+                    <div class="btn-timer btn-timer-plus" (click)="incrementInputValue(minutes)">+</div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

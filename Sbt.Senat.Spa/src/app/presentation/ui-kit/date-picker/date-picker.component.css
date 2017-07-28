@@ -1,0 +1,109 @@
+.senat-calendar {
+    position: relative;
+}
+
+.senat-calendar-dropdown {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    min-width: 100px;
+    min-height: 100px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #6e737a;
+    padding: 8px 12px;
+    z-index: 500;
+}
+
+.senat-calendar-dropdown:before {
+    content: '';
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: none;
+    border-bottom: 9px solid #6e737a;
+    position: absolute;
+    top: -9px;
+    left: 9px;
+}
+
+.senat-calendar-dropdown:after {
+    content: '';
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: none;
+    border-bottom: 8px solid #fff;
+    position: absolute;
+    top: -8px;
+    left: 10px;
+}
+
+.senat-calendar-dropdown > div {
+    font: 14px "HelveticaNeueLight", sans-serif;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    height: 35px;
+    color: #474747;
+}
+
+.senat-calendar-dropdown > div button {
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.senat-calendar-dropdown > div button:hover {
+    background-color: #eee;
+    border-color: transparent;
+    color: inherit;
+}
+
+.senat-calendar-dropdown > div select {
+    border-radius: 4px;
+}
+
+table {
+    color: inherit;
+}
+
+th {
+    font: 10px "HelveticaNeueLight", sans-serif;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    height: 35px;
+    color: #474747;
+    min-width: 25px;
+    border: 0;
+}
+
+td {
+    text-align: center;
+    height: 26px;
+    font-size: 12px;
+    min-width: 26px;
+    border-radius: 13px;
+    border: 0;
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: #eee;
+    border-color: transparent;
+    color: inherit;
+}
+
+td.active {
+    cursor: default;
+    background-color: #ff5137;
+    color: #fff;
+}
+
+td.weekend {
+    opacity: 0.7;
+}
+
+td.off {
+    background-color: #fff;
+    border-color: transparent;
+    color: #999;
+}

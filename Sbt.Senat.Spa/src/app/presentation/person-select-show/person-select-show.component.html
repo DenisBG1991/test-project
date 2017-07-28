@@ -1,0 +1,13 @@
+<div class="row" *ngFor="let person of persons">
+    <senat-person-card [person]="person" (removePerson)="removePerson(person)" [showRemoveBtn]="showRemoveBtn" >
+
+    </senat-person-card>
+
+</div>
+<div class="row" *ngIf="multiple || !persons">
+    <div class="col col-auto my-3">
+        <senat-person-select [selected]="persons" [suggestions]="suggestions"
+                             (queryChanged)="queryChanged.emit($event)" (selectPerson)="select($event)">
+        </senat-person-select>
+    </div>
+</div>
