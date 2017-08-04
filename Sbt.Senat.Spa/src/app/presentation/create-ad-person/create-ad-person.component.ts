@@ -8,7 +8,6 @@ import {AppConfigInjectionToken, IAppConfig} from '@app/config';
 import {AdUserActions} from '@app/store/admin/ad-user/ad-user.actions';
 import {PermissionEnum} from '@app/store/permission';
 import {PermissionSelectors} from '@app/store/admin/permission/permission.selectors';
-import { Http } from '@angular/http';
 
 @Component({
     selector: 'senat-create-ad-person',
@@ -17,44 +16,32 @@ import { Http } from '@angular/http';
 })
 export class CreateAdPersonComponent implements OnInit {
 
-    private OrgUnits = [];
     query: string;
     selected: IAdUser;
     baseUrl: string;
-
     adUsers$: Observable<IAdUser[]> = this._ngRedux
         .select(x => x.adUsers
             .filter(f => !!this.query && (f.lastName + ' ' + f.firstName + ' ' + f.middleName)
                 .toLowerCase().includes((this.query || '').toLowerCase())));
 
-    adUser$: Observable<IAdUserDetailed> = this._ngRedux.select(x => x.adUsersDetailed.find(f => !!this.selected && f.adLogin === this.selected.adLogin));
+    adUser$: Observable<IAdUserDetailed> = this._ngRedux
+        .select(x => x.adUsersDetailed.find(f => !!this.selected && f.adLogin === this.selected.adLogin));
 
-    canCreate$: Observable<boolean> = this._ngRedux.select(x => !x.users.some(u => !!this.selected && u.authMethods && u.authMethods['ad'] === this.selected.adLogin));
+    canCreate$: Observable<boolean> = this._ngRedux
+        .select(x => !x.users.some(u => !!this.selected && u.authMethods && u.authMethods['ad'] === this.selected.adLogin));
 
-    hasCreatePermission$: Observable<boolean> = this._ngRedux.select(this._permissionSelectors.hasAnyPermissions([PermissionEnum.CreatePerson]));
+    hasCreatePermission$: Observable<boolean> = this._ngRedux
+        .select(this._permissionSelectors.hasAnyPermissions([PermissionEnum.CreatePerson]));
 
     constructor(private _ngRedux: NgRedux<IAdminState>, private _userActions: UserActions,
                 private _adUserActions: AdUserActions,
                 private _permissionSelectors: PermissionSelectors,
-                @Inject(AppConfigInjectionToken) appConfig: IAppConfig,
-                private http: Http) {
+                @Inject(AppConfigInjectionToken) appConfig: IAppConfig) {
         this.baseUrl = appConfig.api.baseUrl;
     }
 
 
     ngOnInit() {
-        /*
-        this._ngRedux.select(s => s.permissions).subscribe(permissions => {
-            console.log(permissions);
-            if (permissions.length !== 0) {
-                this.http.get(`${this.baseUrl}/api/v2.0/orgUnits`)
-                    .flatMap((data) => data.json())
-                    .subscribe((data) => {
-                        this.OrgUnits.push(data);
-                        console.log(data);
-                    });
-            }
-        });*/
     }
 
     findAdUsers(query: string) {

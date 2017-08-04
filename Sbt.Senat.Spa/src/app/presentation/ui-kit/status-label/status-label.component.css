@@ -31,3 +31,7 @@
 .senat-status-label.senat-status-label-opaque {
     background-color: rgba(255, 255, 255, 0.43);
 }
+
+.senat-status-label.senat-status-label-red {
+    background-color: #d9534f;
+}

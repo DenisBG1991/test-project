@@ -1,10 +1,11 @@
 import {
     controlsLayoutInitialState, IControlsLayoutState, IIssueLayoutState, ILoginLayoutState, issueLayoutInitialState,
-    loginLayoutInitialState
+    loginLayoutInitialState, MaterialsUploadingLayoutState
 } from '@app/store/layout/layout.types';
 import {SessionActions} from '@app/store/session/session.actions';
 import {ControlsLayoutActions} from '@app/store/layout/layout.actions';
 import {IssueActions} from '@app/store/issue';
+import {MaterialVersionActions} from '@app/store/material-version/material-version.actions';
 
 export function loginLayoutReducer(state: ILoginLayoutState = loginLayoutInitialState, action): ILoginLayoutState {
     switch (action.type) {
@@ -92,6 +93,20 @@ export function issueLayoutReducer(state: IIssueLayoutState = issueLayoutInitial
     }
 }
 
+export function materialsUploadingReducer(state: Array<MaterialsUploadingLayoutState> = [], action): Array<MaterialsUploadingLayoutState> {
+    switch (action.type) {
+        case MaterialVersionActions.IssueMaterialUploadProgress:
+            let newupload = state
+                .filter(f => f.upload && f.upload.file !== action.payload.upload.file);
+
+            if (action.payload.upload.progress >= 0) {
+                newupload = newupload.concat(action.payload);
+            }
+            return newupload;
+        default:
+            return state;
+    }
+}
 
 export function controlsLayoutReducer(state: IControlsLayoutState = controlsLayoutInitialState, action): IControlsLayoutState {
     switch (action.type) {

@@ -9,7 +9,6 @@ import { PermissionActions } from '@app/store/admin/permission/permission.action
 
 import { AppConfigInjectionToken, IAppConfig } from '@app/config';
 
-
 @Component({
     selector: 'senat-admin',
     templateUrl: './admin.component.html',

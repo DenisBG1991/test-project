@@ -1,6 +1,6 @@
 import {IPerson, IPersonRef} from '@app/store/person/person.model';
 import {AgendaItemStatus} from '@app/store/agenda-item/agenda-item-status.model';
-import {IAgendaItem, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
+import {IAgendaItem, IAgendaItemIdRef, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
 import {IAgendaItemParticipant, IParticipant} from '@app/store/agenda-item-participants/agenda-item-participant.model';
 import {AgendaItemParticipantRole} from '@app/store/agenda-item-participants/agenda-item-participant-role.model';
 import {IIssueRef} from '@app/store/issue';
@@ -9,14 +9,16 @@ import {MeetingParticipantRole} from '@app/store/meeting-participant/meeting-par
 import {IAgenda} from '@app/store/agenda/agenda.model';
 import {IMeetingRef} from '@app/store/meeting/meeting-ref.model';
 import {
-    IMeetingPresentia, MeetingType, IMeetingAbsentia,
-    IMeetingPresentiaMultilingual
+    IMeetingAbsentia,
+    IMeetingPresentia,
+    IMeetingPresentiaMultilingual,
+    MeetingType
 } from '@app/store/meeting/meeting.model';
 import {ICollegialBody} from '@app/store/collegial-body/collegial-body.model';
 import {IIssueMaterialFolder} from '@app/store/issue-material-folder/issue-material-folder.model';
 import {IMaterialVersion, IMaterialVersionRef} from '@app/store/material-version/material-version.model';
 import {IIssueMaterial} from '@app/store/issue-material/issue-material.model';
-import {MaterialType} from '@app/store/material/material-type.model';
+import {IssueMaterialType, MeetingMaterialType} from '@app/store/material/material-type.model';
 import {IVoting, IVotingRef} from '@app/store/voting/voting.model';
 import {IVote} from '@app/store/vote/vote.model';
 import {VoteType} from '@app/store/vote/vote-type.model';
@@ -24,6 +26,11 @@ import {MeetingStatus} from '@app/store/meeting/meeting-status';
 import {ICompanyRef} from '@app/store/company/company.model';
 import {IHoldingRef} from '@app/store/holding/holding.model';
 import {IDecision, IDecisionApproval} from '@app/store/decision/decision.model';
+import {IAgendaItemMaterialFolder} from '@app/store/agenda-item-material-folder/agenda-item-material-folder.model';
+import {IMaterialFolder} from '@app/store/material/material-folder.model';
+import {IMaterial} from '@app/store/material';
+import {IAgendaItemMaterial} from '@app/store/agenda-item-material/agenda-item-material.model';
+import {IMeetingMaterial} from '@app/store/meeting-material/meeting-material.model';
 
 export class Agenda implements IAgenda {
     meeting: IMeetingRef;
@@ -42,12 +49,14 @@ export class Agenda implements IAgenda {
 }
 
 export class AgendaItem implements IAgendaItem {
+    id: string;
     meeting: IMeetingRef;
     issue: IIssueRef;
     title: string;
     description: string;
     order: number;
     status: AgendaItemStatus;
+    approval: IDecisionApproval;
 
     static parse(dto): AgendaItem {
         if (!dto) {
@@ -55,21 +64,33 @@ export class AgendaItem implements IAgendaItem {
         }
 
         const item = new AgendaItem();
-
+        item.id = dto.id;
         item.issue = {
             id: dto.issue.id
         };
+        if (dto.meeting) {
+            item.meeting = {
+                id: dto.meeting.id
+            };
+        }
         item.order = dto.order;
-        item.status = dto.state; // TODO: parse enum
-        item.title = dto.issue.title;
-        item.description = dto.issue.description;
-
+        if (dto.issue.title) { // парсинг от старого сервиса
+            item.status = dto.state;
+            item.title = dto.issue.title;
+            item.description = dto.issue.description;
+            item.approval = DecisionApproval.parse(dto.approval);
+        } else { // парсинг от сервиса v2.0
+            item.status = dto.status;
+            item.title = dto.title;
+            item.description = dto.description;
+        }
         return item;
     }
 }
 
 export class AgendaItemParticipant implements IAgendaItemParticipant {
     agendaItem: IAgendaItemRef;
+    agendaItemId: IAgendaItemIdRef;
     person: IPersonRef;
     roles: AgendaItemParticipantRole[];
     presents: boolean;
@@ -145,7 +166,7 @@ export class DecisionApproval implements IDecisionApproval {
         }
 
         const decisionApproval = new DecisionApproval();
-        decisionApproval.approvingPerson = Person.parsePublic(dto.approvingPerson);
+        decisionApproval.approvingPerson = Person.parse(dto.approvingPerson);
         decisionApproval.approved = dto.approved;
         decisionApproval.approvedAt = dto.approvedAt;
 
@@ -157,6 +178,7 @@ export class Decision implements IDecision {
     id: string;
     materialVersion: IMaterialVersionRef;
     meeting: IMeetingRef;
+    issue: IIssueRef;
     accepted: boolean;
     approval: IDecisionApproval
 
@@ -170,6 +192,9 @@ export class Decision implements IDecision {
         decision.meeting = {
             id: dto.meeting.id
         }
+        decision.issue = {
+            id: dto.issue.id
+        }
         decision.materialVersion = MaterialVersionRef.parse(dto.decisionProjectVersion);
         decision.accepted = dto.type === 'Accepted';
 
@@ -179,49 +204,100 @@ export class Decision implements IDecision {
     }
 }
 
-export class IssueMaterialFolder implements IIssueMaterialFolder {
-    issue: IIssueRef;
+export abstract class MaterialFolder implements IMaterialFolder {
+
     name: string;
     location: string;
 
-    static parse(dto): IssueMaterialFolder {
+    static parse<T extends IMaterialFolder>(dto, c: new () => T): T {
         if (!dto) {
             return null;
         }
 
-        const folder = new IssueMaterialFolder();
+        const folder = new c();
         folder.name = dto.name;
-        folder.location = dto.location + '\\';
+        folder.location = dto.location !== undefined ? dto.location + '\\' : undefined;
 
         return folder;
     }
 }
 
-export class IssueMaterial implements IIssueMaterial {
+export class IssueMaterialFolder extends MaterialFolder implements IIssueMaterialFolder {
     issue: IIssueRef;
+
+    static parse(dto): IssueMaterialFolder {
+        return MaterialFolder.parse(dto, IssueMaterialFolder);
+    }
+}
+
+export class AgendaItemMaterialFolder extends MaterialFolder implements IAgendaItemMaterialFolder {
+    agendaItem: IAgendaItemIdRef;
+    issue: IIssueRef;
+    meeting: IMeetingRef;
+
+    static parse(dto): AgendaItemMaterialFolder {
+        return MaterialFolder.parse(dto, AgendaItemMaterialFolder);
+    }
+}
+
+export abstract class TypedMaterial implements IMaterial {
+
     id: string;
     location: string;
-    type: MaterialType;
     currentVersion: IMaterialVersionRef;
 
-    static parse(dto): IssueMaterial {
+    static parse<T extends IMaterial>(dto, c: new () => T): T {
         if (!dto) {
             return null;
         }
 
-        const material = new IssueMaterial();
+        const material = new c();
 
         material.id = dto.id;
-        material.location = dto.location + '\\';
-        material.type = dto.type;
+        material.location = dto.location !== undefined ? dto.location + '\\' : undefined;
         material.currentVersion = {
             id: dto.id,
-            num: dto.currentVersion.num
+            num: dto.currentVersion.num || dto.currentVersion.version
         };
 
         return material;
     }
+
 }
+
+export class IssueMaterial extends TypedMaterial implements IIssueMaterial {
+    issue: IIssueRef;
+    type: IssueMaterialType;
+
+    static parse(dto): IssueMaterial {
+        const material =  TypedMaterial.parse(dto, IssueMaterial);
+        material.type = dto.category || dto.type;
+        return material;
+    }
+}
+
+export class MeetingMaterial extends TypedMaterial implements IMeetingMaterial {
+    meeting: IMeetingRef;
+    type: MeetingMaterialType;
+
+    static parse(dto): MeetingMaterial {
+        const material = TypedMaterial.parse(dto, MeetingMaterial);
+        material.type = dto.type;
+        return material;
+    }
+}
+
+export class AgendaItemMaterial extends TypedMaterial implements IAgendaItemMaterial {
+    agendaItem: IAgendaItemIdRef;
+    type: IssueMaterialType;
+
+    static parse(dto): AgendaItemMaterial {
+        const material = TypedMaterial.parse(dto, AgendaItemMaterial);
+        material.type = dto.category || dto.type;
+        return material;
+    }
+}
+
 
 export class MaterialVersion implements IMaterialVersion {
     id: string;
@@ -238,7 +314,7 @@ export class MaterialVersion implements IMaterialVersion {
         const version = new MaterialVersion();
 
         version.id = dto.id;
-        version.num = dto.num;
+        version.num = (dto.num || dto.version);
         version.fileName = dto.fileName;
         version.createdBy = {
             id: dto.createdBy.id
@@ -402,22 +478,6 @@ export class Person implements IPerson {
     middleName: string;
     pictureUrl: string;
 
-    static parsePublic(dto): Person {
-        if (!dto) {
-            return null;
-        }
-
-        const person = new Person();
-
-        person.id = dto.id;
-        person.firstName = dto.firstName;
-        person.lastName = dto.lastName;
-        person.middleName = dto.middleName;
-        person.pictureUrl = dto.pictureUrl;
-
-        return person;
-    }
-
     static parse(dto): Person {
         if (!dto) {
             return null;
@@ -426,11 +486,17 @@ export class Person implements IPerson {
         const person = new Person();
 
         person.id = dto.id;
-        person.firstName = dto.info.firstName;
-        person.lastName = dto.info.lastName;
-        person.middleName = dto.info.middleName;
-        person.pictureUrl = dto.info.profileUrl;
-
+        if (dto.info) {
+            person.firstName = dto.info.firstName;
+            person.lastName = dto.info.lastName;
+            person.middleName = dto.info.middleName;
+            person.pictureUrl = dto.info.profileUrl;
+        } else {
+            person.firstName = dto.firstName;
+            person.lastName = dto.lastName;
+            person.middleName = dto.middleName;
+            person.pictureUrl = dto.pictureUrl;
+        }
         return person;
     }
 }

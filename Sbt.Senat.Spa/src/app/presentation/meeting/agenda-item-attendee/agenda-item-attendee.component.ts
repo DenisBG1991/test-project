@@ -17,9 +17,6 @@ export class AgendaItemAttendeeComponent implements OnInit {
     participant: { self: IAgendaItemParticipant, alternateParticipants: Array<IParticipant>, person: IPerson, alternates: Array<IPerson> };
 
     @Input()
-    attendeePreviousPresentsState: boolean;
-
-    @Input()
     showRemoveBtn = true;
 
     @Input()
@@ -92,6 +89,7 @@ export class AgendaItemAttendeeComponent implements OnInit {
         }
         const alternate: IAgendaItemParticipant = {
             agendaItem: this.participant.self.agendaItem,
+            agendaItemId: this.participant.self.agendaItemId,
             roles: this.participant.self.roles,
             person: this.firstAlternate.person,
             presents: true

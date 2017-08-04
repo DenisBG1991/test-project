@@ -1,14 +1,11 @@
 import {NgRedux} from '@angular-redux/store';
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
+import {IAgendaItem, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
 import {DecisionActions} from '@app/store/decision/decision.actions';
 import {IDecision, IDecisionRef} from '@app/store/decision/decision.model';
-import {IssueMaterialActions} from '@app/store/issue-material/issue-material.actions';
 import {IMaterialRef} from '@app/store/material';
 import {MaterialVersionActions} from '@app/store/material-version/material-version.actions';
 import {IMaterialVersion, IMaterialVersionRef} from '@app/store/material-version/material-version.model';
-import {MaterialType} from '@app/store/material/material-type.model';
-import {MeetingParticipantActions} from '@app/store/meeting-participant/meeting-participant.actions';
+import {IssueMaterialType} from '@app/store/material/material-type.model';
 import {IMeetingParticipant} from '@app/store/meeting-participant/meeting-participant.model';
 import {PermissionEnum} from '@app/store/permission';
 import {PermissionSelectors} from '@app/store/permission/permission.selectors';
@@ -19,14 +16,21 @@ import {IVote} from '@app/store/vote/vote.model';
 import {VotingActions} from '@app/store/voting/voting.actions';
 import {IVoting, IVotingRef} from '@app/store/voting/voting.model';
 import {Observable} from 'rxjs/Observable';
-
+import {AgendaItemMaterialActions} from '@app/store/agenda-item-material/agenda-item-material.actions';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/publishReplay';
 @Component({
     selector: 'senat-agenda-item-projects',
     templateUrl: './agenda-item-projects.component.html',
     styleUrls: ['./agenda-item-projects.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AgendaItemProjectsComponent implements OnInit {
+export class AgendaItemProjectsComponent implements OnInit, OnDestroy {
+
+    @Input()
+    canChangeState: boolean;
 
     @Input()
     agendaItem: IAgendaItemRef;
@@ -41,54 +45,66 @@ export class AgendaItemProjectsComponent implements OnInit {
      */
     votingExpanded: IVotingRef;
 
-    //noinspection JSUnusedGlobalSymbols
-    /**
-     * Проекты данного вопроса.
-     */
-    projects$: Observable<Array<{
-        currentVersion: {
-            self: IMaterialVersion,
-            createdBy: IPerson
-        },
-        voting: IVoting,
-        decision: IDecision
-    }>>;
+    votingExpanded$ = new Subject<IVotingRef>();
+
+    projectExpanded$ = new Subject<IMaterialRef>();
+
+// agendaItem$ загружается из родительского компонента
+    agendaItem$: Observable<IAgendaItem> = this._ngRedux.select(x => x.agendaItems)
+        .map(ai => ai.find(
+            x => !!x.id &&
+            x.issue.id === this.agendaItem.issue.id &&
+            x.meeting.id === this.agendaItem.meeting.id))
+        .filter(f => !!f);
+
+
+    agendaItemStatus$ = this.agendaItem$.map(x => x.status);
 
     canEdit$: Observable<boolean>;
     //noinspection JSUnusedGlobalSymbols
     /**
      * Голоса по текущему проекту.
-     * get() здесь необходим, т.к. this.votingExpanded может меняться.
      */
-    get votes$(): Observable<Array<{ self: IVote, createdBy: IPerson, owner: IPerson }>> {
-        return this._ngRedux.select(x => this.votingExpanded
-            ? x.votes.filter(v => v.voting.id === this.votingExpanded.id)
+    votes$: Observable<Array<{ self: IVote, createdBy: IPerson, owner: IPerson }>> = Observable.combineLatest(
+        this.votingExpanded$,
+        this._ngRedux.select(x => x.votes),
+        this._ngRedux.select(x => x.persons),
+        (ve, xv, xp) => {
+            if (!ve) {
+                return [];
+            }
+            return xv.filter(v => v.voting.id === ve.id)
                 .map(v => {
                     return {
                         self: v,
-                        createdBy: x.persons.find(p => p.id === v.createdBy.id),
-                        owner: x.persons.find(p => p.id === v.owner.id)
+                        createdBy: xp.find(p => p.id === v.createdBy.id),
+                        owner: xp.find(p => p.id === v.owner.id)
                     };
                 })
-            : []);
-    }
+        });
+
 
     //noinspection JSUnusedGlobalSymbols
     /**
      * Версии текущего материала с голосованиями по ним (если есть).
-     * get() здесь необходим, т.к. this.projectExpanded может меняться.
      */
-    get versions$(): Observable<Array<{ self: IMaterialVersion, createdBy: IPerson, voting: IVoting }>> {
-        return this._ngRedux.select(x =>
-            this.projectExpanded
-                ? x.materialVersions
-                .filter(v => v.id === this.projectExpanded.id)
+    versions$: Observable<Array<{ self: IMaterialVersion, createdBy: IPerson, voting: IVoting }>> = Observable.combineLatest(
+        this.projectExpanded$,
+        this.agendaItem$,
+        this._ngRedux.select(x => x.materialVersions),
+        this._ngRedux.select(x => x.votings),
+        this._ngRedux.select(x => x.persons),
+        (ve, ai, xmv, xv, xp) => {
+            if (!ve || !ai) {
+                return [];
+            }
+            return xmv.filter(v => v.id === ve.id)
                 .map(v => {
                     return {
                         self: v,
-                        createdBy: x.persons.find(p => p.id === v.createdBy.id),
-                        voting: x.votings.find(voting =>
-                        voting.meeting.id === this.agendaItem.meeting.id &&
+                        createdBy: xp.find(p => p.id === v.createdBy.id),
+                        voting: xv.find(voting =>
+                        voting.meeting.id === ai.meeting.id &&
                         voting.subject.id === v.id &&
                         voting.subject.num === v.num)
                     };
@@ -101,39 +117,102 @@ export class AgendaItemProjectsComponent implements OnInit {
                         return 1;
                     }
                     return 0;
-                })
-                : []);
-    }
+                });
+
+        })
+        .filter(f => !!f && f.length > 0)
+        .publishReplay(1)
+        .refCount();
+
 
     //noinspection JSUnusedGlobalSymbols
     /**
      * Текущий участник заседания.
      */
-    get currentPerson$(): Observable<IPerson> {
-        return this._ngRedux.select(x => {
-            return x.persons.find(p => !!x.currentUser && p.id === x.currentUser.id);
-        });
-    }
+    currentPerson$: Observable<IPerson> = Observable.combineLatest(
+        this._ngRedux.select(x => x.persons),
+        this._ngRedux.select(x => x.currentUser),
+        (xp, xcu) => xp.find(p => !!xcu && p.id === xcu.id));
+
 
     //noinspection JSUnusedGlobalSymbols
     /**
      * Список участников заседания (для ручного ввода голосов).
      */
-    participants$: Observable<Array<{ self: IMeetingParticipant, person: IPerson, alternates: Array<IPerson> }>> =
-        this._ngRedux.select(x => x.meetingParticipants
-            .filter(p => p.meeting.id === this.agendaItem.meeting.id)
-            .map(p => {
-                return {
-                    self: p,
-                    person: x.persons.find(pp => pp.id === p.person.id),
-                    alternates: p.alternates.map(a => x.persons.find(person => person.id === a.id))
-                };
-            }));
+    participants$: Observable<Array<{ self: IMeetingParticipant, person: IPerson, alternates: Array<IPerson> }>> = Observable.combineLatest(
+        this.agendaItem$,
+        this._ngRedux.select(x => x.meetingParticipants),
+        this._ngRedux.select(x => x.persons),
+        (ai, xmp, xp) =>
+            xmp.filter(p => p.meeting.id === ai.meeting.id)
+                .map(p => {
+                    return {
+                        self: p,
+                        person: xp.find(pp => pp.id === p.person.id),
+                        alternates: p.alternates.map(a => xp.find(person => person.id === a.id))
+                    };
+                }));
+
+
+//noinspection JSUnusedGlobalSymbols
+    /**
+     * Проекты данного вопроса.
+     */
+    projects$: Observable<Array<{
+        currentVersion: {
+            self: IMaterialVersion,
+            createdBy: IPerson
+        },
+        voting: IVoting,
+        decision: IDecision
+    }>> = Observable.combineLatest(
+        this.agendaItem$,
+        this._ngRedux.select(x => x.agendaItemMaterials),
+        this._ngRedux.select(x => x.materialVersions),
+        this._ngRedux.select(x => x.votings),
+        this._ngRedux.select(x => x.decisions),
+        this._ngRedux.select(x => x.persons),
+        (xai, xaim, xmv, xv, xd, xp) => {
+            if (!xai || !xaim || !xmv) {
+                return [];
+            }
+            const res = xaim.filter(x => xai && x.agendaItem.id === xai.id && x.type === IssueMaterialType.DecisionProject)
+                .map(m => {
+                    const currentVersion = xmv
+                        .find(v => v.id === m.currentVersion.id && v.num === m.currentVersion.num);
+                    return {
+                        currentVersion: {
+                            self: currentVersion,
+                            createdBy: xp.find(p => p.id === currentVersion.createdBy.id)
+                        },
+                        voting: xv.find(v => {
+                            return v.meeting.id === this.agendaItem.meeting.id &&
+                                v.subject.id === m.currentVersion.id &&
+                                v.subject.num === m.currentVersion.num;
+                        }),
+                        decision: xd.find(d => d.materialVersion.id === m.currentVersion.id &&
+                            d.materialVersion.num === m.currentVersion.num &&
+                            d.meeting.id === this.agendaItem.meeting.id
+                        )
+                    };
+                })
+                .sort((one, two) => {
+                    if (one.currentVersion.self.fileName > two.currentVersion.self.fileName) {
+                        return 1;
+                    }
+                    if (one.currentVersion.self.fileName < two.currentVersion.self.fileName) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            return res;
+        });
+
+    private _subscriptions: Subscription[];
 
     constructor(private _ngRedux: NgRedux<IAppState>,
-                private _issueMaterialActions: IssueMaterialActions,
+                private _agendaMaterialActions: AgendaItemMaterialActions,
                 private _materialVersionActions: MaterialVersionActions,
-                private _meetingParticipantActions: MeetingParticipantActions,
                 private _voteActions: VoteActions,
                 private _votingActions: VotingActions,
                 private _decisionActions: DecisionActions,
@@ -143,43 +222,22 @@ export class AgendaItemProjectsComponent implements OnInit {
     ngOnInit() {
 
         this.canEdit$ = this.hasPermission$(PermissionEnum.EditMeeting);
-        this._ngRedux.dispatch(this._issueMaterialActions.loadDecisionProjects(this.agendaItem.issue));
+
+        this._subscriptions = [
+            this.agendaItem$.subscribe(agendaItem => {
+                this._ngRedux.dispatch(this._agendaMaterialActions.loadDecisionProjects(
+                    agendaItem,
+                    this.agendaItem.issue,
+                    this.agendaItem.meeting));
+            })];
+
+
         this._ngRedux.dispatch(this._votingActions.loadAgendaItemVotings(this.agendaItem));
-        // для ролевой модели голосовалки
-        // теперь загружается в agendaItem
-        // this._ngRedux.dispatch(this._meetingParticipantActions.loadMeetingParticipants(this.agendaItem.meeting));
 
-        this.projects$
-            = this._ngRedux.select(x => x.issueMaterials
-            .filter(m => m.issue.id === this.agendaItem.issue.id && m.type === MaterialType.DecisionProject)
-            .map(m => {
-                const currentVersion = x.materialVersions.find(v => v.id === m.currentVersion.id && v.num === m.currentVersion.num);
-                return {
-                    currentVersion: {
-                        self: currentVersion,
-                        createdBy: x.persons.find(p => p.id === currentVersion.createdBy.id)
-                    },
-                    voting: x.votings.find(v => {
-                        return v.meeting.id === this.agendaItem.meeting.id &&
-                            v.subject.id === m.currentVersion.id &&
-                            v.subject.num === m.currentVersion.num;
-                    }),
-                    decision: x.decisions.find(d => d.materialVersion.id === m.currentVersion.id &&
-                        d.materialVersion.num === m.currentVersion.num &&
-                        d.meeting.id === this.agendaItem.meeting.id
-                    )
-                };
-            })
-            .sort((one, two) => {
-                if (one.currentVersion.self.fileName > two.currentVersion.self.fileName) {
-                    return 1;
-                }
-                if (one.currentVersion.self.fileName < two.currentVersion.self.fileName) {
-                    return -1;
-                }
-                return 0;
-            }));
+    }
 
+    ngOnDestroy() {
+        this._subscriptions.forEach(x => x.unsubscribe());
     }
 
     /**
@@ -189,10 +247,12 @@ export class AgendaItemProjectsComponent implements OnInit {
     toggleVersions(material: IMaterialRef) {
         if (this.projectExpanded && this.projectExpanded.id === material.id) {
             this.projectExpanded = null;
+            this.projectExpanded$.next(null);
             return;
         }
 
         this.projectExpanded = material;
+        this.projectExpanded$.next(material);
         // загружаем версии материала только при условии, что текущая версия > 1
         // и среди загруженных версий материала присутствует только одна (последняя) версия
         if (this._ngRedux.getState().materialVersions.filter(v => v.id === material.id).length === 1) {
@@ -219,11 +279,13 @@ export class AgendaItemProjectsComponent implements OnInit {
     toggleVotes(voting: IVotingRef) {
         if (this.votingExpanded && this.votingExpanded.id === voting.id) {
             this.votingExpanded = null;
+            this.votingExpanded$.next(null);
             return;
         }
 
         this.votingExpanded = voting;
         this._ngRedux.dispatch(this._voteActions.loadVotes(voting));
+        this.votingExpanded$.next(voting);
     }
 
     createVote(vote: IVote) {

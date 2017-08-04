@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from '@app/services/api/api.service';
 import {IAgenda} from '@app/store/agenda/agenda.model';
-import {IAgendaItem, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
+import {IAgendaItem, IAgendaItemIdRef, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
 import {Agenda, AgendaItem, AgendaItemParticipant, Person} from '@app/services/api/mapping.types';
 import {Observable} from 'rxjs/Observable';
 import {IAgendaItemParticipant} from '@app/store/agenda-item-participants/agenda-item-participant.model';
@@ -43,45 +43,44 @@ export class AgendaService extends ApiService {
      * Возвращает отдельный вопрос повестки.
      * @param agendaItem
      */
-    getAgendaItem(agendaItem: IAgendaItemRef): Observable<{
-        agendaItem: IAgendaItem,
-        participants: Array<IAgendaItemParticipant>,
-        persons: Array<IPerson>
-    }> {
-        return this.http.get(`api/web/meetings/${agendaItem.meeting.id}/agenda/${agendaItem.issue.id}`,
+    getAgendaItem(agendaItem: IAgendaItemRef): Observable<IAgendaItem> {
+        return this.http.get(`api/v2.0/agendaItems?issueId=${agendaItem.issue.id}&meetingId=${agendaItem.meeting.id}`,
             this.defaultRequestOptions)
             .map(response => {
-                const dto = response.json();
-
-                // TODO: избавиться от _discriminator в пользу "type", например
-                const presentia = dto._discriminator === 'AgendaItemInPresentiaDto';
+                const dto = response.json().items[0];
 
                 const item = AgendaItem.parse(dto);
                 item.meeting = {
                     id: agendaItem.meeting.id // TODO: добавить в response meetingRef
                 };
 
-                const participants = presentia ? dto.participants.map(x => AgendaItemParticipant.parse(x)) : [];
+                return item;
+            });
+    }
+
+    getAgendaItemParticipants(agendaItemId: IAgendaItemIdRef, agendaItem: IAgendaItemRef): Observable<{
+        participants: Array<IAgendaItemParticipant>,
+        persons: Array<IPerson>
+    }> {
+        return this.http.get(`api/v2.0/agendaItems/${agendaItemId.id}/participants`,
+            this.defaultRequestOptions)
+            .map(response => {
+                const participants: IAgendaItemParticipant[] = response.json().map(dto => AgendaItemParticipant.parse(dto));
                 participants.forEach(p => {
-                    p.agendaItem = {
-                        meeting: {
-                            id: agendaItem.meeting.id
-                        },
-                        issue: {
-                            id: agendaItem.issue.id
-                        }
-                    };
+                    p.agendaItemId = agendaItemId;
+                    p.agendaItem = agendaItem;
                 });
 
-                const persons = presentia ? dto.participants.map(x => Person.parse(x)) : [];
+                const persons: IPerson[] = response.json().map(dto => Person.parse(dto));
 
                 return {
-                    agendaItem: item,
                     participants: participants,
                     persons: persons
                 };
+
             });
     }
+
 
     /**
      * Перемещение вопроса в повестке (изменение номера в повестке).
@@ -129,14 +128,8 @@ export class AgendaService extends ApiService {
                 const dto = response.json();
 
                 const participantUpdated = AgendaItemParticipant.parse(dto);
-                participantUpdated.agendaItem = {
-                    meeting: {
-                        id: participant.agendaItem.meeting.id
-                    },
-                    issue: {
-                        id: participant.agendaItem.issue.id
-                    }
-                };
+                participantUpdated.agendaItem = participant.agendaItem;
+                participantUpdated.agendaItemId = participant.agendaItemId;
 
                 const person = Person.parse(dto);
 
@@ -159,14 +152,8 @@ export class AgendaService extends ApiService {
                 const dto = response.json();
 
                 const participantUpdated = AgendaItemParticipant.parse(dto);
-                participantUpdated.agendaItem = {
-                    meeting: {
-                        id: participant.agendaItem.meeting.id
-                    },
-                    issue: {
-                        id: participant.agendaItem.issue.id
-                    }
-                };
+                participantUpdated.agendaItem = participant.agendaItem;
+                participantUpdated.agendaItemId = participant.agendaItemId;
 
                 const person = Person.parse(dto);
 
@@ -177,7 +164,7 @@ export class AgendaService extends ApiService {
             });
     }
 
-    addAgendaItemSpeaker(agendaItem: IAgendaItemRef, person: IPerson): Observable<{
+    addAgendaItemSpeaker(agendaItem: IAgendaItemRef, agendaItemId: IAgendaItemIdRef, person: IPerson): Observable<{
         participant: IAgendaItemParticipant,
         person: IPerson
     }> {
@@ -191,14 +178,8 @@ export class AgendaService extends ApiService {
                 const dto = response.json();
 
                 const participantUpdated = AgendaItemParticipant.parse(dto);
-                participantUpdated.agendaItem = {
-                    meeting: {
-                        id: agendaItem.meeting.id
-                    },
-                    issue: {
-                        id: agendaItem.issue.id
-                    }
-                };
+                participantUpdated.agendaItem = agendaItem;
+                participantUpdated.agendaItemId = agendaItemId;
 
                 const personUpdated = Person.parse(dto);
 
@@ -217,7 +198,7 @@ export class AgendaService extends ApiService {
             });
     }
 
-    addAgendaItemInvitedPerson(agendaItem: IAgendaItemRef, person: IPerson): Observable<{
+    addAgendaItemInvitedPerson(agendaItem: IAgendaItemRef, agendaItemId: IAgendaItemIdRef, person: IPerson): Observable<{
         participant: IAgendaItemParticipant,
         person: IPerson
     }> {
@@ -231,14 +212,8 @@ export class AgendaService extends ApiService {
                 const dto = response.json();
 
                 const participantUpdated = AgendaItemParticipant.parse(dto);
-                participantUpdated.agendaItem = {
-                    meeting: {
-                        id: agendaItem.meeting.id
-                    },
-                    issue: {
-                        id: agendaItem.issue.id
-                    }
-                };
+                participantUpdated.agendaItem = agendaItem;
+                participantUpdated.agendaItemId = agendaItemId;
 
                 const personUpdated = Person.parse(dto);
 
@@ -264,7 +239,7 @@ export class AgendaService extends ApiService {
      */
     moveAgendaItemState(agendaItem: IAgendaItemRef, action: AgendaItemWorkflowAction): Observable<IAgendaItem> {
         return this.http.post(`api/web/meetings/${agendaItem.meeting.id}`
-            + `/agenda/${agendaItem.issue.id}/${action}`,
+            + `/agenda/${agendaItem.issue.id}/workflow/${action}`,
             null, this.defaultRequestOptions)
             .map(response => {
                 const agendaItemUpdated: IAgendaItem = AgendaItem.parse(response.json());
@@ -291,7 +266,7 @@ export class AgendaService extends ApiService {
                 issues: payload
             }, this.defaultRequestOptions)
             .map(response => {
-                const agendaItemResponse = response.json() as {items: Array<any>};
+                const agendaItemResponse = response.json() as { items: Array<any> };
                 return agendaItemResponse.items.map(dto => {
                     const agendaItemCreated: IAgendaItem = AgendaItem.parse(dto);
                     agendaItemCreated.meeting = {

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 
 import { AdminComponent } from '@app/admin/admin.component';
+import { routingAdmin } from '@app/admin/admin.routing';
+
+import { StoreModule } from '@app/store/admin/store.module';
 
 import { AdminMenuComponent } from '@app/presentation/admin-menu/admin-menu.component';
 import { CreateAdPersonComponent } from '@app/presentation/create-ad-person/create-ad-person.component';
@@ -13,17 +16,15 @@ import { PersonDetailsFormComponent } from '@app/presentation/person/person-deta
 import { AdUserComponent } from '@app/presentation/user/ad-user/ad-user.component';
 import { UserRoleListComponent } from '@app/presentation/user-role-list/user-role-list.component';
 
-
-import { AdminRoutingModule } from '@app/admin/admin-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
-import { StoreModule } from '@app/store/admin/store.module';
-
 import { AccountClient, CompaniesClient, HoldingsClient, UserClient } from '@app/shared/api';
+
 import { UserService } from '@app/services/api/user.service';
 import { ApiService } from '@app/services/api/api.service';
 import { CompanyService } from '@app/services/api/company.service';
 import { HoldingService } from '@app/services/api/holding.service';
 import { HttpUrlWrappingDecorator } from '@app/services/api/http-url-wrapping-decorator';
+import { LoadDataService } from '@app/presentation/admin-menu/admin-menu.service';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,7 @@ import { HttpUrlWrappingDecorator } from '@app/services/api/http-url-wrapping-de
         UserRoleListComponent
     ],
     imports: [
-        AdminRoutingModule,
+        routingAdmin,
         SharedModule,
         StoreModule
     ],
@@ -53,7 +54,8 @@ import { HttpUrlWrappingDecorator } from '@app/services/api/http-url-wrapping-de
         CompanyService,
         HoldingService,
         ApiService,
-        HttpUrlWrappingDecorator
+        HttpUrlWrappingDecorator,
+        LoadDataService
     ]
 })
 export class AdminModule {}

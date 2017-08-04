@@ -15,7 +15,7 @@ export class AgendaItemWorkflowButtonComponent implements OnInit {
     workflowAction: AgendaItemWorkflowAction;
     
     @Input()
-    isGreenBackbround = false;
+    isGreenBackground = false;
 
     constructor() {
     }

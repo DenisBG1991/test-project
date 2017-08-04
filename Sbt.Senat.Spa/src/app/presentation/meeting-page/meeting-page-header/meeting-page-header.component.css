@@ -1,13 +1,18 @@
+/*These styles contains commented CSS GRID LAYOUT, in Yandex 17.3, it isn't work withoud activating experimental features. 
+So, before our clients will not have updated their browsers, use flex instead of grid. In Happy and Light Future, uncomment grids and
+give them freadom to emit all their power and rage)*/
+
+
 .meeting-header {
-    display: grid;
+    /*display: grid;*/
     align-items: center;
     justify-items: start;
-    grid-template-columns: auto auto 1fr auto;
-    grid-template-rows: auto auto;
+    /*grid-template-columns: auto auto 1fr auto;*/
+    /*grid-template-rows: auto auto;*/
     border-radius: 4px;
     background-color: #FFFFFF;
     padding: 20px;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 .senat-state-button {
     display: flex;
@@ -69,38 +74,52 @@
     background-color: rgb(209, 214, 221);
 }
 .status-type-num {
-    grid-row: 1;
-    grid-column: 1 / span 2;
+    /*grid-row: 1;*/
+    /*grid-column: 1 / span 2;*/
     display: flex;
+    flex-wrap: wrap;
     
 }
 .dropdown {
-    grid-row: 1;
-    grid-column: 4;
+    /*grid-row: 1;*/
+    /*grid-column: 4;*/
     align-self: center;
-    justify-self: end;
-    -ms-grid-column-align: end;
+    /*justify-self: end;*/
+    /*-ms-grid-column-align: end;*/
 }
 .status-buttons {
-    grid-row: 1;
-    grid-column: 3;
+    /*grid-row: 1;*/
+    /*grid-column: 3;*/
     align-self: center;
-    justify-self: end;
-    -ms-grid-column-align: end;
+    /*justify-self: end;*/
+    /*-ms-grid-column-align: end;*/
     display: flex;
+    
+    flex-grow: 1;
+    justify-content: flex-end;
 }
 
 .address {
-    grid-row: 2;
-    grid-column: 2 / span 3;
+    /*grid-row: 2;*/
+    /*grid-column: 2 / span 3;*/
     align-self: flex-start;
 }
 .meeting-num {
     margin-right: 10px;
 }
 .date-time {
-    grid-row: 2;
-    grid-column: 1;
+    /*grid-row: 2;*/
+    /*grid-column: 1;*/
     align-self: flex-start;
     margin-right: 10px; /*fix for IE*/
+}
+
+.senat-meeting-header-main-info{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.senat-meeting-header-additional-info {
+    display: flex;
 }

@@ -24,6 +24,7 @@ export interface IAdminPermission {
 export enum PermissionEnum {
 
     CreateIssue = 1,
+    ViewIssueInAgenda,
     ViewIssue,
     EditIssue,
     DeleteIssue,

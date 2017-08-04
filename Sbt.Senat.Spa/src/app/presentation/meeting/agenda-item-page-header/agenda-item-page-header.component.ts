@@ -12,6 +12,8 @@ import {PermissionEnum} from '@app/store/permission';
 import {PermissionSelectors} from '@app/store/permission/permission.selectors';
 import {LocaleDatePipe, LocaleService} from 'angular-l10n';
 import {StatusLabelColor} from '@app/presentation/ui-kit/status-label/status-label-style';
+import {MeetingStatus} from '@app/store/meeting/meeting-status';
+import {IDecision} from '@app/store/decision/decision.model';
 
 @Component({
     selector: 'senat-agenda-item-page-header',
@@ -24,6 +26,8 @@ export class AgendaItemPageHeaderComponent implements OnInit {
     agendaItemStatus = AgendaItemStatus;
     meetingType = MeetingType;
     agendaItemWorkflowAction = AgendaItemWorkflowAction;
+
+    statusLabelColor = StatusLabelColor;
     /**
      * Данные отображаемого вопроса'а.
      */
@@ -41,6 +45,12 @@ export class AgendaItemPageHeaderComponent implements OnInit {
      */
     meeting$: Observable<IMeeting> =
         this._ngRedux.select(x => x.meetings.items.find(m => this.agendaItem && m.id === this.agendaItem.meeting.id));
+
+    decisions$: Observable<Array<IDecision>> =
+        this._ngRedux.select(x => x.decisions.filter(d => d.issue.id === this.agendaItem.issue.id
+        && d.meeting.id === this.agendaItem.meeting.id));
+
+    decisions: Array<IDecision>;
 
     //noinspection JSUnusedGlobalSymbols
     /**
@@ -83,6 +93,8 @@ export class AgendaItemPageHeaderComponent implements OnInit {
             }); // TODO: обойтись без объявления допольнительного поля
 
         this.meeting$.subscribe(meeting => this.meeting = meeting);
+
+        this.decisions$.subscribe(d => this.decisions = d);
     }
 
     /**
@@ -90,6 +102,10 @@ export class AgendaItemPageHeaderComponent implements OnInit {
      * @returns {any}
      */
     getActions(): Array<AgendaItemWorkflowAction> { // TODO: вынести в компонент, т.к. дублируется в повестке
+        if (this.meeting.state !== MeetingStatus.Opened) {
+            return [];
+        }
+
         if (this.agendaItem.status === AgendaItemStatus.WaitingForConsideration) {
             return [
                 AgendaItemWorkflowAction.ToConsideration,
@@ -101,21 +117,15 @@ export class AgendaItemPageHeaderComponent implements OnInit {
             return [
                 AgendaItemWorkflowAction.ToModification,
                 AgendaItemWorkflowAction.ToVoting,
-                AgendaItemWorkflowAction.ToFormalization,
                 AgendaItemWorkflowAction.ToRemoved
             ];
         }
-        if (this.agendaItem.status === AgendaItemStatus.OnModification) {
-            return [AgendaItemWorkflowAction.ToConsideration];
-        }
+
         if (this.agendaItem.status === AgendaItemStatus.OnVoting) {
             return [
-                AgendaItemWorkflowAction.ToConsideration,
-                AgendaItemWorkflowAction.ToFormalization
+                AgendaItemWorkflowAction.ToModification,
+                AgendaItemWorkflowAction.ToConsideration
             ];
-        }
-        if (this.agendaItem.status === AgendaItemStatus.OnFormalization) {
-            return [AgendaItemWorkflowAction.ToResolved];
         }
 
         return [];
@@ -124,6 +134,7 @@ export class AgendaItemPageHeaderComponent implements OnInit {
     getActionsWithoutToRewoved(): Array<AgendaItemWorkflowAction> {
         return this.getActions().filter(action => action !== AgendaItemWorkflowAction.ToRemoved);
     }
+
     isSupportToRemoved() {
         return this.getActions().some(action => action === AgendaItemWorkflowAction.ToRemoved);
     }
@@ -167,12 +178,21 @@ export class AgendaItemPageHeaderComponent implements OnInit {
                 return StatusLabelColor.Green;
             case AgendaItemStatus.OnVoting:
                 return StatusLabelColor.Opaque;
-            case AgendaItemStatus.OnFormalization:
-                return StatusLabelColor.Grey;
             case AgendaItemStatus.OnModification:
                 return StatusLabelColor.Orange;
             default:
                 return StatusLabelColor.Grey;
+        }
+    }
+
+    getDecisionStatus() {
+        if (!this.decisions || this.agendaItem.status !== AgendaItemStatus.Resolved) {
+            return null;
+        }
+        if (this.decisions.some(x => x.accepted)) {
+            return 'accepted'
+        } else {
+            return 'declined'
         }
     }
 }

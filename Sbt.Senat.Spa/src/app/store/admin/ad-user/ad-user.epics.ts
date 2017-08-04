@@ -1,16 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 
-import { ErrorActions } from '@app/store/error/error.actions';
+import {ErrorActions} from '@app/store/error/error.actions';
+import {Observable} from 'rxjs/Observable';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounce';
 import 'rxjs/observable/of';
+import {UserActions} from '@app/store/admin/user/user.actions';
+import {UserService} from '@app/services/api/user.service';
+import {AppConfigInjectionToken, IAppConfig} from '@app/config';
+import {AdUserActions} from '@app/store/admin/ad-user/ad-user.actions';
 
-import { UserActions } from '@app/store/admin/user/user.actions';
-import { UserService } from '@app/services/api/user.service';
-import { AdUserActions } from '@app/store/admin/ad-user/ad-user.actions';
-
-import { AppConfigInjectionToken, IAppConfig } from '@app/config';
 
 @Injectable()
 export class AdUserEpics {
@@ -64,4 +63,5 @@ export class AdUserEpics {
                 Observable.of(this._adUserActions.loadAdUserDetailedFail(error)),
                 Observable.of(this._errorActions.errorOccurred(error))
             )));
+
 }

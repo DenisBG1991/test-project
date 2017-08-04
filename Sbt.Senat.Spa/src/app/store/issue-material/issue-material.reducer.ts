@@ -6,15 +6,15 @@ export function issueMaterialReducer(state: Array<IIssueMaterial> = [], action) 
     switch (action.type) {
 
         case IssueMaterialActions.LoadMaterialsComplete:
-            return state.filter(m => action.payload.materials.find(mm => mm.issue.id === m.issue.id && mm.id === m.id) == null)
+            return state.filter(m => !action.payload.materials.some(mm => mm.issue.id === m.issue.id && mm.id === m.id))
                 .concat(action.payload.materials);
 
         case IssueMaterialActions.MaterialTypeChanged:
 
-            const material = state.find(m => m.issue.id === action.payload.issue.id && m.id === action.payload.material.id);
+            const material = state.find(m => m.id === action.payload.material.id);
             material.type = action.payload.type;
 
-            return state.filter(m => m.issue.id !== action.payload.issue.id || m.id !== action.payload.material.id)
+            return state.filter(m => m.id !== action.payload.material.id)
                 .concat(material);
 
         case MaterialVersionActions.LoadMaterialVersionsComplete:
@@ -32,7 +32,7 @@ export function issueMaterialReducer(state: Array<IIssueMaterial> = [], action) 
             return state;
 
         case IssueMaterialActions.DeleteMaterial:
-            return state.filter(m => m.issue.id !== action.payload.material.issue.id || m.id !== action.payload.material.id);
+            return state.filter(m => m.issue.id !== action.payload.issue.id || m.id !== action.payload.material.id);
 
         default:
             return state;

@@ -19,34 +19,78 @@
         <ng-container [ngSwitch]="editMode$ | async">
             <ng-container *ngSwitchCase="false">
                 <div class="meeting-header" [ngClass]="'status-color-' + meeting.state">
-                    <div class="status-type-num">
-                        <span class="meeting-num">№ {{(meeting$ | async).num}}</span>
-                        <div class="status-type status-color">
+                    <div class="senat-meeting-header-main-info">
+                        <div class="status-type-num">
+                            <span class="meeting-num">№ {{(meeting$ | async).num}}</span>
+                            <div class="status-type status-color">
 
-                            <div>
-                                <div *ngIf="(meeting$ | async).type === 'Presentia'">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                    Очное
+                                <div>
+                                    <div *ngIf="(meeting$ | async).type === 'Presentia'">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        Очное
+                                    </div>
+                                    <div *ngIf="(meeting$ | async).type === 'Absentia'">
+                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                        Заочное
+                                    </div>
                                 </div>
-                                <div *ngIf="(meeting$ | async).type === 'Absentia'">
-                                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                                    Заочное
+                                <div>
+                                    {{'meeting.meetingStatus.' + (meeting$ | async).state | translate}}
                                 </div>
-                            </div>
-                            <div>
-                                {{'meeting.meetingStatus.' + (meeting$ | async).state | translate}}
                             </div>
                         </div>
-                    </div>
-                    
 
-                    
-                    <div class="date-time">
-                        <span class="date-month">{{(meeting$ | async).date || (meeting$ | async).startDate | moment: 'D MMMM'}}</span>
-                        <span class="text-muted">{{(meeting$ | async).date || (meeting$ | async).startDate | date: 'shortTime'}}</span>
+                        <div class="status-buttons">
+                            <ng-container
+                                *ngIf="(getActions().length > 0 && (canEdit$ | async))">
+                                <button *ngFor="let action of getActions()" class="senat-state-button"
+                                        (click)="move(action)">
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                    <span>{{'meeting.workflow.' + action | translate}}</span>
+                                </button>
+                            </ng-container>
+                            <button (click)="formMeetingProtocol()"
+                                    *ngIf="(canEdit$ | async) && ((meeting$ | async).state !== meetingStatus.Draft)"
+                                    class="senat-state-button">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <span *ngIf="(meeting$ | async).state !== meetingStatus.Closed">
+                                    {{'meeting.formMeetingProtocol' | translate}}
+                                </span>
+                                <span *ngIf="(meeting$ | async).state === meetingStatus.Closed">
+                                    {{'meeting.formMeetingProtocolNew' | translate}}
+                                </span>
+                            </button>
+                            <button *ngIf="(meeting$ | async).hasProtocol 
+                            && ((meeting.state === meetingStatus.Closed) || (hasPermission$(permissions.EditMeeting) | async))" 
+                                    (click)="downloadProtocol()"
+                                    class="senat-state-button">
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span>{{'meeting.downLoadMeetingProtocol' | translate}}</span>
+                            </button>
+                        </div>
+                        <div class="dropdown" *ngIf="(canEdit$ | async)">
+                            <senat-dropdown-menu>
+                                <senat-dropdown-menu-item *ngIf="hasPermission$(permissions.EditMeeting) | async"
+                                                          (click)="edit()">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    <span class="ml-2">{{'Изменить'}}</span>
+                                </senat-dropdown-menu-item>
+                                <senat-dropdown-menu-separator></senat-dropdown-menu-separator>
+                                <senat-dropdown-menu-item *ngIf="hasPermission$(permissions.DeleteMeeting) | async"
+                                                          (click)="delete()">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <span class="ml-2">{{'Удалить'}}</span>
+                                </senat-dropdown-menu-item>
+                            </senat-dropdown-menu>
+                        </div>
                     </div>
+                    <div class="senat-meeting-header-additional-info">
+                        <div class="date-time">
+                            <span class="date-month">{{(meeting$ | async).date || (meeting$ | async).startDate | moment: 'D MMMM'}}</span>
+                            <span class="text-muted">{{(meeting$ | async).date || (meeting$ | async).startDate | date: 'shortTime'}}</span>
+                        </div>
 
-                    <div class="address" *ngIf="(meeting$ | async).type === 'Presentia'">
+                        <div class="address" *ngIf="(meeting$ | async).type === 'Presentia'">
                             <div *ngIf="(meeting$ | async).address || (meeting$ | async).place"
                                  class="align-items-center">
                                 <div class="text-truncate">
@@ -56,47 +100,11 @@
                                     <span class="text-muted">{{(meeting$ | async).place}}</span>
                                 </div>
                             </div>
-                    </div>
-                    <div class="address" *ngIf="(meeting$ | async).type === 'Absentia'">
+                        </div>
+                        <div class="address" *ngIf="(meeting$ | async).type === 'Absentia'">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                             <span class="text-muted">приём голосов с {{(meeting$ | async).startDate | date: 'dd.MM'}} {{(meeting$ | async).startDate | date: 'shortTime'}} по {{(meeting$ | async).endDate | date: 'dd.MM'}} {{(meeting$ | async).endDate | date: 'shortTime'}}</span>
-                    </div>
-
-
-                    <div class="status-buttons">
-                        <ng-container
-                            *ngIf="(getActions().length > 0 && (canEdit$ | async))">
-                            <button *ngFor="let action of getActions()" class="senat-state-button"
-                                    (click)="move(action)">
-                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                                <span>{{'meeting.workflow.' + action | translate}}</span>
-                            </button>
-                        </ng-container>
-                        <button (click)="formMeetingProtocol()" *ngIf="(canEdit$ | async) && ((meeting$ | async).state !== meetingStatus.Draft)"
-                                class="senat-state-button">
-                            <i class="fa fa-book" aria-hidden="true"></i>
-                            <span>{{'meeting.formMeetingProtocol' | translate}}</span>
-                        </button>
-                        <button *ngIf="(meeting$ | async).hasProtocol" (click)="downloadProtocol()"
-                                class="senat-state-button">
-                            <i class="fa fa-file" aria-hidden="true"></i>
-                            <span>{{'meeting.downLoadMeetingProtocol' | translate}}</span>
-                        </button>
-                    </div>
-                    <div class="dropdown" *ngIf="(canEdit$ | async)">
-                        <senat-dropdown-menu>
-                            <senat-dropdown-menu-item *ngIf="hasPermission$(permissions.EditMeeting) | async"
-                                                      (click)="edit()">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                <span class="ml-2">{{'Изменить'}}</span>
-                            </senat-dropdown-menu-item>
-                            <senat-dropdown-menu-separator></senat-dropdown-menu-separator>
-                            <senat-dropdown-menu-item *ngIf="hasPermission$(permissions.DeleteMeeting) | async"
-                                                      (click)="delete()">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                <span class="ml-2">{{'Удалить'}}</span>
-                            </senat-dropdown-menu-item>
-                        </senat-dropdown-menu>
+                        </div>
                     </div>
                 </div>
             </ng-container>

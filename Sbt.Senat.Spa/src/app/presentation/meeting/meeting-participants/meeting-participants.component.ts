@@ -10,9 +10,9 @@ import {PersonActions} from '@app/store/person/person.actions';
 import {MeetingParticipantActions} from '@app/store/meeting-participant/meeting-participant.actions';
 import {IMeetingRef} from '@app/store/meeting/meeting-ref.model';
 import {PermissionSelectors} from '@app/store/permission/permission.selectors';
-import {PermissionActions} from '@app/store/permission/permission.actions';
 import {PermissionEnum} from '@app/store/permission';
 import {findPersonsByQuery} from '@app/store/person/person.selectors';
+import {MeetingStatus} from '@app/store/meeting/meeting-status';
 
 @Component({
     selector: 'senat-meeting-participants',
@@ -22,86 +22,93 @@ import {findPersonsByQuery} from '@app/store/person/person.selectors';
 })
 export class MeetingParticipantsComponent implements OnInit {
 
+    meetingStatus = MeetingStatus;
+
     @Input()
     meeting: IMeetingRef;
 
     query = '';
 
-    get canEdit$(): Observable<boolean> {
-        return this.hasPermission$(PermissionEnum.EditMeeting);
-    }
+    canEdit$: Observable<boolean>;
 
     //noinspection JSUnusedGlobalSymbols
-    get meetingDetails$(): Observable<IMeeting> {
-        return this._ngRedux.select(x => x.meetings.items.find(m => m.id === this.meeting.id));
-    }
+    meetingDetails$: Observable<IMeeting> = this._ngRedux.select(x => x.meetings.items)
+        .map(mi => mi.find(m => m.id === this.meeting.id));
 
     //noinspection JSUnusedGlobalSymbols
-    get collegialBodyMembers$(): Observable<Array<{
+    collegialBodyMembers$: Observable<Array<{
         self: IMeetingParticipant,
         person: IPerson,
         alternates: Array<IPerson>
-    }>> {
-        return this._ngRedux.select(x => x.meetingParticipants
-            .filter(p => p.meeting.id === this.meeting.id && p.roles
+    }>> = Observable.combineLatest(
+        this._ngRedux.select(x => x.meetingParticipants),
+        this._ngRedux.select(x => x.persons),
+        (xmp, xp) =>
+            xmp.filter(p => p.meeting.id === this.meeting.id && p.roles
                 .find(r => [MeetingParticipantRole.Head, MeetingParticipantRole.Secretary, MeetingParticipantRole.RegularMember]
                     .find(rr => rr === r) != null) != null)
-            .map(p => {
-                return {
-                    self: p,
-                    person: x.persons.find(person => person.id === p.person.id),
-                    alternates: x.persons.filter(person => p.alternates.find(pp => pp.id === person.id) != null)
-                        .sort((one, two) => {
-                            const fullNameOne = `${one.lastName} ${one.firstName} ${one.middleName}`;
-                            const fullNameTwo = `${two.lastName} ${two.firstName} ${two.middleName}`;
+                .map(p => {
+                    return {
+                        self: p,
+                        person: xp.find(person => person.id === p.person.id),
+                        alternates: xp.filter(person => p.alternates.find(pp => pp.id === person.id) != null)
+                            .sort((one, two) => {
+                                const fullNameOne = `${one.lastName} ${one.firstName} ${one.middleName}`;
+                                const fullNameTwo = `${two.lastName} ${two.firstName} ${two.middleName}`;
 
-                            if (fullNameOne > fullNameTwo) {
-                                return 1;
-                            }
-                            if (fullNameOne < fullNameTwo) {
-                                return -1;
-                            }
-                            return 0;
-                        })
-                };
-            })
-            .sort((one, two) => {
-                const fullNameOne = `${one.person.lastName} ${one.person.firstName} ${one.person.middleName}`;
-                const fullNameTwo = `${two.person.lastName} ${two.person.firstName} ${two.person.middleName}`;
+                                if (fullNameOne > fullNameTwo) {
+                                    return 1;
+                                }
+                                if (fullNameOne < fullNameTwo) {
+                                    return -1;
+                                }
+                                return 0;
+                            })
+                    };
+                })
+                .sort((one, two) => {
+                    const fullNameOne = `${one.person.lastName} ${one.person.firstName} ${one.person.middleName}`;
+                    const fullNameTwo = `${two.person.lastName} ${two.person.firstName} ${two.person.middleName}`;
 
-                if (fullNameOne > fullNameTwo) {
-                    return 1;
-                }
-                if (fullNameOne < fullNameTwo) {
-                    return -1;
-                }
-                return 0;
-            }));
-    }
+                    if (fullNameOne > fullNameTwo) {
+                        return 1;
+                    }
+                    if (fullNameOne < fullNameTwo) {
+                        return -1;
+                    }
+                    return 0;
+                })
+    );
+
 
     //noinspection JSUnusedGlobalSymbols
-    invitedPersons$: Observable<Array<IPerson>> =
-        this._ngRedux.select(x => x.meetingParticipants
-            .filter(p => p.meeting.id === this.meeting.id && p.roles
+    invitedPersons$: Observable<Array<IPerson>> = Observable.combineLatest(
+        this._ngRedux.select(x => x.meetingParticipants),
+        this._ngRedux.select(x => x.persons),
+        (xmp, xp) =>
+            xmp.filter(p => p.meeting.id === this.meeting.id && p.roles
                 .find(r => [MeetingParticipantRole.InvitedPerson].find(rr => rr === r) != null) != null)
-            .map(p => x.persons.find(person => person.id === p.person.id))
-            .sort((one, two) => {
-                const fullNameOne = `${one.lastName} ${one.firstName} ${one.middleName}`;
-                const fullNameTwo = `${two.lastName} ${two.firstName} ${two.middleName}`;
+                .map(p => xp.find(person => person.id === p.person.id))
+                .sort((one, two) => {
+                    const fullNameOne = `${one.lastName} ${one.firstName} ${one.middleName}`;
+                    const fullNameTwo = `${two.lastName} ${two.firstName} ${two.middleName}`;
 
-                if (fullNameOne > fullNameTwo) {
-                    return 1;
-                }
-                if (fullNameOne < fullNameTwo) {
-                    return -1;
-                }
-                return 0;
-            }));
+                    if (fullNameOne > fullNameTwo) {
+                        return 1;
+                    }
+                    if (fullNameOne < fullNameTwo) {
+                        return -1;
+                    }
+                    return 0;
+                }));
 
 
     //noinspection JSUnusedGlobalSymbols
     suggestions$: Observable<Array<IPerson>> =
-        this._ngRedux.select(x => findPersonsByQuery(x, this.query));
+        this._ngRedux.select(x => x.persons)
+            .map(x => findPersonsByQuery(x, this.query))
+            .filter(f => !!f);
+
 
     constructor(private _ngRedux: NgRedux<IAppState>,
                 private _personActions: PersonActions,
@@ -110,6 +117,7 @@ export class MeetingParticipantsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.canEdit$ = this.hasPermission$(PermissionEnum.EditMeeting);
     }
 
     findPeople(query: string) {

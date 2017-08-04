@@ -1,7 +1,21 @@
-<div class="mt-4">
+<div class="senat-meeting-agenda mt-4">
     <h6 class="text-muted">{{'Повестка' | uppercase}}</h6>
     <senat-agenda [meeting]="meeting"></senat-agenda>
 </div>
-<div class="mt-4">
+<div class="senat-meeting-participants mt-4">
     <senat-meeting-participants [meeting]="meeting"></senat-meeting-participants>
+</div>
+<div *ngIf="(materials$ | async).length > 0 && (hasPermissionsOnVersions$ | async)"
+     class="senat-meeting-material-section">
+    <h6 class="text-muted my-4">{{'Версии протокола' | uppercase}}</h6>
+    <div class="senat-meeting-material-card card card-block mb-3">
+        <senat-material-browser [allowChangeType]="false"
+                                [allowManageMaterials]="false"
+                                [materials]="materials$ | async"
+                                [versionsUploading]="versionsUploading$ | async"
+                                [versions]="versions$ | async"
+                                (materialVersionExpanded)="materialVersionExpanded($event)"
+                                (versionsAdded)="versionsAdded($event)">
+        </senat-material-browser>
+    </div>
 </div>

@@ -1,0 +1,176 @@
+.top-menu-senat {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(74deg, #51b46d, #3dba8f), linear-gradient(#efeff4, #efeff4);
+    
+    .top-menu-senat-element {
+        text-align: center;
+        width: 10%;
+        
+        .link {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: Roboto sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 2% 8%;
+            border: solid 2px inherit;
+            border-radius: 10px;
+            
+            &:hover {
+                transition: font-size 0.3s;
+                font-size: 14px;
+                border: solid 2px #FFFFFF;
+            }
+            
+            &.active {
+                background-color: #FFFFFF;
+            }
+        }
+    }
+
+    .top-menu-senat-logo {
+        padding-left: 7%;
+        width: 20%;
+
+        .top-menu-senat-element-logo {
+            padding: 0;
+            border: solid 2px inherit;
+
+            .logo {
+                width: 4em;
+                height: 3em;
+            }
+            
+            &:hover {
+                border: none;
+            }
+        }
+    }
+    
+    .top-menu-senat-dashboard {
+        .top-menu-senat-element-tag {
+            &.active {
+                color: #4cb676;
+            }
+        }
+    }
+
+    .top-menu-senat-meetings {
+        .top-menu-senat-element-tag {
+            &.active {
+                color: #4ab679;
+            }
+        }
+    }
+
+    .top-menu-senat-instructions {
+        .top-menu-senat-element-tag {
+            &.active {
+                color: #48b67c;
+            }
+        }
+    }
+
+    .top-menu-senat-search {
+        .top-menu-senat-element-tag {
+            &.active {
+                color: #46b880;
+            }
+        }
+    }
+
+    .top-menu-senat-notifications {
+        .top-menu-senat-element-tag {
+            &.active {
+                color: #44b883;
+            }
+        }
+    }
+
+    .top-menu-senat-user {
+        padding-left: 12%;
+        padding-right: 8%;
+        width: 30%;
+        
+        .media {
+            vertical-align: middle;
+            padding-right: 20%;
+
+            .media-body {
+
+                .profile {
+                    font-weight: bold;
+                    padding-top: 2%;
+                    padding-bottom: 2%;
+                    font-family: Roboto, sans-serif;
+                    font-size: 9px;
+                    text-align: left;
+                    color: #0a7d4a;
+                }
+
+                .fullname {
+                    font-weight: bold;
+                    font-family: Roboto, sans-serif;
+                    font-size: 14px;
+                    text-align: left;
+                    color: #ffffff;
+                }
+            }
+            
+            .link-icon {
+                padding-top: 5%;
+
+                &:hover {
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    border-radius: 50%;
+                    border: 2px crimson solid;
+                }
+            }
+
+            .dropdown-menu {
+                top: 140%;
+                left: -550%;
+                
+                .dropdown-item {
+                    &:hover {
+                        color: #FFFFFF;
+                        background-color: #00D473;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 0px) {
+    .top-menu-senat {
+        height: 150px;
+    }
+}
+
+@media (min-width: 576px) {
+    .top-menu-senat {
+        height: 130px;
+    }
+}
+
+@media (min-width: 768px) {
+    .top-menu-senat {
+        height: 100px;
+    }
+}
+
+@media (min-width: 992px) {
+    .top-menu-senat {
+        height: 80px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .top-menu-senat {
+        height: 60px;
+    }
+}

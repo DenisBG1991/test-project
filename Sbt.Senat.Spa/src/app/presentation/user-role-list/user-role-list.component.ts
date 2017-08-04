@@ -24,7 +24,9 @@ export class UserRoleListComponent implements OnInit {
 
     canEdit$: Observable<boolean> = this._ngRedux.select(this._permissionSelectors.hasAnyPermissions([PermissionEnum.EditUserRole]));
 
-    constructor(private _ngRedux: NgRedux<IAdminState>, private _userRoleActions: UserRoleActions, private _permissionSelectors: PermissionSelectors) {
+    constructor(private _ngRedux: NgRedux<IAdminState>,
+                private _userRoleActions: UserRoleActions,
+                private _permissionSelectors: PermissionSelectors) {
     }
 
     ngOnInit() {

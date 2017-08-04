@@ -1,7 +1,6 @@
-import { IAdUser, IAdUserDetailed } from '@app/store/admin/ad-user/ad-user.model';
-import { AdUserActions } from '@app/store/admin/ad-user/ad-user.actions';
-import { UserActions } from '@app/store/admin/user/user.actions';
-
+import {IAdUser, IAdUserDetailed} from '@app/store/admin/ad-user/ad-user.model';
+import {AdUserActions} from '@app/store/admin/ad-user/ad-user.actions';
+import {UserActions} from '@app/store/admin/user/user.actions';
 export function adUsersReducer(state: Array<IAdUser> = [], action): Array<IAdUser> {
     switch (action.type) {
         case AdUserActions.AdUsersPing:

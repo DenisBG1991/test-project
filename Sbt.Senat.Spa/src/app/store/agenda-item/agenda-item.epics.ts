@@ -9,7 +9,6 @@ import {IAppState} from '@app/store/store';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/concat';
-import {AgendaItemLayoutActions} from '@app/store/layout/agenda-item-layout.actions';
 import {MeetingParticipantActions} from '@app/store/meeting-participant/meeting-participant.actions';
 import 'rxjs/add/observable/forkJoin';
 import {MeetingService} from '@app/services/api/meeting.service';
@@ -23,15 +22,28 @@ export class AgendaItemEpics {
                 private _personActions: PersonActions,
                 private _agendaItemParticipantActions: AgendaItemParticipantActions,
                 private _errorActions: ErrorActions,
-                private _agendaItemLayoutActions: AgendaItemLayoutActions,
                 private _meetingParticipantActions: MeetingParticipantActions) {
     }
 
-    loadAgendaItem = action$ => action$
+
+    loadSingleAgendaItem = action$ => action$
         .ofType(AgendaItemActions.LoadSingleAgendaItem)
+        .switchMap(action => this._agendaService.getAgendaItem(action.payload.agendaItem)
+            .switchMap(result => {
+                return Observable.concat(
+                    Observable.of(this._agendaItemActions.updateAgendaItems([result])),
+                    Observable.of(this._agendaItemActions.loadAgendaItemParticipants(
+                        result,
+                        result))
+                );
+            })
+            .catch(error => Observable.of(this._errorActions.errorOccurred(error)))
+        )
+    loadAgendaItemParticipants = action$ => action$
+        .ofType(AgendaItemActions.LoadAgendaItemParticipants)
         .switchMap(action => Observable.forkJoin(
             this._meetingService.getParticipants(action.payload.agendaItem.meeting),
-            this._agendaService.getAgendaItem(action.payload.agendaItem),
+            this._agendaService.getAgendaItemParticipants(action.payload.agendaItemId, action.payload.agendaItem),
             (meetingResult, agendaItemResult) => {
                 return {
                     meetingResult: meetingResult,
@@ -39,18 +51,13 @@ export class AgendaItemEpics {
                 };
             })
             .switchMap(result => {
-                const agendaParticipants = result.agendaItemResult.participants
-                    .filter(x => x.agendaItem.issue.id === action.payload.agendaItem.issue.id
-                    && x.agendaItem.meeting.id === action.payload.agendaItem.meeting.id);
                 return Observable.concat(
                     Observable.of(this._meetingParticipantActions.loadMeetingParticipantsComplete(
                         result.meetingResult.participants)),
-                    Observable.of(this._agendaItemActions.updateAgendaItems([result.agendaItemResult.agendaItem])),
                     Observable.of(this._personActions.loadPersonsComplete(result.agendaItemResult.persons)),
                     Observable.of(this._agendaItemParticipantActions.updateAgendaItemParticipants(
                         result.agendaItemResult.participants,
-                        result.meetingResult.participants)),
-                    Observable.of(this._agendaItemLayoutActions.loadAttendeesAgendaItemLayoutState(agendaParticipants))
+                        result.meetingResult.participants))
                 );
             })
             .catch(error => Observable.of(this._errorActions.errorOccurred(error)))
@@ -112,7 +119,7 @@ export class AgendaItemEpics {
     moveAgendaItemState = action$ => action$
         .ofType(AgendaItemActions.MoveAgendaItemState)
         .switchMap(action => this._agendaService.moveAgendaItemState(action.payload.agendaItem, action.payload.action)
-            .map(agendaItem => this._agendaItemActions.updateAgendaItems([agendaItem]))
+            .map(agendaItem => this._agendaItemActions.loadSingleAgendaItem(action.payload.agendaItem))
             .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
 
     createAgendaItems = action$ => action$

@@ -29,7 +29,7 @@ export class PersonComponent implements OnInit {
     person: IPersonRef;
 
     pe = PermissionEnum;
-    
+
     ple = PermissionLevelEnum;
 
     person$: Observable<IMultilingualPerson> =

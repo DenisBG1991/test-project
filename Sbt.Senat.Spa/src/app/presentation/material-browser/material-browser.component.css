@@ -15,3 +15,24 @@
 .location-full-path {
     flex-grow: 1;
 }
+
+.senat-material-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.senat-material-info senat-material-version {
+    flex-grow: 1;
+}
+
+.senat-dropdown-material-version {
+    padding: 1.25rem;
+    border-left: 1px solid rgba(0, 0, 0, 0.125);
+    margin-left: 0.5rem;
+}
+
+.senat-upload-progress {
+    height: 3px; 
+    background: lightgrey;
+    padding: 0 15px;
+}

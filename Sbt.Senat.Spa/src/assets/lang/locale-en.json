@@ -38,7 +38,6 @@
                 "ToModification": "to modification",
                 "ToConsideration": "to consideration",
                 "ToVoting": "to voting",
-                "ToFormalization": "to formalization",
                 "ToResolved": "to resolved",
                 "ToRemoved": "to removed"
             },
@@ -67,7 +66,6 @@
                 "OnConsideration": "consideration",
                 "OnModification": "modification",
                 "OnVoting": "voting",
-                "OnFormalization": "formalization",
                 "Resolved": "resolved",
                 "Removed": "removed"
             }
@@ -83,7 +81,7 @@
         },
         "workflow": {
             "ToOpened": "Open",
-            "ToClosed": "Close"
+            "ToClosed": "Publish protocol"
         },
         "roleOnMeeting": {
             "RegularMember": "regular member",
@@ -110,24 +108,17 @@
             }
         },
         "formMeetingProtocol" : "Form protocol",
+        "formMeetingProtocolNew": "Publish new protocol",
         "downLoadMeetingProtocol": "Download protocol"
     },
     "issue": {
         "issueStatus": {
             "Draft": "Draft",
             "Preparing": "Preparing",
-            "Ready": "Ready",
-            "Planned": "Planned",
-            "InProgress": "InProgress",
-            "OnModification": "OnModification",
-            "Closed": "Closed"
+            "Prepared": "Prepared"
         },
         "workflow": {
-            "ToReady": "ToReady",
-            "ToPlanned": "ToPlanned",
-            "ToInProgress": "ToInProgress",
-            "ToModification": "ToModification",
-            "ToClosed": "ToClosed"
+            "ToPrepared": "ToPrepared"
         },
         "issueMaterialType": {
             "Presentation": "Presentation",

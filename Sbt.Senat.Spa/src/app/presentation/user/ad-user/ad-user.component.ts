@@ -24,7 +24,8 @@ export class AdUserComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._subscriptions = [
-            this._ngRedux.select(x => x.users.filter(u => u.person.id === this.person.id && u.authMethods && u.authMethods['ad'])).subscribe(su => {
+            this._ngRedux.select(x => x.users.filter(u => u.person.id === this.person.id && u.authMethods && u.authMethods['ad']))
+                .subscribe(su => {
                 if (su.length) {
                     this.adLogin = su[0].authMethods['ad'];
                 }

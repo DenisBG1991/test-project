@@ -32,14 +32,13 @@
             <div class="col">
                 <ul class="orgsUnit list-unstyled">
                     <li class="orgUnit" *ngFor="let OrgUnit of OrgsUnit"
-                        [ngClass]="{orgUnitWithChild: OrgUnit.hasChildren}">
-                        <span [ngClass]="{'fa': OrgUnit.hasChildren, 'fa-arrow-right': OrgUnit.hasChildren}"></span>
-                        <a href [ngClass]="{disabled: !OrgUnit.hasChildren}" 
+                        [ngClass]="{ orgUnitWithChild: OrgUnit.hasChildren }">
+                        <span [ngClass]="{ 'fa': OrgUnit.hasChildren, 'fa-arrow-right': OrgUnit.hasChildren }"></span>
+                        <a href class="font-weight-bold" [ngClass]="{disabled: !OrgUnit.hasChildren}" 
                            (click)="showMore($event, OrgUnit)">{{ OrgUnit.name }}
                         </a>
                         <ul class="orgsChildUnit">
-                            <li *ngFor="let list of target.orgsChildUnit">{{ list.name }}
-                            </li>
+                            <li *ngFor="let list of OrgUnit.orgChildUnit">{{ list.name }}</li>
                         </ul>
                         <hr>
                     </li>

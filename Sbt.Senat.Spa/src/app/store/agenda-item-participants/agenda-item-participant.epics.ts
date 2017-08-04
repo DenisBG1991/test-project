@@ -9,7 +9,6 @@ import {AgendaItemParticipantRole} from '@app/store/agenda-item-participants/age
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/observable/of';
 import 'rxjs/observable/concat';
-import {AgendaItemLayoutActions} from '@app/store/layout/agenda-item-layout.actions';
 
 @Injectable()
 export class AgendaItemParticipantEpics {
@@ -18,8 +17,7 @@ export class AgendaItemParticipantEpics {
                 private _agendaService: AgendaService,
                 private _agendaItemParticipantActions: AgendaItemParticipantActions,
                 private _personActions: PersonActions,
-                private _errorActions: ErrorActions,
-                private _agendaItemLayoutActions: AgendaItemLayoutActions) {
+                private _errorActions: ErrorActions) {
     }
 
     checkIn = action$ => action$
@@ -27,8 +25,10 @@ export class AgendaItemParticipantEpics {
         .flatMap(action => this._agendaService.checkInParticipant(action.payload.participant)
             .switchMap(result => Observable.concat(
                 Observable.of(this._personActions.loadPersonsComplete([result.person])),
-                Observable.of(this._agendaItemParticipantActions.updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants)),
-                Observable.of(this._agendaItemLayoutActions.changeCheckInAttendeeState([result.participant]))
+                Observable.of(this._agendaItemParticipantActions
+                    .updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants)),
+                Observable.of(this._agendaItemParticipantActions
+                    .syncParticipantAgendaPresent(result.participant, this._ngRedux.getState().agendaItems))
             ))
             .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
 
@@ -37,9 +37,11 @@ export class AgendaItemParticipantEpics {
         .flatMap(action => this._agendaService.checkOutParticipant(action.payload.participant)
             .switchMap(result => Observable.concat(
                 Observable.of(this._personActions.loadPersonsComplete([result.person])),
-                Observable.of(this._agendaItemParticipantActions.updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants)),
-                Observable.of(this._agendaItemLayoutActions.changeCheckInAttendeeState([result.participant]))
-            ))
+                Observable.of(this._agendaItemParticipantActions
+                    .updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants)),
+                Observable.of(this._agendaItemParticipantActions
+                    .syncParticipantAgendaPresent(result.participant, this._ngRedux.getState().agendaItems)))
+            )
             .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
 
     /**
@@ -50,13 +52,21 @@ export class AgendaItemParticipantEpics {
         .ofType(AgendaItemParticipantActions.AddAgendaItemParticipantRole)
         .switchMap(action => {
             if (action.payload.role === AgendaItemParticipantRole.Speaker) {
-                return this._agendaService.addAgendaItemSpeaker(action.payload.agendaItem, action.payload.person)
-                    .map(result => this._agendaItemParticipantActions.updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants))
+                return this._agendaService.addAgendaItemSpeaker(
+                    action.payload.agendaItem,
+                    action.payload.agendaItemId,
+                    action.payload.person)
+                    .map(result => this._agendaItemParticipantActions
+                        .updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants))
                     .catch(error => Observable.of(this._errorActions.errorOccurred(error)));
             }
             if (action.payload.role === AgendaItemParticipantRole.InvitedOnIssue) {
-                return this._agendaService.addAgendaItemInvitedPerson(action.payload.agendaItem, action.payload.person)
-                    .map(result => this._agendaItemParticipantActions.updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants))
+                return this._agendaService.addAgendaItemInvitedPerson(
+                    action.payload.agendaItem,
+                    action.payload.agendaItemId,
+                    action.payload.person)
+                    .map(result => this._agendaItemParticipantActions
+                        .updateAgendaItemParticipants([result.participant], this._ngRedux.getState().meetingParticipants))
                     .catch(error => Observable.of(this._errorActions.errorOccurred(error)));
             }
 

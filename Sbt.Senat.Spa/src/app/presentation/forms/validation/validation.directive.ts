@@ -18,8 +18,8 @@ export class ValidationDirective implements OnInit {
     ngOnInit() {
         this.viewContainer.clear();
 
-        let validationMessageComponentFactory = this.componentFactoryResolver.resolveComponentFactory(ValidationMessageComponent);
-        let validationMessageComponent = this.viewContainer.createComponent(validationMessageComponentFactory).instance;
+        const validationMessageComponentFactory = this.componentFactoryResolver.resolveComponentFactory(ValidationMessageComponent);
+        const validationMessageComponent = this.viewContainer.createComponent(validationMessageComponentFactory).instance;
 
         validationMessageComponent.formControlName = this.formControlName;
         validationMessageComponent.formGroup = this.senatValidation;

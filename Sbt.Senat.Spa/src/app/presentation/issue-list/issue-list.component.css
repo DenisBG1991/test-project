@@ -1,19 +1,21 @@
+/*These styles contains commented CSS GRID LAYOUT, in Yandex 17.3, it isn't work withoud activating experimental features. 
+So, before our clients will not have updated their browsers, use flex instead of grid. In Happy and Light Future, uncomment grids and
+give them freadom to emit all their power and rage)*/
+
 .issue-in-list {
     cursor: pointer;
-    display: grid;
+    /*display: grid;*/
     margin: 10px;
-    grid-template-columns: 1fr 300px 150px;
-    grid-template-rows: auto auto auto;
+    /*grid-template-columns: 1fr 300px 150px;*/
+    /*grid-template-rows: auto auto auto;*/
     border-radius: 4px;
     background-color: #FFFFFF;
-    grid-gap: 5px;
+    /*grid-gap: 5px;*/
     padding: 20px;
 
+    display: flex;
 }
 
-.issue-in-list:hover {
-    color: #FFFFFF;
-}
 
 .issue-in-list:hover a {
     color: #FFFFFF;
@@ -25,70 +27,77 @@
 
 
 .g-title {
-    grid-column: 1;
-    grid-row: 1;
+    /*grid-column: 1;*/
+    /*grid-row: 1;*/
+    
+    margin-right: 10px;
 }
 
 .g-collegial-body {
-    grid-column: 1;
-    grid-row: 2;
+    /*grid-column: 1;*/
+    /*grid-row: 2;*/
     font-weight: bold;
 }
 
 .g-status {
-    grid-column: 3;
-    grid-row: 1;
+    /*grid-column: 3;*/
+    /*grid-row: 1;*/
 
-    justify-self: end;
+    /*justify-self: end;*/
     border-radius: 4px;
     display: flex;
     overflow: hidden;
     color: #FFFFFF;
     padding: 0 10px;
-    -ms-grid-column-align: end;
-    align-self: center;
+    /*-ms-grid-column-align: end;*/
+    /*align-self: center;*/
 }
 
 .g-date {
-    grid-column: 1;
-    grid-row: 3;
+    /*grid-column: 1;*/
+    /*grid-row: 3;*/
 
 }
 
 .g-holding {
-    grid-column: 3;
-    grid-row: 3;
+    /*grid-column: 3;*/
+    /*grid-row: 3;*/
     
     padding: 0 10px;
     color: rgb(180, 180, 180);
     
-    justify-self: end;
+    /*justify-self: end;*/
     align-self: end;
-    -ms-grid-column-align: end;
+    /*-ms-grid-column-align: end;*/
     background-color: rgb(237, 237, 237);
     border-radius: 4px;
     width: auto;
 }
 
 .g-author {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    display: grid;
-    grid-template: auto/auto auto;
+    /*grid-column: 2;*/
+    /*grid-row: 1 / span 3;*/
+    /*display: grid;*/
+    /*grid-template: auto/auto auto;*/
     justify-content: left;
-    justify-self: left;
+    /*justify-self: left;*/
     align-self: center;
     align-content: center;
+    
+    display: flex;
+    flex-basis: 300px;
+    margin-right: 5px;
+    min-width: 300px;
 }
 
 .g-author-avatar {
-    grid-column: 1;
-    grid-row: 1;
+    /*grid-column: 1;*/
+    /*grid-row: 1;*/
     margin-right: 20px;
 }
 .g-author-name {
-    grid-column: 2;
-    grid-row: 1;
+    /*grid-column: 2;*/
+    /*grid-row: 1;*/
 }
 .g-author-name div {
     padding-left: 5px;
@@ -118,5 +127,26 @@
 
 .issue-in-list:hover {
     background-color: rgb(114, 193, 135);
+    color: #FFFFFF;
 }
+
+/*additional elements for emulating grid from flex*/
+.senat-issue-detail-info{
+    flex-grow: 1;
+    max-width: calc(100% - 495px);
+}
+
+.senat-issue-detail-info .g-title, 
+.senat-issue-detail-info .g-collegial-body {
+    margin-bottom: 5px;
+}
+
+.senat-status-wrapper {
+    flex-basis: 150px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-width: 150px;
+}
+
 

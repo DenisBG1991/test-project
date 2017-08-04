@@ -49,7 +49,9 @@ export class CreateIssueComponent implements OnInit {
         = this._ngRedux.select(this._permissionSelectors.collegialBodyPermissionFilter(PermissionEnum.CreateIssue));
 
     suggestedPersons$: Observable<Array<IPerson>> =
-        this._ngRedux.select(x => findPersonsByQuery(x, this.query));
+        this._ngRedux.select(x => x.persons)
+            .map(x => findPersonsByQuery(x, this.query))
+            .filter(f => !!f);
 
     //noinspection JSUnusedGlobalSymbols
     /**
@@ -59,8 +61,8 @@ export class CreateIssueComponent implements OnInit {
         this._ngRedux.select(x => {
             if (!/^\s*$/.test(this.labelsQuery)) {
                 const suggestedLabels = x.labels.filter(l => l.name.toLowerCase().indexOf(this.labelsQuery) !== -1 &&
-                    !this.formGroup.value.labels
-                        .some(ll => ll.id === l.id))
+                !this.formGroup.value.labels
+                    .some(ll => ll.id === l.id))
                     .sort((one, two) => {
                         if (one.name > two.name) {
                             return 1;
@@ -212,6 +214,11 @@ export class CreateIssueComponent implements OnInit {
      * @param labels
      */
     assignLabelIds(labels: Array<ILabel>) {
+
+        if (!this.formGroup) {
+            return;
+        }
+        
         const formLabels: Array<ILabel> = this.formGroup.value.labels;
 
         const labelsToUpdate = formLabels

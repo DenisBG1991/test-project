@@ -47,7 +47,11 @@ import {PermissionEpics} from '@app/store/permission/permission.epic';
 import {LabelEpics} from '@app/store/label/label.epic';
 import {LabelActions} from '@app/store/label/label.actions';
 import {RouterHistoryActions} from '@app/store/router/router-history.actions';
-import {AgendaItemLayoutActions} from '@app/store/layout/agenda-item-layout.actions';
+import {AgendaItemMaterialEpics} from '@app/store/agenda-item-material/agenda-item-material.epics';
+import {AgendaItemMaterialActions} from '@app/store/agenda-item-material/agenda-item-material.actions';
+import {AgendaItemMaterialFolderActions} from '@app/store/agenda-item-material-folder/agenda-item-material-folder.actions';
+import {AgendaItemMaterialFolderEpics} from '@app/store/agenda-item-material-folder/agenda-item-material-folder.epics';
+import {MeetingMaterialEpics} from '@app/store/meeting-material/meeting-material.epics';
 
 @NgModule({
     exports: [
@@ -59,7 +63,10 @@ import {AgendaItemLayoutActions} from '@app/store/layout/agenda-item-layout.acti
         AgendaEpics,
         AgendaItemActions,
         AgendaItemEpics,
-        AgendaItemLayoutActions,
+        AgendaItemMaterialActions,
+        AgendaItemMaterialEpics,
+        AgendaItemMaterialFolderActions,
+        AgendaItemMaterialFolderEpics,
         AgendaItemParticipantActions,
         AgendaItemParticipantEpics,
         CollegialBodyActions,
@@ -73,6 +80,7 @@ import {AgendaItemLayoutActions} from '@app/store/layout/agenda-item-layout.acti
         LabelEpics,
         MeetingActions,
         MeetingLayoutActions,
+        MeetingMaterialEpics,
         MaterialVersionActions,
         MaterialVersionEpics,
         MeetingEpics,
@@ -107,6 +115,8 @@ export class StoreModule {
                 devTools: DevToolsExtension,
                 private _agendaEpics: AgendaEpics,
                 private _agendaItemEpics: AgendaItemEpics,
+                private _agendaItemMaterialEpics: AgendaItemMaterialEpics,
+                private _agendaItemMaterialFolderEpics: AgendaItemMaterialFolderEpics,
                 private _agendaItemParticipantEpics: AgendaItemParticipantEpics,
                 private _collegialBodyEpics: CollegialBodyEpics,
                 private _decisionEpics: DecisionEpics,
@@ -119,6 +129,7 @@ export class StoreModule {
                 private _labelEpics: LabelEpics,
                 private _materialVersionEpics: MaterialVersionEpics,
                 private _meetingEpics: MeetingEpics,
+                private _meetingMaterialEpics: MeetingMaterialEpics,
                 private _meetingParticipantEpics: MeetingParticipantEpics,
                 private _permissionEpics: PermissionEpics,
                 private _personEpics: PersonEpics,
@@ -131,11 +142,18 @@ export class StoreModule {
         const middleware = [
             createLogger(),
             createEpicMiddleware(this._agendaEpics.getAgenda),
-            createEpicMiddleware(this._agendaItemEpics.loadAgendaItem),
+            createEpicMiddleware(this._agendaItemEpics.loadSingleAgendaItem),
+            createEpicMiddleware(this._agendaItemEpics.loadAgendaItemParticipants),
             createEpicMiddleware(this._agendaItemEpics.moveAgendaItem),
             createEpicMiddleware(this._agendaItemEpics.removeAgendaItem),
             createEpicMiddleware(this._agendaItemEpics.moveAgendaItemState),
             createEpicMiddleware(this._agendaItemEpics.createAgendaItems),
+            createEpicMiddleware(this._agendaItemMaterialEpics.loadPresentations),
+            createEpicMiddleware(this._agendaItemMaterialEpics.loadDecisionProjects),
+            createEpicMiddleware(this._agendaItemMaterialEpics.changeMaterialType),
+            createEpicMiddleware(this._agendaItemMaterialEpics.deleteMaterial),
+            createEpicMiddleware(this._agendaItemMaterialEpics.uploadAgendaItemMaterial),
+            createEpicMiddleware(this._agendaItemMaterialFolderEpics.loadFolder),
             createEpicMiddleware(this._agendaItemParticipantEpics.checkIn),
             createEpicMiddleware(this._agendaItemParticipantEpics.checkOut),
             createEpicMiddleware(this._agendaItemParticipantEpics.addParticipant),
@@ -144,7 +162,7 @@ export class StoreModule {
             createEpicMiddleware(this._decisionEpics.approveDecision),
             createEpicMiddleware(this._decisionEpics.createDecision),
             createEpicMiddleware(this._decisionEpics.loadDecisions),
-            createEpicMiddleware(this._decisionEpics.sendDecisionToApproval),            
+            createEpicMiddleware(this._decisionEpics.sendDecisionToApproval),
             createEpicMiddleware(this._errorEpics.handleError),
             createEpicMiddleware(this._issueEpics.createIssue),
             createEpicMiddleware(this._issueEpics.deleteIssue),
@@ -157,6 +175,7 @@ export class StoreModule {
             createEpicMiddleware(this._issueMaterialEpics.deleteMaterial),
             createEpicMiddleware(this._issueMaterialEpics.loadDecisionProjects),
             createEpicMiddleware(this._issueMaterialEpics.loadPresentations),
+            createEpicMiddleware(this._issueMaterialEpics.uploadIssueMaterial),            
             createEpicMiddleware(this._issueMaterialFolderEpics.loadFolder),
             createEpicMiddleware(this._issueSharePersonEpics.loadSharePersons),
             createEpicMiddleware(this._issueSharePersonEpics.addSharePerson),
@@ -164,6 +183,7 @@ export class StoreModule {
             createEpicMiddleware(this._labelEpics.createLabel),
             createEpicMiddleware(this._labelEpics.loadLabels),
             createEpicMiddleware(this._materialVersionEpics.loadVersions),
+            createEpicMiddleware(this._materialVersionEpics.uploadMaterialVersion),
             createEpicMiddleware(this._meetingEpics.reloadMeetings),
             createEpicMiddleware(this._meetingEpics.appendMeetings),
             createEpicMiddleware(this._meetingEpics.loadSingleMeeting),
@@ -173,6 +193,7 @@ export class StoreModule {
             createEpicMiddleware(this._meetingEpics.moveMeetingState),
             createEpicMiddleware(this._meetingEpics.formMeetingProtocol),
             createEpicMiddleware(this._meetingEpics.editMeeting),
+            createEpicMiddleware(this._meetingMaterialEpics.loadProtocol),
             createEpicMiddleware(this._meetingParticipantEpics.loadMeetingParticipants),
             createEpicMiddleware(this._meetingParticipantEpics.addInvitedPerson),
             createEpicMiddleware(this._meetingParticipantEpics.removeInvitedPerson),

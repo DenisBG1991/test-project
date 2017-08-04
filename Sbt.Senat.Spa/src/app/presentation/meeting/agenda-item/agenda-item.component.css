@@ -13,6 +13,7 @@
 
 .senat-agenda-item-card {
     cursor: pointer;
+    position: relative;
 }
 
 .senat-agenda-item-card:hover {
@@ -31,11 +32,36 @@
 
 .senat-agenda-item-workflow-buttons {
     display: flex;
-    justify-content: space-between;
+    flex-grow: 1;
+    justify-content: flex-end;
 }
 
 .senat-to-remove-status-agenda-item-button {
     position: absolute;
     top: 6px;
     right: 45px;
+}
+.status-line {
+    display: flex;
+    justify-content: flex-start;
+}
+.status-line > senat-status-label {
+    margin-right: 5px;
+}
+
+.senat-agenda-item-order {
+    margin-right: 30px;
+}
+
+.senat-agenda-item-main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.senat-title-status {
+    flex-basis: 40%;
+}
+
+.senat-decision-button {
+    margin-left: auto;
 }

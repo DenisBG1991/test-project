@@ -7,3 +7,21 @@
     width: 300px;
     z-index: 100;
 }
+
+.senat-version-voting-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.senat-version-voting-info .senat-version-info {
+    flex-grow: 1;
+}
+
+.senat-project-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.senat-project-info .senat-material-version {
+    flex-grow: 1;
+}

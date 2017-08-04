@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {IIssueMaterial} from '@app/store/issue-material/issue-material.model';
 import {IIssueRef} from '@app/store/issue';
 import {IMaterialRef} from '@app/store/material';
-import {MaterialType} from '@app/store/material/material-type.model';
+import {IssueMaterialType} from '@app/store/material/material-type.model';
 
 @Injectable()
 export class IssueMaterialActions {
@@ -13,6 +13,9 @@ export class IssueMaterialActions {
     static readonly ChangeMaterialType = 'CHANGE_ISSUE_MATERIAL_TYPE';
     static readonly MaterialTypeChanged = 'ISSUE_MATERIAL_TYPE_CHANGED';
     static readonly DeleteMaterial = 'DELETE_ISSUE_MATERIAL';
+
+    static readonly UploadIssueMaterial = 'UPLOAD_ISSUE_MATERIAL';
+
 
     loadMaterialsComplete(materials: Array<IIssueMaterial>) {
         return {
@@ -44,11 +47,10 @@ export class IssueMaterialActions {
     /**
      * Смена типа материала.
      */
-    changeMaterialType(issue: IIssueRef, material: IMaterialRef, type: MaterialType) {
+    changeMaterialType(material: IMaterialRef, type: IssueMaterialType) {
         return {
             type: IssueMaterialActions.ChangeMaterialType,
             payload: {
-                issue: issue,
                 material: material,
                 type: type
             }
@@ -58,11 +60,10 @@ export class IssueMaterialActions {
     /**
      * Тип материала изменён.
      */
-    materialTypeChanged(issue: IIssueRef, material: IMaterialRef, type: MaterialType) {
+    materialTypeChanged(material: IMaterialRef, type: IssueMaterialType) {
         return {
             type: IssueMaterialActions.MaterialTypeChanged,
             payload: {
-                issue: issue,
                 material: material,
                 type: type
             }
@@ -74,12 +75,27 @@ export class IssueMaterialActions {
      * @param material
      * @returns {{type: string, payload: {material: IIssueMaterial}}}
      */
-    deleteMaterial(material: IIssueMaterial) {
+    deleteMaterial(material: IMaterialRef, issue: IIssueRef) {
         return {
             type: IssueMaterialActions.DeleteMaterial,
             payload: {
-                material: material
+                material: material,
+                issue: issue
             }
         };
     }
+
+
+    uploadIssueMaterial(issue: IIssueRef, location: string, file: File) {
+        return {
+            type: IssueMaterialActions.UploadIssueMaterial,
+            payload: {
+                issue: issue,
+                location: location,
+                file: file
+            }
+        };
+    }
+
+
 }

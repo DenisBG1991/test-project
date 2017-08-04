@@ -170,6 +170,8 @@ export class PermissionService {
                 return PermissionEnum.EditIssue;
             case PermissionEnumDto.EditMeeting:
                 return PermissionEnum.EditMeeting;
+            case PermissionEnumDto.ViewIssueInAgenda:
+                return PermissionEnum.ViewIssueInAgenda;
             case PermissionEnumDto.ViewIssue:
                 return PermissionEnum.ViewIssue;
             case PermissionEnumDto.ViewMeeting:

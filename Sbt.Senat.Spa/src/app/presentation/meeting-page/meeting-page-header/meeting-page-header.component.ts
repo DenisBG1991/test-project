@@ -16,6 +16,7 @@ import {PermissionEnum} from '@app/store/permission';
 import {PermissionSelectors} from '@app/store/permission/permission.selectors';
 import {PermissionActions} from '@app/store/permission/permission.actions';
 import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
+import {ConfirmService} from '@app/presentation/ui-kit/confirm/confirm.service';
 
 
 declare var document: any;
@@ -48,8 +49,11 @@ export class MeetingPageHeaderComponent implements OnInit {
         this._ngRedux.select(x => x.meetings.items.find(m => m.id === this._meeting.id));
 
     get canEdit$(): Observable<boolean> {
+       // return this._canEdit$;
         return this.hasPermission$(PermissionEnum.EditMeeting);
     }
+
+    private _canEdit$ = this.hasPermission$(PermissionEnum.EditMeeting);
 
     constructor(private _ngRedux: NgRedux<IAppState>,
                 private _route: ActivatedRoute,
@@ -57,6 +61,7 @@ export class MeetingPageHeaderComponent implements OnInit {
                 private _meetingLayoutActions: MeetingLayoutActions,
                 private _permissionSelectors: PermissionSelectors,
                 private _permissionActions: PermissionActions,
+                private _confirmServie: ConfirmService,
                 @Inject(AppConfigInjectionToken) protected config: IAppConfig) {
     }
 
@@ -165,9 +170,10 @@ export class MeetingPageHeaderComponent implements OnInit {
         // Simulate href or link
         document.location.href = this.downloadLink;
     }
+
     delete() {
-        if (confirm('Удалить заседание?')) {
+        this._confirmServie.confirm('Удалить заседание?', () => {
             this._ngRedux.dispatch(this._meetingActions.deleteMeeting(this._meeting));
-        }
+        });
     }
 }

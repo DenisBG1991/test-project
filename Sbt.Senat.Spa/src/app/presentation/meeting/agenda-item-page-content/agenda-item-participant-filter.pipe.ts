@@ -9,6 +9,6 @@ import {IPerson} from '@app/store/person/person.model';
 export class AgendaItemParticipantFilterPipe implements PipeTransform {
     transform(value: Array<{ self: IAgendaItemParticipant, person: IPerson }>,
               roles: Array<AgendaItemParticipantRole>): Array<{ self: IAgendaItemParticipant, person: IPerson }> {
-        return value.filter(x => x.self.roles.find(r => roles.find(rr => rr === r) != null) != null);
+        return value.filter(x => x.self.roles.some(r => roles.some(rr => rr === r)));
     }
 }

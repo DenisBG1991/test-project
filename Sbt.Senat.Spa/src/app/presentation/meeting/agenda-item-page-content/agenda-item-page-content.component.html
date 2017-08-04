@@ -19,12 +19,24 @@
     </div>
     <div class="mt-4">
         <h6 class="text-muted">{{'проекты решений' | uppercase}}</h6>
-        <senat-agenda-item-projects [agendaItem]="agendaItem"></senat-agenda-item-projects>
+        <senat-agenda-item-projects [agendaItem]="agendaItem"
+                                    [canChangeState]="(canChangeState$ | async)"></senat-agenda-item-projects>
     </div>
     <div class="mt-4">
         <h6 class="text-muted">{{'Все материалы' | uppercase}}</h6>
         <div class="card card-block">
-            <senat-material-browser [issue]="agendaItem.issue"></senat-material-browser>
+            <senat-material-browser [folders]="folders$ | async"
+                                    [materials]="materials$ | async"
+                                    [versions]="versions$ | async"
+                                    [disabled]="!(canEdit$ | async)"
+                                    [materialsUploading]="materialsUploading$ | async"
+                                    [versionsUploading]="versionsUploading$ | async"
+                                    (materialsAdded)="materialsAdded($event)"
+                                    (versionsAdded)="versionsAdded($event)"
+                                    (materialDeleted)="materialDeleted($event)"
+                                    (materialTypeChanged)="materialTypeChanged($event)"
+                                    (materialVersionExpanded)="materialVersionExpanded($event)"
+                                    (locationChanged)="locationChanged($event)"></senat-material-browser>
         </div>
     </div>
 </div>
@@ -34,16 +46,15 @@
     </div>
 </div>
 <div class="mt-4" *ngIf="(meeting$ | async)?.type === 'Presentia'">
-        <senat-agenda-item-participants [readOnly]="!(canEdit$ | async)" 
-                                        [participants]="participants$ | async"
-                                        [attendeesLayout]="attendeesLayout$ | async"
-                                        [suggestions]="suggestions$ | async"
-                                        [meetingParticipants]="meetingParticipants$ | async"
-                                        [persons]="persons$ | async"
-                                        (checkIn)="checkIn($event)"
-                                        (checkOut)="checkOut($event)"
-                                        (queryChanged)="findPeople($event)"
-                                        (addParticipant)="addParticipant($event)"
-                                        (removeParticipant)="removeParticipant($event)"
-        ></senat-agenda-item-participants>
+    <senat-agenda-item-participants [readOnly]="!(canEdit$ | async)"
+                                    [participants]="participants$ | async"
+                                    [suggestions]="suggestions$ | async"
+                                    [meetingParticipants]="meetingParticipants$ | async"
+                                    [persons]="persons$ | async"
+                                    (checkIn)="checkIn($event)"
+                                    (checkOut)="checkOut($event)"
+                                    (queryChanged)="findPeople($event)"
+                                    (addParticipant)="addParticipant($event)"
+                                    (removeParticipant)="removeParticipant($event)"
+    ></senat-agenda-item-participants>
 </div>

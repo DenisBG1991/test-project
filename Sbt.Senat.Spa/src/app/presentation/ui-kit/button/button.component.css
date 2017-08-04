@@ -19,6 +19,10 @@
     z-index: 1;
 }
 
+.senat-button.senat-button-reactangle {
+    border-radius: 4px;
+}
+
 /* Green*/
 .senat-button-green {
   transition: background 0.3s, color 0.3s;
@@ -173,4 +177,15 @@
     color: #fff;
 }
 
+.senat-button-green-sea-wave {
+    trasition: background 0.3s, color 0.3s;
+    background: #3DBB90;
+    border: 1px solid #3DBB90;
+    color: #fff;
+}
 
+.senat-button-green-sea-wave:hover:enabled {
+    background: #fff;
+    border: 1px solid #3DBB90;
+    color: #3DBB90;
+}

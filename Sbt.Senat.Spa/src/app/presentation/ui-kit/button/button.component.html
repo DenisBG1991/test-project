@@ -1,3 +1,4 @@
-<button class="senat-button" [ngClass]="'senat-button-' + type" [style.min-width]="minWidth+'px'" [disabled]="disabled">
+<button class="senat-button" [ngClass]="'senat-button-' + type" [style.min-width]="minWidth+'px'" 
+        [disabled]="disabled" [class.senat-button-reactangle]="isReactangle">
     <ng-content></ng-content>
 </button>

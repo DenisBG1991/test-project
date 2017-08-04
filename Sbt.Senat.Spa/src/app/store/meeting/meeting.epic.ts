@@ -278,7 +278,9 @@ export class MeetingEpics {
         .ofType(MeetingActions.FormMeetingProtocol)
         .switchMap(action => {
             return this._meetingService.formMeetingProtocol(action.payload.meeting)
-                .map(meetingCreated => this._meetingActions.formMeetingProtocolComplete(action.payload.meeting))
+                .mergeMap(meetingCreated => Observable.concat(
+                    Observable.of(this._meetingActions.formMeetingProtocolComplete(action.payload.meeting)),
+                    Observable.of(this._meetingActions.loadMeetingProtocol(action.payload.meeting))))
                 .catch(error => Observable.concat(
                     Observable.of(this._meetingActions.formMeetingProtocolFail(error)),
                     Observable.of(this._errorActions.errorOccurred(error))

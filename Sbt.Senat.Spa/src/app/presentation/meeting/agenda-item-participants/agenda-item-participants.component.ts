@@ -26,12 +26,6 @@ export class AgendaItemParticipantsComponent implements OnInit {
     participants: Array<{ self: IAgendaItemParticipant, person: IPerson }> = [];
 
     /**
-     * Array of  Tuples of agendaItem participant and its previous state of Presents, needs for Layout
-     */
-    @Input()
-    attendeesLayout: Array<{ person: IPersonRef, prevPresents: boolean }>;
-
-    /**
      * Список предложенных вариантов для селектов людей.
      * @type {Array}
      */
@@ -119,10 +113,6 @@ export class AgendaItemParticipantsComponent implements OnInit {
         }
     }
 
-    provideAppropriatePreviousPresentsState(participant: IPersonRef) {
-        const attendee = this.attendeesLayout.find(x => x.person.id === participant.id);
-        return attendee ? attendee.prevPresents : false;
-    }
 
     findParticipant(person: IPerson): { self: IAgendaItemParticipant, person: IPerson } {
         return this.participants.find(f => f.self.person.id === person.id);

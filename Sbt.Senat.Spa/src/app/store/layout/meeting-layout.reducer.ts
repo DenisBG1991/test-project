@@ -8,56 +8,72 @@ export function meetingLayoutReducer(state: IMeetingLayoutState = meetingLayoutI
             return {
                 editMode: false,
                 absentiaMeetingBeingCreated: state.absentiaMeetingBeingCreated,
-                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated
+                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingLayoutActions.ChangeMeetingLayoutEditMode:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: state.absentiaMeetingBeingCreated,
-                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated
+                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreateAbsentiaMeeting:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: true,
-                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated
+                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreateAbsentiaMeetingComplete:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: false,
-                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated
+                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreateAbsentiaMeetingFail:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: false,
-                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated
+                presentiaMeetingBeingCreated: state.presentiaMeetingBeingCreated,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreatePresentiaMeeting:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: state.absentiaMeetingBeingCreated,
-                presentiaMeetingBeingCreated: true
+                presentiaMeetingBeingCreated: true,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreatePresentiaMeetingComplete:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: state.absentiaMeetingBeingCreated,
-                presentiaMeetingBeingCreated: false
+                presentiaMeetingBeingCreated: false,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         case MeetingActions.CreatePresentiaMeetingFail:
             return {
                 editMode: action.payload.editMode,
                 absentiaMeetingBeingCreated: state.absentiaMeetingBeingCreated,
-                presentiaMeetingBeingCreated: false
+                presentiaMeetingBeingCreated: false,
+                openedVersionMaterialId: state.openedVersionMaterialId,
+                loadingVersionMaterialId: state.loadingVersionMaterialId
             };
 
         default:

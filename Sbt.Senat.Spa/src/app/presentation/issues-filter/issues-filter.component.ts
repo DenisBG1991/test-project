@@ -30,7 +30,7 @@ export class IssuesFilterComponent implements OnDestroy, OnInit {
 
     collegialBodies$: Observable<Array<ICollegialBody>> = this._ngRedux
         .select(this._permissionSelectors.collegialBodyChildPermissionsFilter([
-            PermissionEnum.ViewIssue]));
+            PermissionEnum.ViewIssueInAgenda]));
 
     private _selectedCollegialBodyId: string;
 

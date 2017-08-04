@@ -48,12 +48,18 @@ export class CreateUserRoleComponent implements OnInit {
     userRole: FormModel = new FormModel();
 
 
-    roles$: Observable<IRole[]> = this._ngRedux.select(x => x.roles.filter(f => f.permissionLevel.toString() === (this.userRole.permissionLevel || '').toString()));
+    roles$: Observable<IRole[]> = this._ngRedux.select(x => x.roles
+        .filter(f => f.permissionLevel.toString() === (this.userRole.permissionLevel || '').toString()));
 
-    collegialBodies$: Observable<ICollegialBody[]> = this._ngRedux.select(this._permissionSelectors.collegialBodyPermissionFilter(PermissionEnum.EditUserRole))
+    collegialBodies$: Observable<ICollegialBody[]> = this._ngRedux
+        .select(this._permissionSelectors.collegialBodyPermissionFilter(PermissionEnum.EditUserRole))
         .map(list => list.filter(f => f.company.id === this.userRole.companyId));
-    companies$: Observable<ICompany[]> = this._ngRedux.select(this._permissionSelectors.companyChildPermissionsFilter([PermissionEnum.EditUserRole]));
-    holdings$: Observable<IHolding[]> = this._ngRedux.select(this._permissionSelectors.holdingChildPermissionsFilter([PermissionEnum.EditUserRole]));
+
+    companies$: Observable<ICompany[]> = this._ngRedux
+        .select(this._permissionSelectors.companyChildPermissionsFilter([PermissionEnum.EditUserRole]));
+
+    holdings$: Observable<IHolding[]> = this._ngRedux
+        .select(this._permissionSelectors.holdingChildPermissionsFilter([PermissionEnum.EditUserRole]));
 
     permissionLevels$: Observable<Array<{
         value: PermissionLevelEnum,

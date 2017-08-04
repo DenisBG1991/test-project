@@ -65,7 +65,7 @@ import {VoteComponent} from '@app/presentation/vote/vote.component';
 import {VotesComponent} from '@app/presentation/votes/votes.component';
 import {VotingBarComponent} from '@app/presentation/voting-bar/voting-bar.component';
 import {VotingInfoComponent} from '@app/presentation/voting-info/voting-info.component';
-import {PublicRoutingModule} from './public-routing.module';
+import { routingPublic } from './public.routing';
 import {PublicComponent} from './public.component';
 
 
@@ -106,6 +106,8 @@ import {GroupAlternatesPipe} from '@app/presentation/meeting/agenda-item-partici
 import {SelectorComponent} from '@app/presentation/ui-kit/selector/selector.component';
 import {MeetingPageHeaderComponent} from '@app/presentation/meeting-page/meeting-page-header/meeting-page-header.component';
 import {MeetingPageContentComponent} from '@app/presentation/meeting-page/meeting-page-content/meeting-page-content.component';
+import { ConfirmComponent } from '@app/presentation/ui-kit/confirm/confirm.component';
+import {ConfirmService} from '@app/presentation/ui-kit/confirm/confirm.service';
 
 @NgModule({
     declarations: [
@@ -189,10 +191,14 @@ import {MeetingPageContentComponent} from '@app/presentation/meeting-page/meetin
         DropdownMenuItemComponent,
         DropdownMenuSeparatorComponent,
         CloseButtonMediumComponent,
-        AgendaItemSelectorComponent
+        AgendaItemSelectorComponent,
+        ConfirmComponent
+    ],
+    entryComponents: [
+        ConfirmComponent
     ],
     imports: [
-        PublicRoutingModule,
+        routingPublic,
         SharedModule,
         StoreModule
     ],
@@ -214,8 +220,8 @@ import {MeetingPageContentComponent} from '@app/presentation/meeting-page/meetin
         VotingService,
         PermissionSelectors,
         BackNavigationService,
+        ConfirmService,
         {provide: SignalrWindow, useValue: window}
     ]
 })
-export class PublicModule {
-}
+export class PublicModule {}

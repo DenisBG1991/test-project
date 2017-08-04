@@ -6,6 +6,7 @@ import {PersonActions} from '@app/store/person/person.actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/observable/concat';
 import 'rxjs/observable/of';
+import {MaterialVersion, Person} from '@app/services/api/mapping.types';
 
 @Injectable()
 export class MaterialVersionEpics {
@@ -26,5 +27,34 @@ export class MaterialVersionEpics {
                     Observable.of(this._materialVersionActions.loadMaterialVersionsComplete(result.versions))
                 );
             })
+            .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
+
+    uploadMaterialVersion = action$ => action$
+        .ofType(MaterialVersionActions.UploadMaterialVersion)
+        .flatMap(action => [this._materialService.uploadVersion(action.payload.material, action.payload.file)]
+            .map(m => Observable.merge(
+                Observable.merge(
+                    m.progress$.first(), // не дожидаемся sampleTime, чтобы сразу отобразился прогресс
+                    m.progress$.sampleTime(3000)).map(p =>
+                    this._materialVersionActions.materialUploadProgress(null,
+                        action.payload.material,
+                        action.payload.file,
+                        p.progress)),
+
+                m.result$.map(response => {
+
+                    const versionUploaded = MaterialVersion.parse(Object.assign(response, {id: action.payload.material.id}));
+                    const createdBy = Person.parse(response.createdBy);
+
+                    return Observable.concat(
+                        Observable.of(this._materialVersionActions.materialUploadProgress(null,
+                            action.payload.material,
+                            action.payload.file, -1)),
+                        Observable.of(this._materialVersionActions.loadMaterialVersionsComplete([versionUploaded])),
+                        Observable.of(this._personActions.loadPersonsComplete([createdBy])));
+
+
+                }).mergeAll())
+            )[0]
             .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
 }

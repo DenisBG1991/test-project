@@ -13,7 +13,10 @@ import {
     controlsLayoutInitialState, ILayoutState, loginLayoutInitialState,
     issueLayoutInitialState
 } from '@app/store/layout/layout.types';
-import {loginLayoutReducer, controlsLayoutReducer, issueLayoutReducer} from '@app/store/layout/layout.reducer';
+import {
+    loginLayoutReducer, controlsLayoutReducer, issueLayoutReducer,
+    materialsUploadingReducer
+} from '@app/store/layout/layout.reducer';
 import {IMeetingsState, meetingsInitialState} from '@app/store/meeting/meetings-state.model';
 import {IAgenda} from '@app/store/agenda/agenda.model';
 import {IMeetingParticipant} from '@app/store/meeting-participant/meeting-participant.model';
@@ -50,9 +53,13 @@ import {meetingLayoutInitialState} from '@app/store/layout/meeting-layout-state.
 import {createIssueFormReducer} from '@app/store/layout/create-issue-form.reducer';
 import {labelsReducer} from '@app/store/label/labels.reducer';
 import {routerHistoryReducer} from '@app/store/router/router-history.reducer';
-import {agendaItemLayoutReducer} from '@app/store/layout/agenda-item-layout.reducer';
-import {agendaItemLayoutInitialState} from '@app/store/layout/agenda-item-layout-state.model';
 import {ILabel} from '@app/store/label';
+import {IAgendaItemMaterial} from '@app/store/agenda-item-material/agenda-item-material.model';
+import {IAgendaItemMaterialFolder} from '@app/store/agenda-item-material-folder/agenda-item-material-folder.model';
+import {agendaItemMaterialFolderReducer} from '@app/store/agenda-item-material-folder/agenda-item-material-folder.reducer';
+import {agendaItemMaterialReducer} from '@app/store/agenda-item-material/agenda-item-material.reducer';
+import {meetingMaterialReducer} from '@app/store/meeting-material/meeting-material.reducer';
+import {IMeetingMaterial} from '@app/store/meeting-material/meeting-material.model';
 
 export interface IOperationState {
     updating: boolean;
@@ -62,6 +69,8 @@ export interface IOperationState {
 export interface IAppState {
     agenda: Array<IAgenda>;
     agendaItems: Array<IAgendaItem>;
+    agendaItemMaterialFolders: Array<IAgendaItemMaterialFolder>;
+    agendaItemMaterials: Array<IAgendaItemMaterial>;
     agendaItemParticipants: Array<IAgendaItemParticipant>;
     collegialBodies: Array<ICollegialBody>;
     currentUser: IUser;
@@ -70,6 +79,7 @@ export interface IAppState {
     issue?: issue.IIssueState;
     issueMaterialFolders: Array<IIssueMaterialFolder>;
     issueMaterials: Array<IIssueMaterial>;
+    meetingMaterials: Array<IMeetingMaterial>;
     issues: Array<IIssue>;
     issueSharePersons: Array<IIssuePerson>;
     labels: Array<ILabel>;
@@ -88,6 +98,8 @@ export interface IAppState {
 export const rootReducer = combineReducers<IAppState>({
     agenda: agendaReducer,
     agendaItems: agendaItemReducer,
+    agendaItemMaterialFolders: agendaItemMaterialFolderReducer,
+    agendaItemMaterials: agendaItemMaterialReducer,
     agendaItemParticipants: agendaItemParticipantsReducer,
     collegialBodies: collegialBodyReducer,
     currentUser: sessionReducer,
@@ -96,6 +108,7 @@ export const rootReducer = combineReducers<IAppState>({
     issue: issue.issueReducer,
     issueMaterialFolders: issueMaterialFolderReducer,
     issueMaterials: issueMaterialReducer,
+    meetingMaterials: meetingMaterialReducer,
     issues: issuesReducer,
     issueSharePersons: issueSharePersonReducer,
     labels: labelsReducer,
@@ -109,7 +122,7 @@ export const rootReducer = combineReducers<IAppState>({
         meetingAbsentiaForm: meetingAbsentiaFormReducer,
         meeting: meetingLayoutReducer,
         createIssueForm: createIssueFormReducer,
-        agendaItem: agendaItemLayoutReducer
+        materialsUploading: materialsUploadingReducer
     }),
     materialVersions: materialVersionReducer,
     meetings: meetingReducer,
@@ -125,6 +138,8 @@ export const rootReducer = combineReducers<IAppState>({
 export const INITIAL_STATE: IAppState = {
     agenda: [],
     agendaItems: [],
+    agendaItemMaterialFolders: [],
+    agendaItemMaterials: [],
     agendaItemParticipants: [],
     collegialBodies: [],
     currentUser: null,
@@ -133,6 +148,7 @@ export const INITIAL_STATE: IAppState = {
     issueList: issueList.INITIAL_STATE,
     issueMaterialFolders: [],
     issueMaterials: [],
+    meetingMaterials: [],
     issues: [],
     issueSharePersons: [],
     labels: [],
@@ -146,7 +162,7 @@ export const INITIAL_STATE: IAppState = {
         meetingPresentiaForm: null,
         meeting: meetingLayoutInitialState,
         createIssueForm: null,
-        agendaItem: agendaItemLayoutInitialState
+        materialsUploading: []
     },
     materialVersions: [],
     meetings: meetingsInitialState,

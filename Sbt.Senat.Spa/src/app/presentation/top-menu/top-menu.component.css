@@ -1,116 +1,125 @@
-.senat-top-menu {
-    background-image: linear-gradient(55deg, #45BE67 0%, #23B78C 100%);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
-    color: #FFFFFF;
-    position: relative;
+.top-menu-senat {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(74deg, #51b46d, #3dba8f), linear-gradient(#efeff4, #efeff4);
 }
-
-.senat-top-menu .row:first-child .col:first-child {
-    position: absolute;
-    left: -47px;
+.top-menu-senat .top-menu-senat-element {
+  text-align: center;
+  width: 10%;
 }
-
-.senat-top-menu .row:first-child .col:last-child {
-    position: absolute;
-    right: -112px;
+.top-menu-senat .top-menu-senat-element .link {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-family: Roboto sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2% 8%;
+  border: solid 2px inherit;
+  border-radius: 10px;
 }
-
-.senat-top-menu h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 500;
-    font-size: 32px;
-    letter-spacing: 0;
-    line-height: 43px;
-    margin: 18px 0;
-    padding: 0 8px;
+.top-menu-senat .top-menu-senat-element .link:hover {
+  transition: font-size 0.3s;
+  font-size: 14px;
+  border: solid 2px #FFFFFF;
 }
-
-ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.top-menu-senat .top-menu-senat-element .link.active {
+  background-color: #FFFFFF;
 }
-
-ul li {
-    display: inline-block;
+.top-menu-senat .top-menu-senat-logo {
+  padding-left: 7%;
+  width: 20%;
 }
-
-ul li + li {
-    margin-left: 27px;
+.top-menu-senat .top-menu-senat-logo .top-menu-senat-element-logo {
+  padding: 0;
+  border: solid 2px inherit;
 }
-
-nav a {
-    display: block;
-    padding: 10px 8px;
-    border-bottom: 2px transparent;
-    color: #FFFFFF;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 0;
-    text-transform: capitalize;
-    opacity: 0.7;
+.top-menu-senat .top-menu-senat-logo .top-menu-senat-element-logo .logo {
+  width: 4em;
+  height: 3em;
 }
-
-nav a:hover, nav a:active {
-    text-decoration: none;
+.top-menu-senat .top-menu-senat-logo .top-menu-senat-element-logo:hover {
+  border: none;
 }
-
-nav a:hover {
-    opacity: 1;
+.top-menu-senat .top-menu-senat-dashboard .top-menu-senat-element-tag.active {
+  color: #4cb676;
 }
-
-nav a.active {
-    border-bottom: 2px solid #fff;
-    opacity: 1;
+.top-menu-senat .top-menu-senat-meetings .top-menu-senat-element-tag.active {
+  color: #4ab679;
 }
-
-button {
-    width: 60px;
+.top-menu-senat .top-menu-senat-instructions .top-menu-senat-element-tag.active {
+  color: #48b67c;
+}
+.top-menu-senat .top-menu-senat-search .top-menu-senat-element-tag.active {
+  color: #46b880;
+}
+.top-menu-senat .top-menu-senat-notifications .top-menu-senat-element-tag.active {
+  color: #44b883;
+}
+.top-menu-senat .top-menu-senat-user {
+  padding-left: 12%;
+  padding-right: 8%;
+  width: 30%;
+}
+.top-menu-senat .top-menu-senat-user .media {
+  vertical-align: middle;
+  padding-right: 20%;
+}
+.top-menu-senat .top-menu-senat-user .media .media-body .profile {
+  font-weight: bold;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  font-family: Roboto, sans-serif;
+  font-size: 9px;
+  text-align: left;
+  color: #0a7d4a;
+}
+.top-menu-senat .top-menu-senat-user .media .media-body .fullname {
+  font-weight: bold;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  text-align: left;
+  color: #ffffff;
+}
+.top-menu-senat .top-menu-senat-user .media .link-icon {
+  padding-top: 5%;
+}
+.top-menu-senat .top-menu-senat-user .media .link-icon:hover {
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px crimson solid;
+}
+.top-menu-senat .top-menu-senat-user .media .dropdown-menu {
+  top: 140%;
+  left: -550%;
+}
+.top-menu-senat .top-menu-senat-user .media .dropdown-menu .dropdown-item:hover {
+  color: #FFFFFF;
+  background-color: #00D473;
+}
+@media (min-width: 0px) {
+  .top-menu-senat {
+    height: 150px;
+  }
+}
+@media (min-width: 576px) {
+  .top-menu-senat {
+    height: 130px;
+  }
+}
+@media (min-width: 768px) {
+  .top-menu-senat {
+    height: 100px;
+  }
+}
+@media (min-width: 992px) {
+  .top-menu-senat {
+    height: 80px;
+  }
+}
+@media (min-width: 1200px) {
+  .top-menu-senat {
     height: 60px;
-    background: #FFFFFF;
-    border-width: 0;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
-    position: absolute;
-    bottom: -30px;
-    right: 15px;
-    cursor: pointer;
-    z-index: 100;
-}
-
-button:hover {
-    background: #ECECEC;
-}
-
-button span:first-child {
-    position: absolute;
-    top: 15px;
-    left: 29px;
-    width: 2px;
-    height: 30px;
-    background: #474747;
-}
-
-button span:last-child {
-    position: absolute;
-    top: 29px;
-    left: 15px;
-    width: 30px;
-    height: 2px;
-    background: #474747;
-}
-
-.senat-logo {
-    width: 32px;
-    height: 32px;
-}
-
-.senat-current-user {
-    margin-left: 50px;
-    position: relative;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
+  }
 }

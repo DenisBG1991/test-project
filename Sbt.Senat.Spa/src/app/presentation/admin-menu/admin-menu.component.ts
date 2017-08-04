@@ -8,9 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { IAppState } from '@app/store/store';
 import { PermissionEnum } from '@app/store/permission';
 
-import { HttpUrlWrappingDecorator } from '@app/services/api/http-url-wrapping-decorator';
-
-import { OrgUnit, OrgChildUnit } from '@app/presentation/admin-menu/org-unit.model';
+import { OrgUnit, FullOrgsUnit } from '@app/presentation/admin-menu/orgs-unit.model';
+import { LoadDataService } from '@app/presentation/admin-menu/admin-menu.service';
 
 @Component({
     selector: 'senat-admin-menu',
@@ -19,8 +18,7 @@ import { OrgUnit, OrgChildUnit } from '@app/presentation/admin-menu/org-unit.mod
 })
 export class AdminMenuComponent implements OnInit {
     private defaultRequestOptions: BaseRequestOptions;
-    private OrgsUnit: Array<OrgUnit> = [];
-    private OrgsChildUnit: Array<OrgChildUnit> = [];
+    private OrgsUnit: Array<FullOrgsUnit> = [];
     private Org: Array<OrgUnit> | OrgUnit = [
         {
             id: 'd104cbd7-9620-4342-88d9-7f8ab3809a72',
@@ -47,19 +45,33 @@ export class AdminMenuComponent implements OnInit {
             hasChildren: true
         }
     ];
-    private Orgs: Array<OrgUnit> | OrgUnit = {
-        id: 'd104cbd7-9620-4342-88d9-7f8ab3435435',
-        name: 'Тинькоф',
-        type: 'Holding',
-        hasChildren: true
-    };
-    private target: OrgChildUnit = <OrgChildUnit>{};
+    private Orgs: Array<OrgUnit> | OrgUnit = [
+        {
+            id: 'd104cbd7-9620-4342-88d9-7f8a234234234',
+            name: 'Сбербанк',
+            type: 'Holding',
+            hasChildren: true
+        },
+        {
+            id: 'd104cbd7-9620-4342-88d9-7f456456456546',
+            name: 'Альфабанк',
+            type: 'Holding',
+            hasChildren: true
+        },
+        {
+            id: 'd104cbd7-9620-4342-88d9-7f8a99997767',
+            name: 'Тинькоф',
+            type: 'Holding',
+            hasChildren: true
+        }
+    ];
+    private target: FullOrgsUnit;
 
     showCreatePerson$: Observable<boolean> = this._ngRedux.select(x => x.permissions.some(
         p => p.permission === PermissionEnum.CreatePerson));
 
     constructor(private _ngRedux: NgRedux<IAppState>,
-                private http: HttpUrlWrappingDecorator) {
+                private loadDataService: LoadDataService) {
         this.defaultRequestOptions = new BaseRequestOptions();
         this.defaultRequestOptions.headers.set('content-type', 'application/json');
         this.defaultRequestOptions.headers.set('accept', 'application/json');
@@ -67,138 +79,69 @@ export class AdminMenuComponent implements OnInit {
     };
 
     ngOnInit() {
+        /*
         if (Array.isArray(this.Org)) {
-            this.OrgsUnit = this.OrgsUnit.concat(this.Org);
-        } else {
-            this.OrgsUnit.push(<OrgUnit>this.Org);
-        }
-        /*this.http.get('api/v2.0/OrgsUnit', this.defaultRequestOptions)
-            .flatMap((data) => data.json())
-            .subscribe((data: Array<OrgUnit>) => {
-                if (Array.isArray(data)) {
-                    this.OrgsUnit = this.OrgsUnit.concat(data);
+            for (let j = 0; j < this.Org.length; j++) {
+                if (Array.isArray(this.Orgs)) {
+                    this.target = {...this.Org[j], orgChildUnit: this.Orgs};
+                    this.OrgsUnit.push(this.target);
                 } else {
-                    this.OrgsUnit.push(<OrgUnit>data);
+                    this.target = {...this.Org[j], orgChildUnit: [this.Orgs]};
+                    this.OrgsUnit.push(this.target);
                 }
-            });*/
+            }
+        } else {
+            if (Array.isArray(this.Orgs)) {
+                this.target = {...this.Org, orgChildUnit: this.Orgs};
+                this.OrgsUnit.push(this.target);
+            } else {
+                this.target = {...this.Org, orgChildUnit: [this.Orgs]};
+                this.OrgsUnit.push(this.target);
+            }
+        }*/
+
+        this.loadDataService.loadData('api/v2.0/OrgUnits', this.defaultRequestOptions)
+            .subscribe(data => {
+                if (Array.isArray(data)) {
+                    for (let j = 0; j < data.length; j++) {
+                        this.loadDataService.loadData(`api/v2.0/OrgUnits?parent={${data[j]['id']}}`, this.defaultRequestOptions)
+                            .subscribe(child => {
+                                if (Array.isArray(child)) {
+                                    this.target = {...data[j], orgChildUnit: child};
+                                    this.OrgsUnit.push(this.target);
+                                } else {
+                                    this.target = {...data[j], orgChildUnit: [child]};
+                                    this.OrgsUnit.push(this.target);
+                                }
+                            });
+                    }
+                } else {
+                    this.loadDataService.loadData(`api/v2.0/OrgUnits?parent={${data['id']}}`, this.defaultRequestOptions)
+                        .subscribe(child => {
+                            if (Array.isArray(child)) {
+                                this.target = {...data, orgChildUnit: child};
+                                this.OrgsUnit.push(this.target);
+                            } else {
+                                this.target = {...data, orgChildUnit: [child]};
+                                this.OrgsUnit.push(this.target);
+                            }
+                        });
+                }
+            });
     };
 
-    showMore(event, OrgUnit) {
+    showMore(event) {
         event.preventDefault();
-        this.target = <OrgChildUnit>{};
-        console.log(this.target);
-        console.log(!!this.target.idParent);
         if (event.target.classList.contains('open')) {
-            console.log('Up');
             event.target.classList.remove('open');
             event.target.nextElementSibling.classList.remove('openList');
             event.target.previousElementSibling.classList.remove('rotate90deg');
             event.target.previousElementSibling.classList.add('unRotate90deg');
         } else {
-            console.log('Down');
-            if (this.OrgsChildUnit.length === 0) {
-                console.log('Low');
-                if (Array.isArray(this.Orgs)) {
-                    this.target = {
-                        idParent: OrgUnit.id,
-                        orgsChildUnit: [...this.Orgs]
-                    };
-                    this.OrgsChildUnit.push(this.target);
-                } else {
-                    this.target = <OrgChildUnit>{
-                        idParent: OrgUnit.id,
-                        orgsChildUnit: [this.Orgs]
-                    };
-                    this.OrgsChildUnit.push(this.target);
-                }
-                console.log('Low', this.target.idParent);
-                console.log(!!this.target.idParent);
-            } else {
-                console.log('ForEach');
-                for (let i = 0; i < this.OrgsChildUnit.length; i++) {
-                    if (this.OrgsChildUnit[i].idParent === OrgUnit.id) {
-                        this.target = this.OrgsChildUnit[i];
-                        console.log('ForEach', this.target.idParent);
-                        console.log(!!this.target.idParent);
-                        break;
-                    }
-                }
-                if (!this.target.idParent) {
-                    console.log('New');
-                    if (Array.isArray(this.Orgs)) {
-                        this.target = {
-                            idParent: OrgUnit.id,
-                            orgsChildUnit: [...this.Orgs]
-                        };
-                        this.OrgsChildUnit.push(this.target);
-                    } else {
-                        this.target = <OrgChildUnit>{
-                            idParent: OrgUnit.id,
-                            orgsChildUnit: [this.Orgs]
-                        };
-                        this.OrgsChildUnit.push(this.target);
-                    }
-                    console.log('New', this.target.idParent);
-                    console.log(!!this.target.idParent);
-                }
-            }
             event.target.classList.add('open');
             event.target.nextElementSibling.classList.add('openList');
             event.target.previousElementSibling.classList.remove('unRotate90deg');
             event.target.previousElementSibling.classList.add('rotate90deg');
         }
-        /*if (this.showAllList) {
-            if (this.OrgsChildUnit.length === 0) {
-                this.http.get(`api/v2.0/OrgUnits?parent={${OrgUnit.id}}`, this.defaultRequestOptions)
-                    .flatMap((data) => data.json())
-                    .subscribe((data: Array<OrgUnit> | OrgUnit) => {
-                        if (Array.isArray(data)) {
-                            this.target = {
-                                idParent: OrgUnit.id,
-                                orgsChildUnit: [...data]
-                            };
-                            this.OrgsChildUnit.push(this.target);
-                        } else {
-                            this.target = <OrgChildUnit>{
-                                idParent: OrgUnit.id,
-                                orgsChildUnit: [data]
-                            };
-                            this.OrgsChildUnit.push(this.target);
-                        }
-                    });
-            } else {
-                for (let i = 0; i < this.OrgsChildUnit.length; i++) {
-                    if (this.OrgsChildUnit[i].idParent === OrgUnit.id) {
-                        this.target = this.OrgsChildUnit[i];
-                        break;
-                    }
-                }
-                if (isUndefined(this.target)) {
-                    this.http.get(`api/v2.0/OrgUnits?parent={${OrgUnit.id}}`, this.defaultRequestOptions)
-                        .flatMap((data) => data.json())
-                        .subscribe((data: Array<OrgUnit> | OrgUnit) => {
-                            if (Array.isArray(data)) {
-                                this.target = {
-                                    idParent: OrgUnit.id,
-                                    orgsChildUnit: [...data]
-                                };
-                                this.OrgsChildUnit.push(this.target);
-                            } else {
-                                this.target = {
-                                    idParent: OrgUnit.id,
-                                    orgsChildUnit: [data]
-                                };
-                                this.OrgsChildUnit.push(this.target);
-                            }
-                        });
-                }
-            }
-        }*/
-    };
-
-    getData(url, options) {
-        this.http.get(url, options)
-            .flatMap(data => data.json())
-            .subscribe((data: Array<OrgUnit>) => data);
     };
 }

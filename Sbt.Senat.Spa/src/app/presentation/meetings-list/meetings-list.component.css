@@ -1,19 +1,25 @@
+/*These styles contains commented CSS GRID LAYOUT, in Yandex 17.3, it isn't work withoud activating experimental features. 
+So, before our clients will not have updated their browsers, use flex instead of grid. In Happy and Light Future, uncomment grids and
+give them freadom to emit all their power and rage)*/
+
 .meeting-in-list {
     cursor: pointer;
-    display: grid;
+    /*display: grid;*/
     margin: 10px;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto auto;
+    /*grid-template-columns: 1fr auto;*/
+    /*grid-template-rows: auto auto auto;*/
     border-radius: 4px;
     background-color: #FFFFFF;
-    grid-gap: 5px;
+    /*grid-gap: 5px;*/
     padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
 }
 
 .meeting-in-list:hover {
     color: #FFFFFF;
 }
-
 
 .date {
     text-transform: uppercase;
@@ -36,10 +42,10 @@
     padding: 0 10px;
 
 }
+
 .status-type > div:first-child {
     margin-right: 2px
 }
-
 
 .status-color-Draft .status-color:not(.g-holding) > div {
     background-color: rgb(169, 204, 234);
@@ -54,46 +60,47 @@
 }
 
 .g-date-time {
-    grid-column: 1;
-    grid-row: 1;
+    /*grid-column: 1;*/
+    /*grid-row: 1;*/
 }
 
 .g-status-type {
-    grid-column: 2;
-    grid-row: 1;
+    /*grid-column: 2;*/
+    /*grid-row: 1;*/
 }
 
 .g-holding {
     color: rgb(180, 180, 180);
-    grid-column: 2;
-    grid-row: 3;
+    /*grid-column: 2;*/
+    /*grid-row: 3;*/
     align-self: end;
-    justify-self: end;
-    -ms-grid-column-align: end;
+    /*justify-self: end;*/
+    /*-ms-grid-column-align: end;*/
 }
-.g-holding > div{
-    background-color: rgb(237, 237, 237);    
+
+.g-holding > div {
+    background-color: rgb(237, 237, 237);
     border-radius: 4px;
     padding: 0 10px;
     width: auto;
 }
 
 .g-collegial-body {
-    grid-column: 1 / span 2;
-    grid-row: 2;
+    /*grid-column: 1 / span 2;*/
+    /*grid-row: 2;*/
     font-weight: bold;
-    
+
 }
 
 .g-meeting-num {
-    grid-column: 1;
-    grid-row: 3;
+    /*grid-column: 1;*/
+    /*grid-row: 3;*/
     align-self: end;
-    justify-self: start;
-    
+    /*justify-self: start;*/
+
 }
 
-.status-color-Draft:hover .status-color > div{
+.status-color-Draft:hover .status-color > div {
     background-color: rgb(135, 171, 203);
     color: #FFFFFF;
 }
@@ -108,17 +115,34 @@
     color: #FFFFFF;
 }
 
-
 .meeting-in-list.status-color-Draft:hover {
     background-color: rgb(151, 189, 222);
 }
 
-.meeting-in-list.status-color-Opened:hover  {
+.meeting-in-list.status-color-Opened:hover {
     background-color: rgb(114, 193, 135);
 }
 
-.meeting-in-list.status-color-Closed:hover  {
+.meeting-in-list.status-color-Closed:hover {
     background-color: rgb(175, 185, 197);
 }
 
+.senat-meeting-detail-info .g-date-time,
+.senat-meeting-detail-info .g-collegial-body {
+    margin-bottom: 5px;
+}
 
+.senat-meeting-status-type-holding-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.senat-meeting-detail-info {
+    flex-grow: 1;
+    width: calc(100% - 300px);
+}
+
+.senat-meeting-status-type-holding-info .g-holding {
+    align-self: flex-end;;
+}

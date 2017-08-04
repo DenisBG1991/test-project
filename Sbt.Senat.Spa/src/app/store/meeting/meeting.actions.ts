@@ -5,6 +5,8 @@ import {IPage} from '@app/store/paging.model';
 import {FormGroup} from '@angular/forms';
 import {IMeetingRef} from '@app/store/meeting/meeting-ref.model';
 import {MeetingWorkflowAction} from '@app/store/meeting/meeting-workflow-action';
+import {IMaterial} from '@app/store/material';
+import {IMeetingMaterial} from '@app/store/meeting-material/meeting-material.model';
 
 @Injectable()
 export class MeetingActions {
@@ -42,6 +44,10 @@ export class MeetingActions {
     static readonly DeleteMeeting = 'DELETE_MEETING';
     static readonly DeleteMeetingComplete = 'DELETE_MEETING_COMPLETE';
     static readonly DeleteMeetingFail = 'DELETE_MEETING_FAIL';
+
+    static readonly LoadMeetingProtocol = 'LOAD_MEETING_PROTOCOL';
+    static readonly LoadMeetingProtocolComplete = 'LOAD_MEETING_PROTOCOL_COMPLETE';
+    static readonly LoadMeetingProtocolFail = 'LOAD_MEETING_PROTOCOL_FAIL';
 
     /**
      * Обновление фильтра заседаний.
@@ -310,6 +316,33 @@ export class MeetingActions {
     deleteMeetingFail(error) {
         return {
             type: MeetingActions.DeleteMeetingFail,
+            payload: {
+                error: error
+            }
+        };
+    }
+
+    loadMeetingProtocol(meeting: IMeetingRef) {
+        return {
+            type: MeetingActions.LoadMeetingProtocol,
+            payload: {
+                meeting: meeting
+            }
+        };
+    }
+
+    loadMeetingProtocolComplete(material: IMeetingMaterial) {
+        return {
+            type: MeetingActions.LoadMeetingProtocolComplete,
+            payload: {
+                material: material
+            }
+        };
+    }
+
+    loadMeetingProtocolFail(error) {
+        return {
+            type: MeetingActions.LoadMeetingProtocolFail,
             payload: {
                 error: error
             }

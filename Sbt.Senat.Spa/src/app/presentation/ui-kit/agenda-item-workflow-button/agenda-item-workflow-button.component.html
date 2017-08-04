@@ -1,12 +1,11 @@
 <button class="senat-workflow-button" 
      [ngClass]="'senat-agenda-item-' + workflowAction | lowercase" 
-     [class.senat-workflow-button-green]="isGreenBackbround">
+     [class.senat-workflow-button-green]="isGreenBackground">
     <ng-container [ngSwitch]="workflowAction">
         <i *ngSwitchCase="agendaItemWorkflowActions.ToConsideration" class="fa fa-eye" aria-hidden="true"></i>
         <i *ngSwitchCase="agendaItemWorkflowActions.ToModification" class="fa fa-reply" aria-hidden="true"></i>
         <i *ngSwitchCase="agendaItemWorkflowActions.ToVoting" class="fa fa-bar-chart" aria-hidden="true"></i>
         <i *ngSwitchCase="agendaItemWorkflowActions.ToResolved" class="fa fa-calendar-times-o" aria-hidden="true"></i>
-        <i *ngSwitchCase="agendaItemWorkflowActions.ToFormalization" class="fa fa-copy" aria-hidden="true"></i>
     </ng-container>
     <span>{{'meeting.agenda.workflow.' + workflowAction | translate | uppercase}}</span>
 </button>

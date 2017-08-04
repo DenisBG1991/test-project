@@ -10,6 +10,10 @@ import {PermissionSelectors} from '@app/store/permission/permission.selectors';
 import {PermissionEnum} from '@app/store/permission';
 import {AgendaItemWorkflowAction} from '@app/store/agenda-item/agenda-item-workflow-action';
 import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
+import {MeetingStatus} from '@app/store/meeting/meeting-status';
+import {IDecision} from '@app/store/decision/decision.model';
+import {ConfirmService} from '@app/presentation/ui-kit/confirm/confirm.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'senat-agenda',
@@ -19,6 +23,8 @@ import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
 })
 export class AgendaComponent implements OnInit {
 
+    meetingStatusEnum = MeetingStatus;
+
     buttonType = ButtonType;
 
     items: Array<IAgendaItem>;
@@ -26,14 +32,39 @@ export class AgendaComponent implements OnInit {
     @Input()
     meeting: IMeetingRef;
 
+    private _meetingSubject$: BehaviorSubject<IMeetingRef> = new BehaviorSubject<IMeetingRef>(null);
+
     srcItem: IAgendaItem;
     trgItem: IAgendaItem;
 
+    meetingStatus$: Observable<MeetingStatus> = this._ngRedux.select(x => x.meetings.items)
+        .map(x => x.find(m => m.id === this.meeting.id))
+        .filter(x => !!x)
+        .map(x => x.state);
+
     query = '';
 
-    get canEdit$(): Observable<boolean> {
-        return this.hasPermission$(PermissionEnum.EditMeeting);
-    }
+    // Dictionary of <issueId, Array<IDecision>> for optimization. For preventing every change in one IDecision targeting
+    // change detection and rerendering in all agendaItems
+    decisions$: Observable<{ [id: string]: Array<IDecision> }> = this._ngRedux.select(x => x.decisions)
+        .map(x => x.filter(m => m.meeting.id === this.meeting.id))
+        .map(x => {
+            x.forEach(d => {
+                // first decision in certain issue
+                if (!this._decisions[d.issue.id]) {
+                    this._decisions[d.issue.id] = [d];
+                    // new decision
+                } else if (!this._decisions[d.issue.id].some(y => y.id === d.id)) {
+                    this._decisions[d.issue.id] = [...this._decisions[d.issue.id], d]
+                }
+            });
+            return this._decisions;
+        });
+
+    private _decisions: { [id: string]: Array<IDecision> } = {};
+
+    canEdit$: Observable<boolean> = this._permissionSelectors
+        .meetingHasPermission$(this._ngRedux.select(x => x.permissions), PermissionEnum.EditMeeting, this._meetingSubject$);
 
     get suggestions$(): Observable<Array<IIssue>> {
         return this._ngRedux.select(x => x.issues
@@ -57,7 +88,8 @@ export class AgendaComponent implements OnInit {
     constructor(private _ngRedux: NgRedux<IAppState>,
                 private _agendaItemActions: AgendaItemActions,
                 private _issueActions: IssueActions,
-                private _permissionSelectors: PermissionSelectors) {
+                private _permissionSelectors: PermissionSelectors,
+                private _confirmServie: ConfirmService) {
 
     }
 
@@ -66,6 +98,7 @@ export class AgendaComponent implements OnInit {
             .subscribe(items => {
                 this.items = items;
             });
+        this._meetingSubject$.next(this.meeting);
     }
 
     onDragOver(e: DragEvent, item: IAgendaItem) {
@@ -154,9 +187,9 @@ export class AgendaComponent implements OnInit {
     }
 
     remove(item: IAgendaItem) {
-        if (confirm('Удалить вопрос из повестки?')) {
+        this._confirmServie.confirm('Удалить вопрос из повестки?', () => {
             this._ngRedux.dispatch(this._agendaItemActions.removeAgendaItem(item));
-        }
+        });
     }
 
     findIssues(query: string) {
@@ -180,10 +213,6 @@ export class AgendaComponent implements OnInit {
                 };
             });
         this._ngRedux.dispatch(this._agendaItemActions.createAgendaItems(agendaItems, this.meeting));
-    }
-
-    hasPermission$(permission: PermissionEnum): Observable<boolean> {
-        return this._ngRedux.select(this._permissionSelectors.meetingHasPermision(permission, this.meeting));
     }
 
     move(item: IAgendaItemRef, action: AgendaItemWorkflowAction) {

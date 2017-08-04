@@ -10,7 +10,8 @@ export enum ButtonType {
     Red = <any>'red',
     GreenLight = <any>'green-light',
     BlackOutline = <any>'black-outline',
-    PurpleMediumOutline = <any>'purple-medium-outline'
+    PurpleMediumOutline = <any>'purple-medium-outline',
+    GreenSeaWave = <any>'green-sea-wave'
 }
 
 @Component({
@@ -28,6 +29,9 @@ export class ButtonComponent implements OnInit {
 
     @Input()
     disabled = false;
+    
+    @Input()
+    isReactangle = false;
 
     constructor() {
     }

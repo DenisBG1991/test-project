@@ -1,19 +1,25 @@
 import {PermissionEnumDto} from '@app/shared/api'; // TODO: убрать
 import {FormGroup} from '@angular/forms';
 import {IMeetingLayoutState} from '@app/store/layout/meeting-layout-state.model';
-import {IAgendaItemLayoutState} from '@app/store/layout/agenda-item-layout-state.model';
+import {IMaterialRef} from '@app/store/material';
 
 export interface ILayoutState {
     login: ILoginLayoutState;
     issue: IIssueLayoutState;
     meeting: IMeetingLayoutState;
-    agendaItem: IAgendaItemLayoutState;
     controls: IControlsLayoutState;
     createPresentiaMeetingForm: FormGroup;
     createAbsentiaMeetingForm: FormGroup;
     meetingPresentiaForm: FormGroup;
     meetingAbsentiaForm: FormGroup;
     createIssueForm: FormGroup;
+    materialsUploading: Array<MaterialsUploadingLayoutState>
+}
+
+export  interface  MaterialsUploadingLayoutState {
+    location: string,
+    material: IMaterialRef,
+    upload: { file: File, progress: number }
 }
 
 export  interface  IIssueLayoutState {

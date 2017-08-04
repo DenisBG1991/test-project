@@ -33,7 +33,7 @@ export class IssueFormComponent implements OnInit {
 
     @Output()
     createNewLabel: EventEmitter<ILabel> = new EventEmitter();
-    
+
     @Output()
     personQueryChanged: EventEmitter<string> = new EventEmitter();
 

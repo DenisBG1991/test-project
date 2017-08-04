@@ -38,24 +38,20 @@
 }
 
 .senat-workflow-button.senat-agenda-item-tovoting,
-.senat-workflow-button.senat-agenda-item-toformalization,
 .senat-workflow-button.senat-agenda-item-toconsideration {
     color: #3DBB90;
 }
 
 .senat-workflow-button.senat-agenda-item-tovoting:hover,
-.senat-workflow-button.senat-agenda-item-toformalization:hover,
 .senat-workflow-button.senat-agenda-item-toconsideration:hover {
     color: #ffffff;
     background-color: #3DBB90;
 }
 
-.senat-workflow-button.senat-agenda-item-toformalization.senat-workflow-button-green,
 .senat-workflow-button.senat-agenda-item-toconsideration.senat-workflow-button-green {
     color: #ffffff;
 }
 
-.senat-workflow-button.senat-agenda-item-toformalization.senat-workflow-button-green:hover,
 .senat-workflow-button.senat-agenda-item-toconsideration.senat-workflow-button-green:hover {
     color: #3DBB90;
     background-color: #ffffff;

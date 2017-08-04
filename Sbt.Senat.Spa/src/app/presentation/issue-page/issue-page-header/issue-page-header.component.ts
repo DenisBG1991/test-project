@@ -17,6 +17,7 @@ import {PersonActions} from '@app/store/person/person.actions';
 import {PopupComponent} from '@app/presentation/ui-kit/popup/popup.component';
 import {IssueSharePersonActions} from '@app/store/issue-share-person/issue-share-person.actions';
 import {findPersonsByQuery} from '@app/store/person/person.selectors';
+import {ConfirmService} from '@app/presentation/ui-kit/confirm/confirm.service';
 
 @Component({
     selector: 'senat-issue-page-header',
@@ -47,7 +48,9 @@ export class IssuePageHeaderComponent implements OnInit {
         this._ngRedux.select(x => x.layout.issue.editMode);
 
     suggestedPersons$: Observable<Array<IPerson>> =
-        this._ngRedux.select(x => findPersonsByQuery(x, this.personsQuery));
+        this._ngRedux.select(x => x.persons)
+            .map(x => findPersonsByQuery(x, this.personsQuery))
+            .filter(f => !!f);
 
 
     sharePersons$: Observable<IPerson[]> =
@@ -101,7 +104,8 @@ export class IssuePageHeaderComponent implements OnInit {
                 private _validationService: ValidationService,
                 private _labelActions: LabelActions,
                 private _issueSharePersonActions: IssueSharePersonActions,
-                private _personActions: PersonActions) {
+                private _personActions: PersonActions,
+                private _confirmServie: ConfirmService) {
     }
 
     ngOnInit() {
@@ -126,15 +130,14 @@ export class IssuePageHeaderComponent implements OnInit {
                 this.formGroup.controls['collegialBody'].disable();
             }
         });
+
+        this._ngRedux.select(x => x.labels)
+            .subscribe(labels => this.assignLabelIds(labels));
     }
 
     getActions(status: string): string[] {
         if (status === 'Preparing') {
-            return ['ToReady'];
-        }
-
-        if (status === 'OnModification') {
-            return ['ToReady'];
+            return ['ToPrepared'];
         }
 
         return [];
@@ -177,9 +180,9 @@ export class IssuePageHeaderComponent implements OnInit {
     }
 
     delete() {
-        if (confirm('Удалить вопрос?')) {
+        this._confirmServie.confirm('Удалить вопрос?', () => {
             this._ngRedux.dispatch(this._issueActions.deleteIssue(this.issue));
-        }
+        });
     }
 
     findPeople(query: string) {
@@ -219,6 +222,10 @@ export class IssuePageHeaderComponent implements OnInit {
      * @param labels
      */
     assignLabelIds(labels: Array<ILabel>) {
+        if (!this.formGroup) {
+            return;
+        }
+
         const formLabels: Array<ILabel> = this.formGroup.value.labels;
 
         const labelsToUpdate = formLabels

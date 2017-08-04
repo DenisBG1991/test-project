@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
 import {ILabel} from '@app/store/label';
 import {ICollegialBody} from '@app/store/collegial-body/collegial-body.model';
+import {ConfirmComponent} from '@app/presentation/ui-kit/confirm/confirm.component';
+import {ConfirmService} from '@app/presentation/ui-kit/confirm/confirm.service';
 
 @Component({
     selector: 'senat-demo-ui-kit',
@@ -9,6 +11,7 @@ import {ICollegialBody} from '@app/store/collegial-body/collegial-body.model';
     styleUrls: ['./demo-ui-kit.component.css']
 })
 export class DemoUiKitComponent implements OnInit {
+
 
     check = false;
 
@@ -99,6 +102,7 @@ export class DemoUiKitComponent implements OnInit {
     displayCollegialBodies: Array<ICollegialBody> = [];
     date = new Date('05/09/2017');
 
+
     notify(pushText: string) {
         this.pushText = pushText;
         setTimeout(() => {
@@ -126,11 +130,32 @@ export class DemoUiKitComponent implements OnInit {
         this.notify(`${labels.length} labels selected`);
     }
 
-    constructor() {
+    // confirmComponent: ConfirmComponent;
+
+    constructor(private confirmServie: ConfirmService) {
     }
 
+
+    showConfirm() {
+        this.confirmServie.confirm('First confirm', () => {
+            console.warn('First - Yes');
+        }, () => {
+            console.warn('First - No');
+        });
+        // this.confirmComponent.show();
+    }
+    showConfirm2() {
+        this.confirmServie.confirm('Second confirm', () => {
+            console.warn('Second - Yes');
+        });
+    }
     ngOnInit() {
+
         this.displayCollegialBodies = this.allCollegialBodies;
+        // решение для создния confirm стандартным ViewContainerRef
+        // const factory = this.componentFactoryResolver.resolveComponentFactory(ConfirmComponent);
+        // this.confirmComponent = this.confirm.createComponent(factory).instance;
+        // this.confirmComponent = this.viewContainerRef.createComponent(factory).instance;
     }
 
 

@@ -1,10 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {AgendaItemStatus} from '@app/store/agenda-item/agenda-item-status.model';
 import {IAgendaItem} from '@app/store/agenda-item/agenda-item.model';
 import {AgendaItemWorkflowAction} from '@app/store/agenda-item/agenda-item-workflow-action';
 import {Router} from '@angular/router';
 import {MeetingRef} from '@app/services/api/mapping.types';
 import {StatusLabelColor} from '@app/presentation/ui-kit/status-label/status-label-style';
+import {MeetingStatus} from '@app/store/meeting/meeting-status';
+import {IDecision} from '@app/store/decision/decision.model';
+import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
+import {AppConfigInjectionToken, IAppConfig} from '@app/config';
+
+declare var document: any;
 
 @Component({
     selector: 'senat-agenda-item',
@@ -16,6 +22,10 @@ export class AgendaItemComponent implements OnInit {
     agendaItemStatus = AgendaItemStatus;
 
     agendaItemWorkflowAction = AgendaItemWorkflowAction;
+
+    statusLabelColor = StatusLabelColor;
+
+    buttonType = ButtonType;
 
     @Input()
     agendaItem: IAgendaItem;
@@ -32,14 +42,20 @@ export class AgendaItemComponent implements OnInit {
     @Input()
     removeAllowed: boolean;
 
+    @Input()
+    meetingStatus: MeetingStatus;
+
+    @Input()
+    decisions: Array<IDecision>;
+
     @Output()
     removed: EventEmitter<IAgendaItem> = new EventEmitter<IAgendaItem>();
 
     @Output()
     stateChanged: EventEmitter<AgendaItemWorkflowAction> = new EventEmitter<AgendaItemWorkflowAction>();
 
-
-    constructor(private _router: Router) {
+    constructor(private _router: Router,
+                @Inject(AppConfigInjectionToken) protected config: IAppConfig) {
     }
 
     ngOnInit() {
@@ -49,7 +65,12 @@ export class AgendaItemComponent implements OnInit {
      * Возвращает перечень доступных действий в соответствии с workflow.
      * @returns {any}
      */
-    getActions(status: AgendaItemStatus): Array<AgendaItemWorkflowAction> { // TODO: вынести в компонент, т.к. дублируется в повестке
+    getActions(): Array<AgendaItemWorkflowAction> { // TODO: вынести в компонент, т.к. дублируется в повестке
+        const status = this.agendaItem.status;
+        if (this.meetingStatus !== MeetingStatus.Opened) {
+            return [];
+        }
+
         if (status === AgendaItemStatus.WaitingForConsideration
         ) {
             return [
@@ -62,32 +83,33 @@ export class AgendaItemComponent implements OnInit {
             return [
                 AgendaItemWorkflowAction.ToModification,
                 AgendaItemWorkflowAction.ToVoting,
-                AgendaItemWorkflowAction.ToFormalization,
                 AgendaItemWorkflowAction.ToRemoved
             ];
         }
-        if (status === AgendaItemStatus.OnModification) {
-            return [AgendaItemWorkflowAction.ToConsideration];
-        }
+
         if (status === AgendaItemStatus.OnVoting) {
             return [
+                AgendaItemWorkflowAction.ToModification,
                 AgendaItemWorkflowAction.ToConsideration,
-                AgendaItemWorkflowAction.ToFormalization
             ];
-        }
-        if (status === AgendaItemStatus.OnFormalization) {
-            return [AgendaItemWorkflowAction.ToResolved];
         }
 
         return [];
     }
 
-    getActionsWithoutToRewoved(status: AgendaItemStatus): Array<AgendaItemWorkflowAction> {
-        return this.getActions(status).filter(action => action !== AgendaItemWorkflowAction.ToRemoved);
+    getActionsWithoutToRewoved(): Array<AgendaItemWorkflowAction> {
+        return this.getActions().filter(action => action !== AgendaItemWorkflowAction.ToRemoved);
     }
 
-    isSupportToRemoved(status: AgendaItemStatus) {
-        return this.getActions(status).some(action => action === AgendaItemWorkflowAction.ToRemoved) && this.changeStateAllowed;
+    isSupportToRemoved() {
+        return this.getActions().some(action => action === AgendaItemWorkflowAction.ToRemoved) && this.changeStateAllowed;
+    }
+
+    isAllowedRemove() {
+        return this.removeAllowed
+            && this.changeStateAllowed
+            && this.meetingStatus !== MeetingStatus.Closed
+            && this.meetingStatus !== MeetingStatus.Opened;
     }
 
     calculateColorLabelStatus(): StatusLabelColor {
@@ -98,12 +120,21 @@ export class AgendaItemComponent implements OnInit {
                 return StatusLabelColor.Green;
             case AgendaItemStatus.OnVoting:
                 return StatusLabelColor.Opaque;
-            case AgendaItemStatus.OnFormalization:
-                return StatusLabelColor.Grey;
             case AgendaItemStatus.OnModification:
                 return StatusLabelColor.Orange;
             default:
                 return StatusLabelColor.Grey;
+        }
+    }
+
+    getDecisionStatus() {
+        if (!this.decisions || this.agendaItem.status !== AgendaItemStatus.Resolved) {
+            return null;
+        }
+        if (this.decisions.some(x => x.accepted)) {
+            return 'accepted'
+        } else {
+            return 'declined'
         }
     }
 
@@ -116,7 +147,7 @@ export class AgendaItemComponent implements OnInit {
         // routing to AgendaItemPage
         event.stopPropagation();
     }
-    
+
     clickRemoveButton(event: Event) {
         this.removed.emit(this.agendaItem);
         event.stopPropagation();
@@ -124,5 +155,15 @@ export class AgendaItemComponent implements OnInit {
 
     navigateToAgendaItem(item: IAgendaItem) {
         this._router.navigate([`/meetings/${this.meeting.id}/agenda/${item.issue.id}`]);
+    }
+
+
+    private get downloadLink() {
+        return this.config.api.baseUrl + (this.config.api.baseUrl.endsWith('/') ? '' : '/')
+            + `api/v1.0/decisions/download/accepted/agenda/${this.agendaItem.meeting.id}/item/${this.agendaItem.issue.id}`;
+    }
+
+    downloadDecision() {
+        document.location.href = this.downloadLink;
     }
 }

@@ -3,5 +3,6 @@ export enum StatusLabelColor {
     Green = <any>'green',
     Grey = <any>'grey',
     Orange = <any>'orange',
-    Opaque = <any>'opaque'
+    Opaque = <any>'opaque',
+    Red = <any>'red'
 }

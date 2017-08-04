@@ -21,7 +21,6 @@ import {CollegialBodyPickerComponent} from '@app/presentation/ui-kit/collegial-b
 import {LabelComponent} from '@app/presentation/ui-kit/label/label.component';
 import {PopupComponent} from '@app/presentation/ui-kit/popup/popup.component';
 
-
 @NgModule({
     declarations: [
         MultilingualPipe,

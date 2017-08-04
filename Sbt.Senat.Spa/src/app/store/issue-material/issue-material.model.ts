@@ -1,4 +1,4 @@
-import {IMaterial} from '@app/store/material';
+import {IMaterial, IssueMaterialType} from '@app/store/material';
 import {IIssueRef} from '@app/store/issue';
 
 /**
@@ -6,4 +6,5 @@ import {IIssueRef} from '@app/store/issue';
  */
 export interface IIssueMaterial extends IMaterial {
     issue: IIssueRef;
+    type: IssueMaterialType;
 }

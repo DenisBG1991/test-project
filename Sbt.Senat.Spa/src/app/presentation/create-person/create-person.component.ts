@@ -89,8 +89,7 @@ export class CreatePersonComponent implements OnInit {
     submit() {
 
         this._ngRedux.dispatch(this._personActions.createPerson(this.formGroup));
-        
-/*        const fv = this.formGroup.value;
+        /*const fv = this.formGroup.value;
 
         const personModel: IMultilingualPerson = {
             id: null,

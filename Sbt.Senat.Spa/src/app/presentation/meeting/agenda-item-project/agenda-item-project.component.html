@@ -1,9 +1,9 @@
-<div class="card card-block">
-    <div class="row align-items-center">
-        <div class="col">
+<div class="senat-agenda-item-project card card-block">
+    <div class="senat-project-info align-items-center">
+        <div class="senat-material-version">
             <senat-material-version [version]="project.currentVersion"></senat-material-version>
         </div>
-        <div class="col-auto senat-approve-popup-container">
+        <div class="senat-approve-popup-container">
             <senat-decision *ngIf="project.decision" [decision]="project.decision"></senat-decision>
             <button *ngIf="project.currentVersion.self.num > 1" class="btn btn-secondary border-0 rounded-0">
                 <i class="fa fa-code-fork" aria-hidden="true" (click)="toggleVersions.emit()"></i>
@@ -67,9 +67,9 @@
             </senat-popup>
         </div>
     </div>
-    <div *ngIf="project.voting">
+    <div class="senat-voting-section" *ngIf="project.voting">
         <senat-voting-bar [voting]="project.voting"></senat-voting-bar>
-        <div class="text-right">
+        <div class="senat-voting-buttons text-right">
             <button [disabled]="project.voting.closed || !voteAllowed"
                     class="btn btn-sm btn-secondary border-0 rounded-0 text-success"
                     (click)="toggleVote('For')">
@@ -100,12 +100,12 @@
                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
             </button>
         </div>
-        <div *ngIf="newVote">
+        <div class="senat-new-vote" *ngIf="newVote">
             <textarea class="form-control my-2" rows="5" autosize
                       [(ngModel)]="newVote.specialOpinion"
                       [placeholder]="'Особое мнение'"></textarea>
             <!--<senat-button [type]="buttonType.Green" (click)="votingForm.show()">Проголосовать</senat-button>-->
-            <div class="text-right">
+            <div class="senat-new-vote-buttons text-right">
                 <div *ngIf="isSecretary" class="btn-group btn-group-sm rounded-0">
                     <button type="button" class="btn btn-secondary dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -154,51 +154,49 @@
                 <button class="btn btn-sm btn-secondary" (click)="discardVote()">{{'отмена'}}</button>
             </div>
         </div>
-        <div *ngIf="showVotesOf && showVotesOf.id === project.voting?.id" class="mt-3">
+        <div class="senat-votes-statistics" *ngIf="showVotesOf && showVotesOf.id === project.voting?.id" class="mt-3">
             <senat-votes [votes]="votes"></senat-votes>
         </div>
     </div>
-    <div *ngIf="showVersions">
+    <div class="senat-projects-versions" *ngIf="showVersions">
         <hr/>
-        <div *ngFor="let version of versions">
-            <div *ngIf="version.self.num !== project.currentVersion.self.num">
-                <div class="row my-2 align-items-center">
-                    <div class="col">
+        <div class="senat-version" *ngFor="let version of versions">
+            <ng-container *ngIf="version.self.num !== project.currentVersion.self.num">
+                <div class="senat-version-voting-info my-2 align-items-center">
+                    <div class="senat-version-info">
                         <senat-material-version [version]="version"></senat-material-version>
                     </div>
-                    <div *ngIf="version.voting" class="col col-auto">
+                    <div *ngIf="version.voting" class="senat-version-voting-info">
                         <senat-voting-info [voting]="version.voting"
                                            (pressed)="toggleVotes.emit(version.voting)"></senat-voting-info>
                     </div>
                 </div>
-                <div *ngIf="showVotesOf && showVotesOf.id === version.voting?.id" class="row mb-5">
-                    <div class="col">
-                        <senat-votes [votes]="votes"></senat-votes>
-                    </div>
+                <div *ngIf="showVotesOf && showVotesOf.id === version.voting?.id" class="senat-version-votes mb-5">
+                    <senat-votes [votes]="votes"></senat-votes>
                 </div>
-            </div>
+            </ng-container>
         </div>
     </div>
-    <div *ngIf="!!(project.decision?.approval)">
-        <div [ngSwitch]="!!(project.decision?.approval.approved)">
-            <div *ngIf="project.decision.approval.approvingPerson as approvalPerson">
+    <div class="senat-decision-approval" *ngIf="!!(project.decision?.approval)">
+        <ng-container [ngSwitch]="!!(project.decision?.approval.approved)">
+            <ng-container *ngIf="project.decision.approval.approvingPerson as approvalPerson">
                 <span *ngSwitchCase="true" class="badge badge-pill badge-success align-middle">                
                     {{'Утвержден'}} {{approvalPerson.lastName}} {{approvalPerson.firstName | truncate: 1: '.'}}{{approvalPerson.middleName | truncate: 1 : '.'}} 
                     {{project.decision?.approval.approvedAt | date: 'dd.MM.yyyy'}} {{project.decision?.approval.approvedAt | date: 'shortTime'}}
                     
                 </span>
-            </div>
+            </ng-container>
             <div *ngSwitchCase="false">
-                <div [ngSwitch]="canApprove">
+                <ng-container [ngSwitch]="canApprove">
                     <senat-button *ngSwitchCase="true" class="create-button" [type]="'green-light'"
                                   (click)="approveDecision.emit()">
                         {{'Утвердить'}}
                     </senat-button>
                     <span *ngSwitchCase="false"
                           class="badge badge-pill badge-warning align-middle">{{'На утверждении'}}</span>
-                </div>
+                </ng-container>
             </div>
-        </div>
+        </ng-container>
 
     </div>
 </div>

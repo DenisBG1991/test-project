@@ -1,0 +1,26 @@
+<senat-popup>
+    <senat-popup-form>
+        <header>
+            Подтверждение действия
+        </header>
+        <content>
+            <div class="text-center">
+                {{ confirmText }}
+            </div>
+        </content>
+        <footer>
+            <div class="row">
+                <div class="col col-auto">
+                    <senat-button [type]="buttonType.Green" (click)="confirmed.next(true)" >
+                        Да
+                    </senat-button>
+                </div>
+                <div class="col col-auto">
+                    <senat-button [type]="buttonType.BlackOutline" (click)="confirmed.next(false)">
+                        Нет
+                    </senat-button>
+                </div>
+            </div>
+        </footer>
+    </senat-popup-form>
+</senat-popup>

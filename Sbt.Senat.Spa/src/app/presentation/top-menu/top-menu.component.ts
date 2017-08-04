@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {IAppState} from '@app/store/store';
-import {NgRedux} from '@angular-redux/store';
-import {Observable} from 'rxjs/Observable';
-import {SessionActions} from '@app/store/session/session.actions';
-import {IUser} from '@app/store/user/user.model';
-import {PermissionEnum} from '@app/store/permission';
-import {Router} from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgRedux } from '@angular-redux/store';
+
+import { Observable } from 'rxjs/Observable';
+
+import { IAppState } from '@app/store/store';
+import { SessionActions } from '@app/store/session/session.actions';
+import { IUser } from '@app/store/user/user.model';
+import { PermissionEnum } from '@app/store/permission';
 
 @Component({
     selector: 'senat-topmenu',

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IAgendaItem, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
+import {IAgendaItem, IAgendaItemIdRef, IAgendaItemRef} from '@app/store/agenda-item/agenda-item.model';
 import {AgendaItemWorkflowAction} from '@app/store/agenda-item/agenda-item-workflow-action';
 import {IMeetingRef} from '@app/store/meeting/meeting-ref.model';
 
@@ -7,6 +7,7 @@ import {IMeetingRef} from '@app/store/meeting/meeting-ref.model';
 export class AgendaItemActions {
 
     static readonly UpdateAgendaItems = 'UPDATE_AGENDA_ITEMS';
+    static readonly LoadAgendaItemParticipants = 'LOAD_AGENDA_ITEM_PARTICIPANTS';
     static readonly LoadSingleAgendaItem = 'LOAD_SINGLE_AGENDA_ITEM';
     static readonly MoveAgendaItem = 'MOVE_AGENDA_ITEM';
 
@@ -35,10 +36,26 @@ export class AgendaItemActions {
      * @param agendaItem
      * @returns {{type: string, payload: {agendaItem: IAgendaItemRef}}}
      */
-    loadAgendaItem(agendaItem: IAgendaItemRef) {
+    loadSingleAgendaItem(agendaItem: IAgendaItemRef) {
         return {
             type: AgendaItemActions.LoadSingleAgendaItem,
             payload: {
+                agendaItem: agendaItem
+            }
+        };
+    }
+
+    /**
+     * Загрузка участников заседания
+     * @param agendaItemId
+     * @param agendaItem
+     * @returns {{type: string, payload: {agendaItemId, agendaItem}}}
+     */
+    loadAgendaItemParticipants(agendaItemId: IAgendaItemIdRef, agendaItem: IAgendaItemRef) {
+        return {
+            type: AgendaItemActions.LoadAgendaItemParticipants,
+            payload: {
+                agendaItemId: agendaItemId,
                 agendaItem: agendaItem
             }
         };

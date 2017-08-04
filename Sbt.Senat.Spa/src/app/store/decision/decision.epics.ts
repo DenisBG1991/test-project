@@ -5,6 +5,7 @@ import {ErrorActions} from '@app/store/error/error.actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/observable/of';
 import {MeetingParticipantActions} from '@app/store/meeting-participant/meeting-participant.actions';
+import {AgendaItemActions} from '@app/store/agenda-item/agenda-item.actions';
 
 @Injectable()
 export class DecisionEpics {
@@ -12,7 +13,8 @@ export class DecisionEpics {
     constructor(private _meetingService: MeetingService,
                 private _decisionActions: DecisionActions,
                 private _meetingParticipantActions: MeetingParticipantActions,
-                private _errorActions: ErrorActions) {
+                private _errorActions: ErrorActions,
+                private _agendaItemActions: AgendaItemActions) {
 
     }
 
@@ -46,7 +48,10 @@ export class DecisionEpics {
     createDecision = action$ => action$
         .ofType(DecisionActions.CreateDecision)
         .switchMap(action => this._meetingService.createDecision(action.payload.decision)
-            .map(decision => this._decisionActions.loadDecisionsComplete([decision]))
+            .flatMap(decision => Observable.concat(
+                Observable.of(this._decisionActions.loadDecisionsComplete([decision])),
+                Observable.of(this._agendaItemActions.loadSingleAgendaItem({issue: decision.issue, meeting: decision.meeting})))
+            )
             .catch(error => Observable.of(this._errorActions.errorOccurred(error))));
 
     sendDecisionToApproval = action$ => action$

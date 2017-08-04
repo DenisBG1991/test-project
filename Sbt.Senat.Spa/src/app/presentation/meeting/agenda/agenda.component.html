@@ -8,10 +8,12 @@
                        [isTargetDragDrop]="item === trgItem"
                        [agendaItem]="item"
                        [meeting]="meeting"
+                       [decisions]="(decisions$ | async)[item.issue.id]"
                        [changeStateAllowed]="canEdit$ | async"
                        [removeAllowed]="canEdit$ | async"
                        (removed)="remove($event)"
-                       (stateChanged)="move(item, $event)">
+                       (stateChanged)="move(item, $event)"
+                       [meetingStatus]="meetingStatus$ | async">
     </senat-agenda-item>
 </div>
 <div *ngIf="(items$ | async).length === 0" class="card card-block text-center">
@@ -19,7 +21,8 @@
 </div>
 
 <div class="m-3 text-center" *ngIf="canEdit$ | async">
-    <senat-button [type]="buttonType.White" (click)="issueSelector.show()">
+    <senat-button [type]="buttonType.White" (click)="issueSelector.show()" 
+                  [disabled]="(meetingStatus$ | async) === meetingStatusEnum.Closed">
         {{'добавить вопрос в повестку'}}
     </senat-button>
 </div>

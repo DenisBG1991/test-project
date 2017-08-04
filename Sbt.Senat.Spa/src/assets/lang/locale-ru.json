@@ -38,7 +38,6 @@
                 "ToModification": "на доработку",
                 "ToConsideration": "на рассмотрение",
                 "ToVoting": "на голосование",
-                "ToFormalization": "на оформление",
                 "ToResolved": "закрыть",
                 "ToRemoved": "снять вопрос с рассмотрения"
             },
@@ -67,7 +66,6 @@
                 "OnConsideration": "на рассмотрении",
                 "OnModification": "отправлен на доработку",
                 "OnVoting": "на голосовании",
-                "OnFormalization": "на оформлении",
                 "Resolved": "закрыт",
                 "Removed": "снят"
             }            
@@ -83,7 +81,7 @@
         },
         "workflow": {
             "ToOpened": "Открыть",
-            "ToClosed": "Закрыть"
+            "ToClosed": "Опубликовать протокол"
         },
         "roleOnMeeting": {
             "RegularMember": "постоянный участник",
@@ -110,24 +108,17 @@
             }
         },
         "formMeetingProtocol" : "Сформировать протокол",
+        "formMeetingProtocolNew": "Опубликовать новый протокол",
         "downLoadMeetingProtocol": "Скачать протокол"
     },
     "issue": {
         "issueStatus": {
             "Draft": "Черновик",
             "Preparing": "В подготовке",
-            "Ready": "Подготовлен",
-            "Planned": "Запланирован",
-            "InProgress": "Рассматривается",
-            "OnModification": "Дорабатывается",
-            "Closed": "Рассмотрен"
+            "Prepared": "Подготовлен"
         },
         "workflow": {
-            "ToReady": "Завершить подготовку",
-            "ToPlanned": "На планирование",
-            "ToInProgress": "На рассмотрение",
-            "ToModification": "На доработку",
-            "ToClosed": "На закрытие"
+            "ToPrepared": "Завершить подготовку"
         },
         "issueMaterialType": {
             "Presentation": "Презентация",

@@ -1,5 +1,4 @@
-import { IPersonUser } from '@app/store/admin/user/user.model';
-
+import {IPersonUser} from '@app/store/admin/user/user.model';
 export interface IAdUser {
     adLogin: string,
     firstName: string,
@@ -8,7 +7,6 @@ export interface IAdUser {
     pictureUrl: string,
     hasPhoto: boolean
 }
-
 export interface IAdUserDetailed extends IAdUser {
     email: string,
     userPerson: IPersonUser

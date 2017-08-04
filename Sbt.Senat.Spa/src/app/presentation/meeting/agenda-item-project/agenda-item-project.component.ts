@@ -9,6 +9,8 @@ import {IVote} from '@app/store/vote/vote.model';
 import {IVoting, IVotingRef} from '@app/store/voting/voting.model';
 import {PopupComponent} from '@app/presentation/ui-kit/popup/popup.component';
 import {ButtonType} from '@app/presentation/ui-kit/button/button.component';
+import {AgendaItemStatus} from '@app/store/agenda-item/agenda-item-status.model';
+import {findPersonsByQuery} from '@app/store/person/person.selectors';
 
 @Component({
     selector: 'senat-agenda-item-project',
@@ -78,6 +80,9 @@ export class AgendaItemProjectComponent implements OnInit {
     @Input()
     canApprove: boolean;
 
+    @Input()
+    agendaItemStatus: AgendaItemStatus;
+
     @Output()
     toggleVersions = new EventEmitter();
 
@@ -110,10 +115,11 @@ export class AgendaItemProjectComponent implements OnInit {
     private approverQuery = '';
 
     get participantPersons(): Array<IPerson> {
-        return this.participants
-            .filter(f => !this.approverQuery
-            || (f.person.lastName + ' ' + f.person.firstName + ' ' + f.person.middleName).toLowerCase().startsWith(this.approverQuery.toLowerCase()))
-            .map(p => p.person);
+        if (!this.participants) {
+            return [];
+        }
+        return findPersonsByQuery(this.participants
+            .map(p => p.person), this.approverQuery);
     }
 
     /**
@@ -121,6 +127,10 @@ export class AgendaItemProjectComponent implements OnInit {
      */
     get votingManagementAllowed(): boolean {
         if (!this.currentPerson) {
+            return false;
+        }
+
+        if (this.agendaItemStatus === AgendaItemStatus.Resolved) {
             return false;
         }
 

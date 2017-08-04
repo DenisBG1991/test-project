@@ -25,7 +25,7 @@ export class MeetingsFilterComponent implements OnInit, OnDestroy {
     collegialBodies$: Observable<Array<ICollegialBody>> = this._ngRedux
         .select(this._permissionSelectors.collegialBodyChildPermissionsFilter([
             PermissionEnum.ViewMeeting,
-            PermissionEnum.ViewIssue]));
+            PermissionEnum.ViewIssueInAgenda]));
 
 
     constructor(private _ngRedux: NgRedux<IAppState>,

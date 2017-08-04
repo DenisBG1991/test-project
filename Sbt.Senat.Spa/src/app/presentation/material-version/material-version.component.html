@@ -1,15 +1,11 @@
-<div class="row">
-    <div class="col text-truncate">
-        <i class="fa fa-file-o text-danger" aria-hidden="true"></i>
-        <span class="badge badge-default">v.{{version.self.num}}</span>
-        <a href="{{downloadLink}}">{{version.self.fileName}}</a>
-        <span *ngIf="isCurrent">{{'(текущая версия)'}}</span>
-    </div>
+<div class="senat-material-main-info text-truncate">
+    <i class="fa fa-file-o text-danger" aria-hidden="true"></i>
+    <span class="badge badge-default">v.{{version.self.num}}</span>
+    <a href="{{downloadLink}}">{{version.self.fileName}}</a>
+    <span *ngIf="isCurrent">{{'(текущая версия)'}}</span>
 </div>
-<div class="row">
-    <div class="col text-truncate">
-        <span class="senat-label"><senat-label>{{ 'загружено' }}</senat-label></span>
-        <span class="text-muted">{{version.createdBy.lastName}} {{version.createdBy.firstName | truncate: 1: '.'}} {{version.createdBy.middleName | truncate: 1: '.'}}</span>
-        <span class="text-muted">{{version.self.createdAt | date: 'dd.MM.yyyy'}} {{version.self.createdAt | date: 'shortTime'}}</span>
-    </div>
+<div class="senat-material-creation-info text-truncate">
+    <span class="senat-label"><senat-label>{{ 'загружено' }}</senat-label></span>
+    <span class="text-muted">{{version.createdBy.lastName}} {{version.createdBy.firstName | truncate: 1: '.'}} {{version.createdBy.middleName | truncate: 1: '.'}}</span>
+    <span class="text-muted">{{version.self.createdAt | date: 'dd.MM.yyyy'}} {{version.self.createdAt | date: 'shortTime'}}</span>
 </div>

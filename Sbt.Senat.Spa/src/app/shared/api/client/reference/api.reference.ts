@@ -1093,7 +1093,7 @@ export class AgendaClient  {
         return obs;
     }
     moveAgendaItemState(meetingId: string, issueId: string, workflowAction: AgendaItemWorkflowActionDto): Observable<AgendaItemDetailsDto> {
-        let obs = this.http.post(`api/web/meetings/${meetingId}/agenda/${issueId}/${workflowAction}`, null).map((response) => {
+        let obs = this.http.post(`api/web/meetings/${meetingId}/agenda/${issueId}/workflow/${workflowAction}`, null).map((response) => {
             if (response.status === 200) {
                 let result200: AgendaItemDetailsDto = null;
                 let resultData200: any = response.json();
@@ -2089,6 +2089,7 @@ export class PermissionFilterDto {
 export enum PermissionEnumDto {
 
         CreateIssue = <any>'CreateIssue',
+        ViewIssueInAgenda = <any>'ViewIssueInAgenda',
         ViewIssue = <any>'ViewIssue',
         EditIssue = <any>'EditIssue',
         DeleteIssue = <any>'DeleteIssue',
@@ -3916,7 +3917,7 @@ export class IssueShareDto {
 
 export enum IssueTransitionDto {
 
-        ToReady = <any>'ToReady',
+        ToPrepared = <any>'ToPrepared',
         ToPlanned = <any>'ToPlanned',
         ToInProgress = <any>'ToInProgress',
         ToModification = <any>'ToModification',
@@ -4241,7 +4242,6 @@ export enum AgendaItemWorkflowActionDto {
         ToModification = <any>'ToModification',
         ToConsideration = <any>'ToConsideration',
         ToVoting = <any>'ToVoting',
-        ToFormalization = <any>'ToFormalization',
         ToResolved = <any>'ToResolved',
         ToRemoved = <any>'ToRemoved',
 }
@@ -6248,7 +6248,6 @@ export enum AgendaItemState {
         WaitingForConsideration = <any>'WaitingForConsideration',
         OnConsideration = <any>'OnConsideration',
         OnVoting = <any>'OnVoting',
-        OnFormalization = <any>'OnFormalization',
         Resolved = <any>'Resolved',
         OnModification = <any>'OnModification',
         Removed = <any>'Removed',
